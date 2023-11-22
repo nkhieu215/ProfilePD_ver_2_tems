@@ -32,8 +32,8 @@ public interface LenhSanXuatRepository extends JpaRepository<LenhSanXuat, Long> 
 
     @Query(
         value = "select * from lenh_san_xuat LenhSanXuat where" +
-        " trang_thai = N'Chờ duyệt' or trang_thai = N'Kho duyệt' " +
-        "or trang_thai = N'Kho từ chối' or trang_thai = N'Kho hủy'",
+        " trang_thai = N'Chờ duyệt' or trang_thai = N'Đã phê duyệt' " +
+        "or trang_thai = N'Từ chối' or trang_thai = N'Kho hủy'",
         nativeQuery = true
     )
     public List<LenhSanXuat> timKiemQuanLyPheDuyet();

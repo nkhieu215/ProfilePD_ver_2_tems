@@ -35,11 +35,6 @@ td {
   width: auto;
 }
 
-.btn {
-  float: right;
-  margin: 1rem;
-}
-
 .btn-primary {
   background-color: #007bff;
   color: #fff;

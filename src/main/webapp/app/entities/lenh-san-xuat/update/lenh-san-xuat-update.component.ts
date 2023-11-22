@@ -1,6 +1,6 @@
 import { IChiTietLenhSanXuat } from './../../chi-tiet-lenh-san-xuat/chi-tiet-lenh-san-xuat.model';
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { finalize } from 'rxjs/operators';
 
 import { ILenhSanXuat, LenhSanXuat } from '../lenh-san-xuat.model';
 import { LenhSanXuatService } from '../service/lenh-san-xuat.service';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
 
 @Component({
   selector: 'jhi-lenh-san-xuat-update',
@@ -15,11 +16,18 @@ import { LenhSanXuatService } from '../service/lenh-san-xuat.service';
   styleUrls: ['./lenh-san-xuat-update.component.css'],
 })
 export class LenhSanXuatUpdateComponent implements OnInit {
+  resourceUrl = this.applicationConfigService.getEndpointFor('/api/chi-tiet-lenh-san-xuat');
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] | null = [];
 
   isSaving = false;
   predicate!: string;
   ascending!: boolean;
+
+  changeStatus: {
+    id: number;
+    totalQuantity: string;
+    trangThai: string;
+  } = { id: 0, totalQuantity: '', trangThai: '' };
 
   editForm = this.fb.group({
     id: [],
@@ -36,10 +44,25 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     comment: [],
   });
 
-  constructor(protected lenhSanXuatService: LenhSanXuatService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
+  constructor(
+    protected lenhSanXuatService: LenhSanXuatService,
+    protected activatedRoute: ActivatedRoute,
+    protected fb: FormBuilder,
+    protected applicationConfigService: ApplicationConfigService,
+    protected http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
+      // gán thông tin xác định vào changeStatus
+      this.changeStatus.id = lenhSanXuat.id;
+      this.changeStatus.totalQuantity = lenhSanXuat.totalQuantity;
+      console.log(this.changeStatus);
+      this.http.get<any>(`${this.resourceUrl}/${lenhSanXuat.id as number}`).subscribe(res => {
+        this.chiTietLenhSanXuats = res;
+        console.log('res', res);
+        console.log('lenhSanXuat', this.chiTietLenhSanXuats);
+      });
       this.updateForm(lenhSanXuat);
     });
   }
@@ -50,6 +73,17 @@ export class LenhSanXuatUpdateComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  guiPheDuyet(): void {
+    // Cần có body : trạng thái, tổng số lượng nếu có sự thay đổi
+    // Xác định đối tượng thay đổi
+    // gán giá trị tương ứng
+    this.changeStatus.trangThai = 'Chờ phê duyệt';
+    console.log(this.changeStatus);
+    this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
+      console.log('Thành công');
+    });
   }
 
   save(): void {

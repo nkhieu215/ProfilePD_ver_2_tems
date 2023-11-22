@@ -1,4 +1,7 @@
 <div>
+  <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+    <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
+  </button>
   <div>
     <a id="exportToCSV" href="#" class="export">Export Data To Excel</a>
 
@@ -211,22 +214,6 @@
           </td>
         </tbody>
       </table>
-
-      <button type="button" [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Gửi phê duyệt</span>
-      </button>
-
-      <button type="button" [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Huỷ</span>
-      </button>
-
-      <button type="button" [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Lưu</span>
-      </button>
-
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
-      </button>
     </div>
   </div>
 </div>

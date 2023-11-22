@@ -759,8 +759,10 @@ public class UserServices {
     //☺ Cap nhat trang thai cua lenh san xuat
     public void updateTrangThaiLenhSanXuat(Long id, LenhSanXuat request) {
         LenhSanXuat lenhSanXuat = this.lenhSanXuatRepository.findById(id).orElse(null);
-        lenhSanXuat.setTrangThai(request.getTrangThai());
-        lenhSanXuatRepository.save(lenhSanXuat);
+        if (lenhSanXuat != null) {
+            lenhSanXuat.setTrangThai(request.getTrangThai());
+            lenhSanXuatRepository.save(lenhSanXuat);
+        }
     }
 
     //---------------------------------------- * ----------------------------------------------------------------------

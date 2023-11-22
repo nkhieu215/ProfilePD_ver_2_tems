@@ -20,6 +20,7 @@ import { ChiTietLenhSanXuatDeleteDialogComponent } from '../delete/chi-tiet-lenh
 })
 export class ChiTietLenhSanXuatComponent implements OnInit {
   resourceUrlApprove = this.applicationConfigService.getEndpointFor('api/quan-ly-phe-duyet');
+  searchUrlApprove = this.applicationConfigService.getEndpointFor('api/lenh-san-xuat');
 
   formSearch = this.formBuilder.group({
     maLenhSanXuat: '',
@@ -89,6 +90,7 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   getLenhSanXuatList(): void {
     this.http.get<any>(this.resourceUrlApprove).subscribe(res => {
       this.lenhSanXuats = res;
+      // this.lenhSanXuats?.sort((a,b)=> a - b)
       console.log(this.resourceUrlApprove);
       console.log(res);
     });
@@ -114,7 +116,7 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
 
     this.lenhSanXuats = [];
 
-    this.http.post<any>(this.resourceUrlApprove, data).subscribe(res => {
+    this.http.post<any>(this.searchUrlApprove, data).subscribe(res => {
       this.lenhSanXuats = res;
       console.log(res);
       console.log(this.resourceUrlApprove);
