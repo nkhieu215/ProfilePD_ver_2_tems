@@ -1,0 +1,66 @@
+<div>
+  <div>
+    <div *ngIf="quanLyThongSo">
+      <h2 data-cy="quanLyThongSoDetailsHeading"><span>Quản lý thông số</span></h2>
+
+      <hr />
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="thongSo"><span>Mã thông số</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Tên thông số</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Mô tả</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Ngày tạo</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Ngày cập nhật</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Update By</span></th>
+            <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span>{{ quanLyThongSo.maThongSo }}</span>
+            </td>
+
+            <td>
+              <span>{{ quanLyThongSo.tenThongSo }}</span>
+            </td>
+
+            <td style="max-width: 69px">
+              <span style="max-width: 69px">{{ quanLyThongSo.moTa }}</span>
+            </td>
+
+            <td>
+              <span>{{ quanLyThongSo.ngayTao | formatMediumDatetime }}</span>
+            </td>
+
+            <td>
+              <span>{{ quanLyThongSo.ngayUpdate | formatMediumDatetime }}</span>
+            </td>
+
+            <td>
+              <span>{{ quanLyThongSo.updateBy }}</span>
+            </td>
+
+            <td>
+              <span>{{ quanLyThongSo.status }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+        type="button"
+        [routerLink]="['/quan-ly-thong-so', quanLyThongSo.id, 'edit']"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

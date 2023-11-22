@@ -1,0 +1,157 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035307",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chi_tiet_lenh_san_xuat",
+  "fields": [
+    {
+      "fieldName": "reelID",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "partNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "vendor",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lot",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userData1",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userData2",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userData3",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userData4",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userData5",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "initialQuantity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "msdLevel",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "msdInitialFloorTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "msdBagSealDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "marketUsage",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "quantityOverride",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "shelfTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "spMaterialName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "warningLimit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maximumLimit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "comments",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "warmupTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "storageUnit",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "subStorageUnit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "locationOverride",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "expirationDate",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "manufacturingDate",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "partClass",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sapCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "checked",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ChiTietLenhSanXuat",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "lenhSanXuat",
+      "otherEntityRelationshipName": "chiTietLenhSanXuat",
+      "relationshipName": "lenhSanXuat",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

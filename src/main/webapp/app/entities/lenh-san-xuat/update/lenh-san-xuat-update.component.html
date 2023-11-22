@@ -1,0 +1,216 @@
+<div>
+  <div>
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin tem sản xuất</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">
+              <span>Mã lệnh sản xuất</span>
+            </th>
+            <th scope="col">
+              <span>Mã SAP</span>
+            </th>
+            <th scope="col">
+              <span>Tên SAP</span>
+            </th>
+            <th scope="col">
+              <span>Mã WO</span>
+            </th>
+            <th scope="col">
+              <span>Version</span>
+            </th>
+            <th scope="col">
+              <span>Mã kho nhập</span>
+            </th>
+            <th scope="col">
+              <span>Trạng thái</span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr data-cy="entityTable">
+            <td>
+              <input class="form-control" id="maLenhSanXuat" list="maLenhSanXuat" formControlName="maLenhSanXuat" />
+            </td>
+            <td>
+              <input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" />
+            </td>
+            <td>
+              <input class="form-control" id="sapName" list="sapName" formControlName="sapName" />
+            </td>
+            <td>
+              <input class="form-control" id="workOrderCode" list="workOrderCode" formControlName="workOrderCode" />
+            </td>
+            <td>
+              <input class="form-control" id="version" list="version" formControlName="version" />
+            </td>
+            <td>
+              <input class="form-control" id="storageCode" list="storageCode" formControlName="storageCode" />
+            </td>
+            <td>
+              <input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+
+      <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin chi tiết tem</h2>
+      <button class="btn-add" (click)="addRowThongSoTemIn()">Add</button>
+      <div>
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr>
+              <th scope="col"><span>STT</span></th>
+              <th scope="col"><span>Reel ID</span></th>
+              <th scope="col">Part Number</th>
+              <th scope="col">Vendor</th>
+              <th scope="col">IOT</th>
+              <th scope="col">User Data 1</th>
+              <th scope="col">User Data 2</th>
+              <th scope="col">User Data 3</th>
+              <th scope="col">User Data 4</th>
+              <th scope="col">User Data 5</th>
+              <th scope="col">Initial Quantity</th>
+              <th scope="col">MSD Level</th>
+              <th scope="col">MSD Initial Floor Time</th>
+              <th scope="col">MSD Bag Seal Date</th>
+              <th scope="col">Market Usage</th>
+              <th scope="col">Quantity Override</th>
+              <th scope="col">Shelf Time</th>
+              <th scope="col">SP Material Name</th>
+              <th scope="col">Warning Limit</th>
+              <th scope="col">Maximum Limit</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Warm Up Time</th>
+              <th scope="col">Storage Unit</th>
+              <th scope="col">Sub Storage Unit</th>
+              <th scope="col">Location Override</th>
+              <th scope="col">Expiration Date</th>
+              <th scope="col">ManuFacturing Date</th>
+              <th scope="col">Part Class</th>
+              <th scope="col">Sap Code</th>
+              <th scope="col">Status</th>
+              <th scope="col">Checked</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+
+          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index; trackBy: trackId" class="editable-row">
+            <td>
+              <span>{{ i + 1 }}</span>
+            </td>
+
+            <td><input class="input-table" type="text" list="reelID" />{{ data.reelID }}</td>
+
+            <td>
+              <input class="input-table" type="text" list="partNumber" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="vendor" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="lot" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="userData1" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="userData2" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="userData3" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="userData4" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="userData5" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="initialQuantity" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="msdLevel" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="msdInitialFloorTime" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="msdBagSealDate" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="marketUsage" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="quantityOverride" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="shelfTime" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="spMaterialName" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="warningLimit" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="maximumLimit" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="comments" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="warmupTime" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="storageUnit" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="subStorageUnit" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="locationOverride" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="expirationDate" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="manufacturingDate" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="partClass" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="sapCode" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="trangThai" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="checked" />
+            </td>
+          </tr>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

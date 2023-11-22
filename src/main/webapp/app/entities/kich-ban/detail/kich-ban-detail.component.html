@@ -1,0 +1,139 @@
+<div>
+  <div>
+    <div *ngIf="kichBan">
+      <div class="export-file">
+        <button (click)="exportToExcel()">
+          <fa-icon class="icon-navbar" icon="file-export"></fa-icon>
+          Export
+        </button>
+      </div>
+      <h2 data-cy="kichBanDetailsHeading"><span>Thông tin chi tiết kịch bản</span></h2>
+      <hr />
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="maKichBan"><span>Mã kịch bản</span></th>
+            <th scope="col" jhiSortBy="loaiThietBi"><span>Nhóm thiết bị</span></th>
+            <th scope="col" jhiSortBy="maThietBi"><span>Mã thiết bị</span></th>
+            <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+            <th scope="col" jhiSortBy="nhomSanPham"><span>Nhóm sản phẩm</span></th>
+            <th scope="col" jhiSortBy="maSanPham"><span>Mã sản phẩm</span></th>
+            <th scope="col" jhiSortBy="versionSanPham"><span>Version sản phẩm</span></th>
+            <th scope="col" jhiSortBy="ngayTao"><span>Ngày tạo</span></th>
+            <th scope="col" jhiSortBy="timeUpdate"><span>Ngày cập nhật</span></th>
+            <th scope="col" jhiSortBy="updateBy"><span>Update By</span></th>
+            <th scope="col" jhiSortBy="status"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <td>
+            <span>{{ kichBan.maKichBan }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.loaiThietBi }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.maThietBi }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.dayChuyen }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.nhomSanPham }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.maSanPham }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.versionSanPham }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.ngayTao | formatMediumDatetime }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.timeUpdate | formatMediumDatetime }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.updateBy }}</span>
+          </td>
+
+          <td>
+            <span>{{ kichBan.trangThai }}</span>
+          </td>
+        </tbody>
+      </table>
+      <br />
+      <br />
+      <br />
+      <br />
+      <hr />
+
+      <h2>Thông số</h2>
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="id"><span>STT</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Thông số</span></th>
+            <th scope="col" jhiSortBy="minValue"><span>Min</span></th>
+            <th scope="col" jhiSortBy="maxValue"><span>Max</span></th>
+            <th scope="col" jhiSortBy="trungBinh"><span>Trung bình</span></th>
+            <th scope="col" jhiSortBy="donVi"><span>Đơn vị</span></th>
+            <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let data of chiTietKichBans; let i = index">
+          <td>
+            <span>{{ i + 1 }}</span>
+          </td>
+
+          <td>
+            <span>{{ data.thongSo }}</span>
+          </td>
+
+          <td>
+            <span>{{ data.minValue }}</span>
+          </td>
+
+          <td>
+            <span>{{ data.maxValue }}</span>
+          </td>
+
+          <td>
+            <span>{{ data.trungbinh }}</span>
+          </td>
+          <td>
+            <span>{{ data.donVi }}</span>
+          </td>
+
+          <td>
+            <span>{{ data.trangThai }}</span>
+          </td>
+        </tbody>
+      </table>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+        type="button"
+        [routerLink]="['/kich-ban', kichBan.id, 'edit']"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

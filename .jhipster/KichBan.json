@@ -1,0 +1,63 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035303",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "kich_ban",
+  "fields": [
+    {
+      "fieldName": "maKichBan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loaiThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dayChuyen",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maSanPham",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "versionSanPham",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "timeUpdate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "updateBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "KichBan",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "chiTietKichBan",
+      "otherEntityRelationshipName": "kichBan",
+      "relationshipName": "chiTietKichBan",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

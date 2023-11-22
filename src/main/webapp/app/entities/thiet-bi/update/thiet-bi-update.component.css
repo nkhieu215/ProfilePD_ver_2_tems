@@ -1,0 +1,151 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* dinh dang hang chan va le */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+/* dinh dang cac o */
+td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* dinh dang cac o input */
+.input-table {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* dinh dang nut xoa */
+.btn-danger {
+  background-color: #d9534d;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #c9302c;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: rgb(255, 56, 86);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* dinh dang select box */
+.form-control {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* an cac input khi khong trong che do chinh sua */
+/* td div[hidden] {
+  display: block;
+}
+
+td input[hidden] {
+  display: none;
+} */
+
+/* dinh dang cac o chinh sua */
+td.editable-row {
+  position: relative;
+}
+
+/* hieu ung cac o chinh sua */
+td.editable-row:hover {
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+/* dinh dang tooltips cho chinh sua */
+.tooltip-text {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  z-index: 1;
+}
+
+/* dinh dang option cua select */
+option {
+  padding: 5px;
+}
+
+.btn-add {
+  width: 5em;
+  height: 2.3em;
+  background-color: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+}
+
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.success-popup h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.success-popup button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.success-popup button:hover {
+  background-color: #0056b3;
+}

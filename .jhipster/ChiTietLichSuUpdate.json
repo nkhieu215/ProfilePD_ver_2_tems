@@ -1,0 +1,51 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035302",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chi_tiet_lich_su_update",
+  "fields": [
+    {
+      "fieldName": "maKichBan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hangLssx",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "thongSo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "minValue",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "maxValue",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "trungbinh",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "donVi",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ChiTietLichSuUpdate",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "lichSuUpdate",
+      "otherEntityRelationshipName": "chiTietLichSu",
+      "relationshipName": "lichSuUpdate",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

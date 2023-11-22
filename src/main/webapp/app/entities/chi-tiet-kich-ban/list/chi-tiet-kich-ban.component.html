@@ -1,0 +1,116 @@
+<div>
+  <h2 id="page-heading" data-cy="ChiTietKichBanHeading">
+    <span>Chi Tiet Kich Bans</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-chi-tiet-kich-ban"
+        [routerLink]="['/chi-tiet-kich-ban/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Chi Tiet Kich Ban </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="chiTietKichBans?.length === 0">
+    <span>No chiTietKichBans found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="chiTietKichBans && chiTietKichBans.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="maKichBan"><span>Ma Kich Ban</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="hangMkb"><span>Hang Mkb</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="thongSo"><span>Thong So</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="minValue"><span>Min Value</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="maxValue"><span>Max Value</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="trungbinh"><span>Trungbinh</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="donVi"><span>Don Vi</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="phanLoai"><span>Phan Loai</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="kichBan.id"><span>Kich Ban</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chiTietKichBan of chiTietKichBans; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/chi-tiet-kich-ban', chiTietKichBan.id, 'view']">{{ chiTietKichBan.id }}</a>
+          </td>
+          <td>{{ chiTietKichBan.maKichBan }}</td>
+          <td>{{ chiTietKichBan.trangThai }}</td>
+          <td>{{ chiTietKichBan.thongSo }}</td>
+          <td>{{ chiTietKichBan.minValue }}</td>
+          <td>{{ chiTietKichBan.maxValue }}</td>
+          <td>{{ chiTietKichBan.trungbinh }}</td>
+          <td>{{ chiTietKichBan.donVi }}</td>
+          <td>{{ chiTietKichBan.phanLoai }}</td>
+          <td>
+            <div *ngIf="chiTietKichBan.kichBan">
+              <a [routerLink]="['/kich-ban', chiTietKichBan.kichBan?.id, 'view']">{{ chiTietKichBan.kichBan?.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/chi-tiet-kich-ban', chiTietKichBan.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/chi-tiet-kich-ban', chiTietKichBan.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(chiTietKichBan)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="chiTietKichBans && chiTietKichBans.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

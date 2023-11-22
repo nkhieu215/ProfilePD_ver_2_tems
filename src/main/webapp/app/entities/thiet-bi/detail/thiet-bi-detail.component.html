@@ -1,0 +1,114 @@
+<div>
+  <div>
+    <div *ngIf="thietBi">
+      <h2 data-cy="thietBiDetailsHeading"><span>Thiết bị</span></h2>
+
+      <hr />
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="thongSo"><span>Mã thiết bị</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Nhóm thiết bị</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Dây chuyền</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Ngày tạo</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Ngày cập nhật</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Update By</span></th>
+            <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <td>
+            <span>{{ thietBi.maThietBi }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.loaiThietBi }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.dayChuyen }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.ngayTao | formatMediumDatetime }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.timeUpdate | formatMediumDatetime }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.updateBy }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.status }}</span>
+          </td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<br />
+<br />
+<br />
+<br />
+
+<div>
+  <div>
+    <div *ngIf="thietBi">
+      <h2 data-cy="thietBiDetailsHeading"><span>Chi tiết thông số thiết bị</span></h2>
+
+      <hr />
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="id"><span>STT</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Thông số</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Mô tả</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Phân loại</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let thietBi of listOfThietBi; let i = index">
+          <td>
+            <span>{{ i + 1 }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.thongSo }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.moTa }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.phanLoai }}</span>
+          </td>
+
+          <td>
+            <span>{{ thietBi.status }}</span>
+          </td>
+        </tbody>
+      </table>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+        type="button"
+        [routerLink]="['/thiet-bi', thietBi.id, 'edit']"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

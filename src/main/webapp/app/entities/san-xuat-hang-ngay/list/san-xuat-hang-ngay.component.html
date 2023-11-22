@@ -1,0 +1,223 @@
+<div>
+  <h2 id="page-heading" data-cy="SanXuatHangNgayHeading">
+    <span>Sản xuất hàng ngày</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-san-xuat-hang-ngay"
+        [routerLink]="['/san-xuat-hang-ngay/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Thêm mới </span>
+      </button>
+    </div>
+  </h2>
+
+  <div class="alert" id="no-result" *ngIf="sanXuatHangNgays?.length === 0">
+    <div class="loader">
+      <div class="justify-content-center jimu-primary-loading"></div>
+    </div>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="sanXuatHangNgays && sanXuatHangNgays.length > 0">
+    <form [formGroup]="formSearch">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="id">
+              <span>STT</span>
+              <input type="text" style="width: 10px; border: none; background-color: #6c7ae0" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo mã kịch bản ----------------------------->
+            <th scope="col" jhiSortBy="maKichBan">
+              <span>Mã kịch bản</span>
+              <input #searchInput class="maKichBan-col" type="text" formControlName="maKichBan" placeholder="search" list="maKichBan" />
+              <datalist id="maKichBan" class="autocomplete-list">
+                <option *ngFor="let data of sanXuatHangNgays" value="{{ data.maKichBan }}"></option>
+              </datalist>
+            </th>
+
+            <!-- ----------------------------- Tìm kiếm theo mã thiết bị ----------------------------->
+            <th scope="col" jhiSortBy="loaiThietBi">
+              <span>Nhóm thiết bị</span>
+              <input
+                #searchInput
+                class="loaiThietBi-col"
+                type="text"
+                formControlName="loaiThietBi"
+                placeholder="search"
+                list="loaiThietBi"
+              />
+              <datalist id="loaiThietBi">
+                <option *ngFor="let data of sanXuatHangNgays" value="{{ data.loaiThietBi }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo Nhóm thiết bị ----------------------------->
+            <th scope="col" jhiSortBy="maThietBi">
+              <span>Mã thiết bị</span>
+              <input #searchInput type="text" formControlName="maThietBi" placeholder="search" list="maThietBi" />
+              <datalist id="maThietBi">
+                <option *ngFor="let data of sanXuatHangNgays" value="{{ data.maThietBi }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo dây chuyền ----------------------------->
+            <th scope="col" jhiSortBy="dayChuyen">
+              <span>Dây chuyền</span>
+              <input #searchInput type="text" formControlName="dayChuyen" placeholder="search" list="dayChuyen" />
+              <datalist id="dayChuyen">
+                <option *ngFor="let data of sanXuatHangNgays" value="{{ data.dayChuyen }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo Nhóm sản phẩm ----------------------------->
+
+            <th scope="col" jhiSortBy="nhomSanPham">
+              <span>Nhóm sản phẩm</span>
+              <input #searchInput type="text" formControlName="nhomSanPham" placeholder="search" list="nhomSanPham" />
+              <datalist id="nhomSanPham">
+                <option *ngFor="let data of sanXuatHangNgays" value="{{ data.nhomSanPham }}"></option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="maSanPham">
+              <span>Mã sản phẩm</span>
+              <input #searchInput type="text" formControlName="maSanPham" placeholder="search" list="maSanPham" />
+              <datalist id="maSanPham">
+                <option *ngFor="let data of sanXuatHangNgays" value="{{ data.maSanPham }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo version sản phẩm ----------------------------->
+            <th scope="col" jhiSortBy="versionSanPham">
+              <span>Vesion sản phẩm</span>
+              <input
+                #searchInput
+                class="version-col"
+                type="text"
+                formControlName="versionSanPham"
+                placeholder="search"
+                list="versionSanPham"
+              />
+              <datalist id="versionSanPham">
+                <option *ngFor="let data of sanXuatHangNgays" value="{{ data.versionSanPham }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo ngày tạo ----------------------------->
+            <th scope="col" jhiSortBy="ngayTao">
+              <span>Ngày tạo</span>
+              <input #searchInput type="date" formControlName="ngayTao" placeholder="search" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo ngày cập nhật ----------------------------->
+            <th scope="col" jhiSortBy="timeUpdate">
+              <span>Time Update</span>
+              <input #searchInput type="date" formControlName="timeUpdate" placeholder="search" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo trạng thái ----------------------------->
+            <th scope="col" jhiSortBy="trangThai">
+              <span>Trạng thái</span>
+              <select class="form-control form-select" formControlName="maKichBan" style="width: 5vw">
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </th>
+
+            <th scope="col">
+              <span>Options<input style="border: none; width: 70%; background-color: #6c7ae0" /></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let sanXuatHangNgay of sanXuatHangNgays | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+              let i = index;
+              trackBy: trackId
+            "
+            data-cy="entityTable"
+          >
+            <td>
+              {{ i + 1 }}
+            </td>
+            <td>{{ sanXuatHangNgay.maKichBan }}</td>
+            <td>{{ sanXuatHangNgay.loaiThietBi }}</td>
+            <td title="{{ sanXuatHangNgay.maThietBi }}">
+              <!-- <a
+                class="btn btn-primary"
+                data-bs-toggle="collapse"
+                href="#multiCollapseExample1"
+                role="button"
+                aria-expanded="false"
+                aria-controls="multiCollapseExample1"
+              >
+                Toggle first element
+              </a> -->
+              <div class="row">
+                <div class="col">
+                  <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body">
+                      {{ sanXuatHangNgay.maThietBi }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{ sanXuatHangNgay.maThietBi }}
+            </td>
+            <td>{{ sanXuatHangNgay.dayChuyen }}</td>
+            <td>{{ sanXuatHangNgay.nhomSanPham }}</td>
+            <td>{{ sanXuatHangNgay.maSanPham }}</td>
+            <td>{{ sanXuatHangNgay.versionSanPham }}</td>
+            <td>{{ sanXuatHangNgay.ngayTao | formatMediumDatetime }}</td>
+            <td>{{ sanXuatHangNgay.timeUpdate | formatMediumDatetime }}</td>
+            <td>{{ sanXuatHangNgay.trangThai }}</td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/san-xuat-hang-ngay', sanXuatHangNgay.id, 'view']"
+                  class="btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <!-- <span class="d-none d-md-inline">View</span> -->
+                </button>
+
+                <button
+                  type="submit"
+                  [routerLink]="['/san-xuat-hang-ngay', sanXuatHangNgay.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <!-- <span class="d-none d-md-inline">Edit</span> -->
+                </button>
+
+                <button type="submit" (click)="delete(sanXuatHangNgay)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <!-- <span class="d-none d-md-inline">Delete</span> -->
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+  <div *ngIf="sanXuatHangNgays && sanXuatHangNgays.length > 0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
+  </div>
+</div>

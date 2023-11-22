@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="GETDATE()" dbms="mssql"/>
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql, mariadb"/>
+    <property name="clobType" value="clob" dbms="h2"/>
+    <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
+    <property name="uuidType" value="uuid" dbms="h2, mssql"/>
+    <property name="datetimeType" value="datetime(6)" dbms="mysql, mariadb"/>
+    <property name="datetimeType" value="datetime" dbms="oracle, mssql, postgresql, h2"/>
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035257_added_entity_ThietBi.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035258_added_entity_ThongSoMay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035259_added_entity_SanXuatHangNgay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035300_added_entity_ChiTietSanXuat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035301_added_entity_LichSuUpdate.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035302_added_entity_ChiTietLichSuUpdate.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035303_added_entity_KichBan.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035304_added_entity_ChiTietKichBan.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035305_added_entity_QuanLyThongSo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035306_added_entity_LenhSanXuat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035307_added_entity_ChiTietLenhSanXuat.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20231017035258_added_entity_constraints_ThongSoMay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035300_added_entity_constraints_ChiTietSanXuat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035302_added_entity_constraints_ChiTietLichSuUpdate.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035304_added_entity_constraints_ChiTietKichBan.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20231017035307_added_entity_constraints_ChiTietLenhSanXuat.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <changeSet author="Dell (generated)" id="1699863987455-5">
+        <createTable tableName="chi_tiet_kich_ban">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="chi_tiet_kich_banPK"/>
+            </column>
+            <column name="don_vi" type="varchar(255)"/>
+            <column name="hang_mkb" type="int"/>
+            <column name="ma_kich_ban" type="varchar(255)"/>
+            <column name="max_value" type="float(53)"/>
+            <column name="min_value" type="float(53)"/>
+            <column name="phan_loai" type="varchar(255)"/>
+            <column name="thong_so" type="varchar(255)"/>
+            <column name="trungbinh" type="float(53)"/>
+            <column name="kich_ban_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-6">
+        <createTable tableName="chi_tiet_lenh_san_xuat">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="chi_tiet_lenh_san_xuatPK"/>
+            </column>
+            <column name="checked" type="int"/>
+            <column name="comments" type="varchar(255)"/>
+            <column name="expiration_date" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="initial_quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_override" type="varchar(255)"/>
+            <column name="lot" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manufacturing_date" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="market_usage" type="varchar(255)"/>
+            <column name="maximum_limit" type="varchar(255)"/>
+            <column name="msd_bag_seal_date" type="varchar(255)"/>
+            <column name="msd_initial_floor_time" type="varchar(255)"/>
+            <column name="msd_level" type="varchar(255)"/>
+            <column name="part_class" type="varchar(255)"/>
+            <column name="part_number" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity_override" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reel_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sap_code" type="int"/>
+            <column name="shelf_time" type="varchar(255)"/>
+            <column name="sp_material_name" type="varchar(255)"/>
+            <column name="storage_unit" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_storage_unit" type="varchar(255)"/>
+            <column name="trang_thai" type="varchar(255)"/>
+            <column name="user_data_1" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_data_2" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_data_3" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_data_4" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_data_5" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vendor" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="warmup_time" type="datetime2"/>
+            <column name="warning_limit" type="varchar(255)"/>
+            <column name="lenh_san_xuat_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-7">
+        <createTable tableName="chi_tiet_lich_su_update">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="chi_tiet_lich_su_updatePK"/>
+            </column>
+            <column name="don_vi" type="varchar(255)"/>
+            <column name="hang_lssx" type="int"/>
+            <column name="ma_kich_ban" type="varchar(255)"/>
+            <column name="max_value" type="float(53)"/>
+            <column name="min_value" type="float(53)"/>
+            <column name="thong_so" type="varchar(255)"/>
+            <column name="trungbinh" type="float(53)"/>
+            <column name="lich_su_update_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-8">
+        <createTable tableName="chi_tiet_san_xuat">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="chi_tiet_san_xuatPK"/>
+            </column>
+            <column name="don_vi" type="varchar(255)"/>
+            <column name="hang_sxhn" type="int"/>
+            <column name="ma_kich_ban" type="varchar(255)"/>
+            <column name="max_value" type="float(53)"/>
+            <column name="min_value" type="float(53)"/>
+            <column name="thong_so" type="varchar(255)"/>
+            <column name="trungbinh" type="float(53)"/>
+            <column name="san_xuat_hang_ngay_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-9">
+        <createTable tableName="jhi_authority">
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_authorityPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-10">
+        <createTable tableName="jhi_user">
+            <column name="id" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_userPK"/>
+            </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime2"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="datetime2"/>
+            <column name="activated" type="bit">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(254)"/>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="image_url" type="varchar(256)"/>
+            <column name="lang_key" type="varchar(10)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="login" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-11">
+        <createTable tableName="jhi_user_authority">
+            <column name="user_id" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="authority_name" type="varchar(50)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-12">
+        <createTable tableName="kich_ban">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="kich_banPK"/>
+            </column>
+            <column name="day_chuyen" type="varchar(255)"/>
+            <column name="loai_thiet_bi" type="varchar(255)"/>
+            <column name="ma_kich_ban" type="varchar(255)"/>
+            <column name="ma_san_pham" type="varchar(255)"/>
+            <column name="ma_thiet_bi" type="varchar(255)"/>
+            <column name="ngay_tao" type="datetime2"/>
+            <column name="nhom_san_pham" type="varchar(255)"/>
+            <column name="time_update" type="datetime2"/>
+            <column name="trang_thai" type="varchar(255)"/>
+            <column name="update_by" type="varchar(255)"/>
+            <column name="version_san_pham" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-13">
+        <createTable tableName="lenh_san_xuat">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="lenh_san_xuatPK"/>
+            </column>
+            <column name="comment" type="varchar(255)"/>
+            <column name="create_by" type="varchar(255)"/>
+            <column name="entry_time" type="varchar(255)"/>
+            <column name="ma_lenh_san_xuat" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sap_code" type="varchar(255)"/>
+            <column name="sap_name" type="varchar(255)"/>
+            <column name="storage_code" type="varchar(255)"/>
+            <column name="total_quantity" type="varchar(255)"/>
+            <column name="trang_thai" type="varchar(255)"/>
+            <column name="version" type="varchar(255)"/>
+            <column name="work_order_code" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-14">
+        <createTable tableName="lich_su_update">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="lich_su_updatePK"/>
+            </column>
+            <column name="day_chuyen" type="varchar(255)"/>
+            <column name="loai_thiet_bi" type="varchar(255)"/>
+            <column name="ma_kich_ban" type="varchar(255)"/>
+            <column name="ma_san_pham" type="varchar(255)"/>
+            <column name="ma_thiet_bi" type="varchar(255)"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="time_update" type="datetime2"/>
+            <column name="version_san_pham" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-15">
+        <createTable tableName="nhom_san_pham">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="nhom_san_phamPK"/>
+            </column>
+            <column name="ma_san_pham" type="varchar(255)"/>
+            <column name="nhom_san_pham" type="varchar(255)"/>
+            <column name="kich_ban_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-16">
+        <createTable tableName="quan_ly_thong_so">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="quan_ly_thong_soPK"/>
+            </column>
+            <column name="ma_thong_so" type="varchar(255)"/>
+            <column name="mo_ta" type="varchar(255)"/>
+            <column name="ngay_tao" type="datetime2"/>
+            <column name="ngay_update" type="datetime2"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="ten_thong_so" type="varchar(255)"/>
+            <column name="update_by" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-17">
+        <createTable tableName="san_xuat_hang_ngay">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="san_xuat_hang_ngayPK"/>
+            </column>
+            <column name="day_chuyen" type="varchar(255)"/>
+            <column name="loai_thiet_bi" type="varchar(255)"/>
+            <column name="ma_kich_ban" type="varchar(255)"/>
+            <column name="ma_san_pham" type="varchar(255)"/>
+            <column name="ma_thiet_bi" type="varchar(255)"/>
+            <column name="ngay_tao" type="datetime2"/>
+            <column name="nhom_san_pham" type="varchar(255)"/>
+            <column name="time_update" type="datetime2"/>
+            <column name="trang_thai" type="varchar(255)"/>
+            <column name="version_san_pham" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-18">
+        <createTable tableName="thiet_bi">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="thiet_biPK"/>
+            </column>
+            <column name="day_chuyen" type="varchar(255)"/>
+            <column name="loai_thiet_bi" type="varchar(255)"/>
+            <column name="ma_thiet_bi" type="varchar(255)"/>
+            <column name="ngay_tao" type="datetime2"/>
+            <column name="time_update" type="datetime2"/>
+            <column name="trang_thai" type="varchar(255)"/>
+            <column name="update_by" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-19">
+        <createTable tableName="thong_so_may">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="thong_so_mayPK"/>
+            </column>
+            <column name="hang_tms" type="int"/>
+            <column name="loai_thiet_bi" type="varchar(255)"/>
+            <column name="ma_thiet_bi" type="varchar(255)"/>
+            <column name="mo_ta" type="varchar(255)"/>
+            <column name="phan_loai" type="varchar(255)"/>
+            <column name="thong_so" type="varchar(255)"/>
+            <column name="trang_thai" type="varchar(255)"/>
+            <column name="thiet_bi_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-20">
+        <addUniqueConstraint columnNames="reel_id" constraintName="UC_CHI_TIET_LENH_SAN_XUATREEL_ID_COL" tableName="chi_tiet_lenh_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-21">
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-22">
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-23">
+        <addUniqueConstraint columnNames="ma_lenh_san_xuat" constraintName="UC_LENH_SAN_XUATMA_LENH_SAN_XUAT_COL" tableName="lenh_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-24">
+        <addForeignKeyConstraint baseColumnNames="lenh_san_xuat_id" baseTableName="chi_tiet_lenh_san_xuat" constraintName="FK24hocs1ls1tp84m8uj6ej32xy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="lenh_san_xuat" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-25">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_authority" constraintName="FK290okww5jujghp4el5i7mgwu0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-26">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="jhi_user_authority" constraintName="FK4psxl0jtx6nr7rhqbynr6itoc" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="jhi_authority" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-27">
+        <addForeignKeyConstraint baseColumnNames="san_xuat_hang_ngay_id" baseTableName="chi_tiet_san_xuat" constraintName="FK691qlvm2qj8w4bs5dysxb7mcw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="san_xuat_hang_ngay" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-28">
+        <addForeignKeyConstraint baseColumnNames="lich_su_update_id" baseTableName="chi_tiet_lich_su_update" constraintName="FKf7yc64yscocqfdgvl05x1maxu" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="lich_su_update" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-29">
+        <addForeignKeyConstraint baseColumnNames="kich_ban_id" baseTableName="chi_tiet_kich_ban" constraintName="FKfpn8kkxy5f5hktqxveb32hrt8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="kich_ban" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-30">
+        <addForeignKeyConstraint baseColumnNames="thiet_bi_id" baseTableName="thong_so_may" constraintName="FKhusvm12sqp6pxxxfe02nnpeki" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="thiet_bi" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-31">
+        <addForeignKeyConstraint baseColumnNames="kich_ban_id" baseTableName="nhom_san_pham" constraintName="FKo3bsmd5yxrafjvmbid2vb87wg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="kich_ban" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-32">
+        <dropTable tableName="kich_ban_change_status"/>
+    </changeSet>
+    <!-- <changeSet author="Dell (generated)" id="1699863987455-1">
+        <alterSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-2">
+        <alterSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-3">
+        <alterSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699863987455-4">
+        <alterSequence sequenceName="sequence_generator"/>
+    </changeSet> -->
+    <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
+</databaseChangeLog>

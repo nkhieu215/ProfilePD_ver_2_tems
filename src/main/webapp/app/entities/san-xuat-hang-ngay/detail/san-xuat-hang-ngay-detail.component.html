@@ -1,0 +1,120 @@
+<div>
+  <div>
+    <div *ngIf="sanXuatHangNgay">
+      <div class="export-file">
+        <button (click)="exportToExcel()">Export</button>
+      </div>
+      <h2 data-cy="sanXuatHangNgayDetailsHeading"><span>Thông tin sản xuất hàng ngày</span></h2>
+      <hr />
+      <div id="export_excel">
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="maKichBan"><span>Mã kịch bản</span></th>
+              <th scope="col" jhiSortBy="maThietBi"><span>Nhóm thiết bị</span></th>
+              <th scope="col" jhiSortBy="loaiThietBi"><span>Mã thiết bị</span></th>
+              <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+              <th scope="col" jhiSortBy="nhomSanPham"><span>Nhóm sản phẩm</span></th>
+              <th scope="col" jhiSortBy="maSanPham"><span>Mã sản phẩm</span></th>
+              <th scope="col" jhiSortBy="versionSanPham"><span>Version sản phẩm</span></th>
+              <th scope="col" jhiSortBy="ngayTao"><span>Ngày tạo</span></th>
+              <th scope="col" jhiSortBy="timeUpdate"><span>Ngày cập nhật</span></th>
+              <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <td>
+              <span>{{ sanXuatHangNgay.maKichBan }}</span>
+            </td>
+
+            <td>
+              <span>{{ sanXuatHangNgay.maThietBi }}</span>
+            </td>
+
+            <td>
+              <span>{{ sanXuatHangNgay.loaiThietBi }}</span>
+            </td>
+            <td>
+              <span>{{ sanXuatHangNgay.dayChuyen }}</span>
+            </td>
+            <td>
+              <span>{{ sanXuatHangNgay.nhomSanPham }}</span>
+            </td>
+            <td>
+              <span>{{ sanXuatHangNgay.maSanPham }}</span>
+            </td>
+            <td>
+              <span>{{ sanXuatHangNgay.versionSanPham }}</span>
+            </td>
+            <td>
+              <span>{{ sanXuatHangNgay.ngayTao | formatMediumDatetime }}</span>
+            </td>
+
+            <td>
+              <span>{{ sanXuatHangNgay.timeUpdate | formatMediumDatetime }}</span>
+            </td>
+
+            <td>
+              <span>{{ sanXuatHangNgay.trangThai }}</span>
+            </td>
+          </tbody>
+        </table>
+        <br />
+        <br />
+        <br />
+        <br />
+        <hr />
+        <h2>Thông số</h2>
+
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="id"><span>STT</span></th>
+              <th scope="col" jhiSortBy="thongSo"><span>Thông số</span></th>
+              <th scope="col" jhiSortBy="minValue"><span>Min</span></th>
+              <th scope="col" jhiSortBy="maxValue"><span>Max</span></th>
+              <th scope="col" jhiSortBy="trungBinh"><span>Trung bình</span></th>
+              <th scope="col" jhiSortBy="donVi"><span>Đơn vị</span></th>
+              <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+            </tr>
+          </thead>
+
+          <tbody *ngFor="let data of chiTietSanXuats; let i = index">
+            <td>
+              <span>{{ i + 1 }}</span>
+            </td>
+
+            <td>
+              <span>{{ data.thongSo }}</span>
+            </td>
+
+            <td>
+              <span>{{ data.minValue }}</span>
+            </td>
+
+            <td>
+              <span>{{ data.maxValue }}</span>
+            </td>
+
+            <td>
+              <span>{{ data.trungbinh }}</span>
+            </td>
+            <td>
+              <span>{{ data.donVi }}</span>
+            </td>
+            <td>
+              <span>{{ data.trangThai }}</span>
+            </td>
+          </tbody>
+        </table>
+      </div>
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/san-xuat-hang-ngay', sanXuatHangNgay.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

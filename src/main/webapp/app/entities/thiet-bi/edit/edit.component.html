@@ -1,0 +1,165 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate [formGroup]="editForm">
+      <div>
+        <h2 id="jhi-thiet-bi-heading" data-cy="ThietBiCreateUpdateHeading">Chỉnh sửa thiết bị</h2>
+        <div>
+          <jhi-alert-error></jhi-alert-error>
+
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+                <th scope="col" jhiSortBy="maThietBi"><span>Mã thiết bị</span></th>
+                <th scope="col" jhiSortBy="loaiThietBi"><span>Nhóm thiết bị</span></th>
+                <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+                <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr data-cy="entityTable">
+                <td>
+                  <input #searchInput type="text" class="form-control" [(ngModel)]="maThietBi" />
+                </td>
+                <td>
+                  <input #searchInput type="text" class="form-control" [(ngModel)]="loaiThietBi" />
+                </td>
+                <td>
+                  <input
+                    #searchInput
+                    type="text"
+                    class="form-control"
+                    name="dayChuyen"
+                    id="dayChuyen"
+                    data-cy="dayChuyen"
+                    formControlName="dayChuyen"
+                  />
+                </td>
+                <td>
+                  <select
+                    class="form-control"
+                    id="status"
+                    data-cy="status"
+                    name="status"
+                    formControlName="status"
+                    (change)="onChangeSearch()"
+                  >
+                    <option [ngValue]="null">-- Chọn trạng thái --</option>
+                    <option value="active">Active</option>
+                    <option value="deactive">Deactive</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary"
+            (click)="save()"
+            style="margin-bottom: 2em"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
+        </div>
+
+        <h2 id="jhi-thiet-bi-heading" data-cy="ThietBiCreateUpdateHeading">Chỉnh sửa thông số thiết bị</h2>
+
+        <!-- <button class="btn-add" style="border-radius: 0.5em;" (click)="addRow()">Add</button> -->
+
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="maThietBi"><span>Thông số</span></th>
+              <th scope="col" jhiSortBy="loaiThietBi"><span>Mô tả</span></th>
+              <th scope="col" jhiSortBy="updateBy"><span>Phân loại</span></th>
+              <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <td>
+              <div [hidden]="editId === i + 1" (click)="startEdit2(i + 1)">
+                {{ maThietBi }}
+              </div>
+              <input
+                class="input-table"
+                [hidden]="editId !== i + 1"
+                type="text"
+                [(ngModel)]="thongSo"
+                (keydown.tab)="stopEdit()"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="{{ thongSo }}"
+              />
+            </td>
+
+            <td>
+              <div [hidden]="editId === i + 1" (click)="startEdit2(i + 1)">
+                {{ moTa }}
+              </div>
+              <input
+                class="input-table"
+                [hidden]="editId !== i + 1"
+                type="text"
+                [(ngModel)]="moTa"
+                (keydown.tab)="stopEdit()"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="{{ moTa }}"
+              />
+            </td>
+
+            <td>
+              <div [hidden]="editId === i + 1" (click)="startEdit2(i + 1)">
+                {{ phanLoai }}
+              </div>
+              <input
+                class="input-table"
+                [hidden]="editId !== i + 1"
+                type="text"
+                [(ngModel)]="phanLoai"
+                (keydown.tab)="stopEdit()"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <select
+                class="form-control"
+                id="status"
+                data-cy="status"
+                name="status"
+                formControlName="status"
+                [(ngModel)]="selectedStatusAdd"
+                (change)="onChangeStatus()"
+              >
+                <option [ngValue]="null">-- Chọn trạng thái --</option>
+                <option value="active1">Active</option>
+                <option value="deactive1">Deactive</option>
+              </select>
+            </td>
+            <td><button class="btn btn-danger btn-sm" (click)="deleteRow(id)">Xoá</button></td>
+          </tbody>
+        </table>
+
+        <div>
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          </button>
+
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary"
+            (click)="saveThongSoThietBi()"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,438 @@
+<div>
+  <h2 id="page-heading" data-cy="KichBanHeading">
+    <span>Kịch bản sản xuất</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-kich-ban"
+        [routerLink]="['/kich-ban/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Thêm mới </span>
+      </button>
+    </div>
+  </h2>
+
+  <div class="alert" id="no-result" *ngIf="kichBans?.length === 0">
+    <div class="loader">
+      <div class="justify-content-center jimu-primary-loading"></div>
+    </div>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="kichBans && kichBans.length > 0">
+    <form [formGroup]="formSearch">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="id">
+              <span>STT</span>
+              <input type="text" style="width: 10px; border: none; background-color: #6c7ae0" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo mã kịch bản ----------------------------->
+            <th scope="col" jhiSortBy="maKichBan">
+              <span>Mã kịch bản</span>
+              <input #searchInput class="maKichBan-col" type="text" formControlName="maKichBan" placeholder="search" list="maKichBan" />
+              <datalist id="maKichBan">
+                <option *ngFor="let data of kichBans" value="{{ data.maKichBan }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo mã thiết bị ----------------------------->
+            <th scope="col" jhiSortBy="loaiThietBi">
+              <span>Nhóm thiết bị</span>
+              <input
+                #searchInput
+                class="loaiThietBi-col"
+                type="text"
+                formControlName="loaiThietBi"
+                placeholder="search"
+                list="loaiThietBi"
+              />
+              <datalist id="loaiThietBi">
+                <option *ngFor="let data of kichBans" value="{{ data.loaiThietBi }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo Nhóm thiết bị ----------------------------->
+            <th scope="col" jhiSortBy="maThietBi">
+              <span>Mã thiết bị</span>
+              <input #searchInput type="text" formControlName="maThietBi" placeholder="search" list="maThietBi" />
+              <datalist id="maThietBi">
+                <option *ngFor="let data of kichBans" value="{{ data.maThietBi }}"></option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="nhomSanPham">
+              <span>Nhóm sản phẩm</span>
+              <input
+                #searchInput
+                class="nhomSanPham-col"
+                type="text"
+                formControlName="nhomSanPham"
+                placeholder="search"
+                list="nhomSanPham"
+              />
+              <datalist id="nhomSanPham">
+                <option *ngFor="let data of kichBans" value="{{ data.nhomSanPham }}"></option>
+              </datalist>
+            </th>
+
+            <!-- ----------------------------- Tìm kiếm theo Nhóm sản phẩm ----------------------------->
+            <th scope="col" jhiSortBy="maSanPham">
+              <span>Mã sản phẩm</span>
+              <input #searchInput class="maSanPham-col" type="text" formControlName="maSanPham" placeholder="search" list="maSanPham" />
+              <datalist id="maSanPham">
+                <option *ngFor="let data of kichBans" value="{{ data.maSanPham }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo version sản phẩm ----------------------------->
+            <th scope="col" jhiSortBy="versionSanPham">
+              <span>Version sản phẩm</span>
+              <input
+                #searchInput
+                class="version-col"
+                type="text"
+                formControlName="versionSanPham"
+                placeholder="search"
+                list="versionSanPham"
+              />
+              <datalist id="versionSanPham">
+                <option *ngFor="let data of kichBans" value="{{ data.versionSanPham }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo ngày tạo ----------------------------->
+            <th scope="col" jhiSortBy="ngayTao">
+              <span>Ngày tạo</span>
+              <input #searchInput type="date" formControlName="ngayTao" placeholder="search" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo ngày tạo ----------------------------->
+            <th scope="col" jhiSortBy="timeUpdate">
+              <span>Time Update</span>
+              <input #searchInput type="date" formControlName="timeUpdate" placeholder="search" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo người tạo ----------------------------->
+            <th scope="col" jhiSortBy="updateBy">
+              <span>Update By</span>
+              <select class="form-control form-select" formControlName="updateBy" style="width: 5vw">
+                <option value="admin">admin</option>
+                <option value="user">user</option>
+              </select>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo người tạo ----------------------------->
+            <th scope="col" jhiSortBy="trangThai">
+              <span>Trạng thái</span>
+              <select class="form-control form-select" formControlName="trangThai" style="width: 5vw">
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </th>
+            <th scope="col">
+              <span>Options<input style="border: none; width: 60%; background-color: #6c7ae0" /></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let kichBan of kichBans | paginate: { itemsPerPage: itemPerPage, currentPage: page }; let i = index; trackBy: trackId"
+            data-cy="entityTable"
+          >
+            <td>
+              <span>
+                {{ i + 1 }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.maKichBan }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.loaiThietBi }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.maThietBi }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.nhomSanPham }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.maSanPham }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.versionSanPham }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.ngayTao | formatMediumDatetime }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.timeUpdate | formatMediumDatetime }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.updateBy }}
+              </span>
+            </td>
+
+            <td>
+              <span>
+                {{ kichBan.trangThai }}
+              </span>
+            </td>
+
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  *ngIf="kichBan.signal != 1"
+                  type="submit"
+                  class="btn-info btn-sm btn-sync"
+                  (click)="openModal(kichBan.id, kichBan.maKichBan, content)"
+                >
+                  <fa-icon icon="sync"></fa-icon>
+                </button>
+
+                <button
+                  type="submit"
+                  [routerLink]="['/kich-ban', kichBan.id, 'view']"
+                  class="btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                </button>
+
+                <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+                  type="submit"
+                  [routerLink]="['/kich-ban', kichBan.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+
+                <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+                  type="submit"
+                  (click)="delete(kichBan)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+  <div *ngIf="kichBans && kichBans.length > 0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
+  </div>
+</div>
+<!------------------------------------ Popup đồng bộ ngược --------------------------------->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-lg">
+    <div class="modal-header">
+      <h2 class="modal-title">Đối chiếu và đồng bộ</h2>
+      <!-- <button type="button" class="btn btn-secondary close" aria-label="Close" (click)="c('Close click')">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+
+      <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="c('Close click')"></button>
+    </div>
+    <div class="modal-body">
+      <h4 data-cy="kichBanDetailsHeading"><span>Thông tin chi tiết kịch bản</span></h4>
+      <hr />
+      <div class="table-header-kichban">
+        <h4>Thông số kịch bản</h4>
+        <h4>Thông số sản xuất hàng ngày</h4>
+      </div>
+      <!-- Bên quản lý kịch bản -->
+      <div class="table-body-kichban">
+        <table class="table table-striped table-modal" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="maKichBan"><span>Mã kịch bản</span></th>
+              <th scope="col" jhiSortBy="loaiThietBi"><span>Nhóm thiết bị</span></th>
+              <th scope="col" jhiSortBy="maThietBi"><span>Mã thiết bị</span></th>
+              <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+              <th scope="col" jhiSortBy="nhomSanPham"><span>Nhóm sản phẩm</span></th>
+              <th scope="col" jhiSortBy="versionSanPham"><span>Version sản phẩm</span></th>
+            </tr>
+          </thead>
+          <tbody *ngIf="kichBan">
+            <td>
+              <span>{{ kichBan.maKichBan }}</span>
+            </td>
+            <td>
+              <span>{{ kichBan.loaiThietBi }}</span>
+            </td>
+            <td>
+              <tr *ngFor="let item of listMaThietBiQLKB; let i = index">
+                <span [ngStyle]="{ color: isDataChanged ? maThietBiQLKBColor[i] : 'black' }">{{ item }}</span>
+              </tr>
+            </td>
+            <td>
+              <span>{{ kichBan.dayChuyen }}</span>
+            </td>
+            <td>
+              <span>{{ kichBan.nhomSanPham }}</span>
+            </td>
+            <td>
+              <span>{{ kichBan.versionSanPham }}</span>
+            </td>
+          </tbody>
+        </table>
+        <!-- Bên sản xuất hàng ngày -->
+        <table class="table table-striped table-modal" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="maKichBan"><span>Mã kịch bản</span></th>
+              <th scope="col" jhiSortBy="loaiThietBi"><span>Nhóm thiết bị</span></th>
+              <th scope="col" jhiSortBy="maThietBi"><span>Mã thiết bị</span></th>
+              <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+              <th scope="col" jhiSortBy="nhomSanPham"><span>Nhóm sản phẩm</span></th>
+              <th scope="col" jhiSortBy="versionSanPham"><span>Version sản phẩm</span></th>
+            </tr>
+          </thead>
+          <tbody *ngIf="kichBan">
+            <td>
+              <span>{{ kichBan.maKichBan }}</span>
+            </td>
+            <td>
+              <span>{{ kichBan.loaiThietBi }}</span>
+            </td>
+            <td>
+              <tr *ngFor="let item of listMaThietBiSXHN; let i = index">
+                <span [ngStyle]="{ color: isDataChanged ? maThietBiSXHNColor[i] : 'black' }">{{ item }}</span>
+              </tr>
+            </td>
+            <td>
+              <span>{{ kichBan.dayChuyen }}</span>
+            </td>
+            <td>
+              <span>{{ kichBan.nhomSanPham }}</span>
+            </td>
+            <td>
+              <span>{{ kichBan.versionSanPham }}</span>
+            </td>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-body-kichban">
+        <table class="table table-striped table-kichban" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="id"><span>STT</span></th>
+              <th scope="col" jhiSortBy="thongSo" class="thongSo"><span>Thông số</span></th>
+              <th scope="col" jhiSortBy="minValue"><span>Min</span></th>
+              <th scope="col" jhiSortBy="maxValue"><span>Max</span></th>
+              <th scope="col" jhiSortBy="trungBinh"><span>Trung bình</span></th>
+              <th scope="col" jhiSortBy="donVi"><span>Đơn vị</span></th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let data of chiTietKichBans; let i = index">
+            <td>
+              <span>{{ i + 1 }}</span>
+            </td>
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].thongSoSignal : 'black' }">{{ data.thongSo }}</span>
+            </td>
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].minValueSignal : 'black' }">{{ data.minValue }}</span>
+            </td>
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].maxValueSignal : 'black' }">{{ data.maxValue }}</span>
+            </td>
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].trungbinhSignal : 'black' }">{{ data.trungbinh }}</span>
+            </td>
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].donViSignal : 'black' }">{{ data.donVi }}</span>
+            </td>
+          </tbody>
+        </table>
+
+        <table class="table table-striped table-sxhn" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="id"><span>STT</span></th>
+              <th scope="col" jhiSortBy="thongSo"><span>Thông số</span></th>
+              <th scope="col" jhiSortBy="minValue"><span>Min</span></th>
+              <th scope="col" jhiSortBy="maxValue"><span>Max</span></th>
+              <th scope="col" jhiSortBy="trungBinh"><span>Trung bình</span></th>
+              <th scope="col" jhiSortBy="donVi"><span>Đơn vị</span></th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let dataSXHN of chiTietSanXuats; let i = index">
+            <td>
+              <span>{{ i + 1 }}</span>
+            </td>
+
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].thongSoSignal : 'black' }">{{ dataSXHN.thongSo }}</span>
+            </td>
+
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].minValueSignal : 'black' }">{{ dataSXHN.minValue }}</span>
+            </td>
+
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].maxValueSignal : 'black' }">{{ dataSXHN.maxValue }}</span>
+            </td>
+
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].trungbinhSignal : 'black' }">{{ dataSXHN.trungbinh }}</span>
+            </td>
+            <td>
+              <span [ngStyle]="{ color: isDataChanged ? tableSignal[i].donViSignal : 'black' }">{{ dataSXHN.donVi }}</span>
+            </td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Đóng</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="xacNhanDongBo()">Đồng bộ</button>
+    </div>
+  </div>
+</ng-template>

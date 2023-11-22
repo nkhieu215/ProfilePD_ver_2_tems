@@ -1,0 +1,79 @@
+<div>
+  <div>
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-quan-ly-thong-so-heading" data-cy="QuanLyThongSoCreateUpdateHeading">Quản lý thông số</h2>
+
+      <div>
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="maThongSo">
+                <span>Mã thông số <span style="color: red">*</span></span>
+              </th>
+              <th scope="col" jhiSortBy="thongSo">
+                <span>Thông số <span style="color: red">*</span></span>
+              </th>
+              <th scope="col" jhiSortBy="moTa"><span>Mô tả</span></th>
+              <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr data-cy="entityTable">
+              <td>
+                <input type="text" class="form-control" name="maThongSo" id="maThongSo" formControlName="maThongSo" required />
+                <!-- <div *ngIf="form.get('maThongSo').hasError('required') && form.get('maThongSo').touched">
+                    This field is required.
+                  </div> -->
+              </td>
+              <td>
+                <input type="text" class="form-control" name="tenThongSo" id="tenThongSo" formControlName="tenThongSo" required />
+                <!-- <div *ngIf="form.get('tenThongSo').hasError('required') && form.get('tenThongSo').touched">
+                    This field is required.
+                  </div> -->
+              </td>
+              <td>
+                <input type="text" class="form-control" name="moTa" id="moTa" formControlName="moTa" />
+              </td>
+              <td>
+                <select
+                  class="form-control"
+                  id="status"
+                  data-cy="status"
+                  name="status"
+                  formControlName="status"
+                  [(ngModel)]="selectedStatus"
+                >
+                  <option [ngValue]="null" hidden></option>
+                  <option value="active">active</option>
+                  <option value="deactive">deactive</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+    <div>
+      <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+      </button>
+
+      <button
+        type="submit"
+        id="save-entity"
+        data-cy="entityCreateSaveButton"
+        [disabled]="editForm.invalid || isSaving"
+        class="btn btn-primary"
+        (click)="openSuccessPopup()"
+      >
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+      </button>
+
+      <div *ngIf="showSuccessPopup" class="success-popup">
+        <h3>{{ result }}</h3>
+        <button (click)="save()">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+</div>

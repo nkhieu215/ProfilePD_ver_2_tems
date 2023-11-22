@@ -1,0 +1,189 @@
+<div>
+  <h2 id="page-heading" data-cy="LenhSanXuatHeading">
+    <span>Danh sách thông tin tem theo lệnh sản xuất</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <!-- <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-lenh-san-xuat"
+        [routerLink]="['/lenh-san-xuat/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Lenh San Xuat </span>
+      </button> -->
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <div class="alert" id="no-result" *ngIf="lenhSanXuats?.length === 0">
+    <div class="loader">
+      <div class="justify-content-center jimu-primary-loading"></div>
+    </div>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="lenhSanXuats && lenhSanXuats.length > 0">
+    <form [formGroup]="formSearch">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+            <th scope="col" jhiSortBy="STT">
+              <span>STT</span>
+              <input type="text" style="width: 10px; border: none; background-color: #6c7ae0" />
+            </th>
+
+            <th scope="col" jhiSortBy="maLenhSanXuat">
+              <span>Mã lệnh sản xuất</span>
+              <input #searchInput type="text" formControlName="maLenhSanXuat" placeholder="search" list="maThongSo" />
+              <datalist id="maLenhSanXuat">
+                <option *ngFor="let data of lenhSanXuats">{{ data.maLenhSanXuat }}</option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="sapCode">
+              <span>Mã SAP</span>
+              <input #searchInput type="text" formControlName="sapCode" placeholder="search" list="sapCode" />
+              <datalist id="maLenhSanXuat">
+                <option *ngFor="let data of lenhSanXuats">{{ data.sapCode }}</option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="sapName">
+              <span>Tên SAP</span>
+              <input #searchInput type="text" formControlName="sapName" placeholder="search" list="sapName" />
+              <datalist id="maLenhSanXuat">
+                <option *ngFor="let data of lenhSanXuats">{{ data.sapName }}</option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="workOrderCode">
+              <span>Mã WO</span>
+              <input #searchInput type="text" formControlName="workOrderCode" placeholder="search" list="workOrderCode" />
+              <datalist id="maLenhSanXuat">
+                <option *ngFor="let data of lenhSanXuats">{{ data.workOrderCode }}</option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="version">
+              <span>Version</span>
+              <input #searchInput type="text" formControlName="version" placeholder="search" list="version" />
+              <datalist id="maLenhSanXuat">
+                <option *ngFor="let data of lenhSanXuats">{{ data.version }}</option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="storageCode">
+              <span>Mã kho nhập</span>
+              <input #searchInput type="text" formControlName="storageCode" placeholder="search" list="storageCode" />
+              <datalist id="maLenhSanXuat">
+                <option *ngFor="let data of lenhSanXuats">{{ data.storageCode }}</option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="totalQuantity">
+              <span>Tổng số lượng nhập</span>
+              <input style="border: none; width: 9rem; background-color: #6c7ae0" />
+            </th>
+
+            <th scope="col" jhiSortBy="createBy">
+              <span>Cập nhật bởi</span>
+              <input #searchInput type="text" formControlName="createBy" placeholder="search" list="createBy" />
+            </th>
+
+            <th scope="col" jhiSortBy="entryTime">
+              <span>Thời gian in tem</span>
+              <input type="datetime-local" ngbDatepicker #d="ngbDatepicker" />
+            </th>
+
+            <th scope="col" jhiSortBy="trangThai">
+              <span>Trạng thái</span>
+              <input #searchInput type="text" formControlName="trangThai" placeholder="search" list="trangThai" />
+            </th>
+
+            <th scope="col" jhiSortBy="comment">
+              <span>Lưu ý</span>
+              <input style="border: none; width: 3rem; background-color: #6c7ae0" />
+            </th>
+
+            <th scope="col">
+              <span>Options</span>
+              <input style="border: none; width: 70%; background-color: #6c7ae0" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let lenhSanXuat of lenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+              let i = index;
+              trackBy: trackId
+            "
+            data-cy="entityTable"
+          >
+            <td>
+              <a>{{ i + 1 }}</a>
+            </td>
+            <td>{{ lenhSanXuat.maLenhSanXuat }}</td>
+            <td>{{ lenhSanXuat.sapCode }}</td>
+            <td>{{ lenhSanXuat.sapName }}</td>
+            <td>{{ lenhSanXuat.workOrderCode }}</td>
+            <td>{{ lenhSanXuat.version }}</td>
+            <td>{{ lenhSanXuat.storageCode }}</td>
+            <td>{{ lenhSanXuat.totalQuantity }}</td>
+            <td>{{ lenhSanXuat.createBy }}</td>
+            <td>{{ lenhSanXuat.entryTime }}</td>
+            <td>{{ lenhSanXuat.trangThai }}</td>
+            <td>{{ lenhSanXuat.comment }}</td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <!-- <span class="d-none d-md-inline">View</span> -->
+                </button>
+
+                <button
+                  type="submit"
+                  [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <!-- <span class="d-none d-md-inline">Edit</span> -->
+                </button>
+
+                <button type="submit" (click)="delete(lenhSanXuat)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <!-- <span class="d-none d-md-inline">Delete</span> -->
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+  <div *ngIf="lenhSanXuats && lenhSanXuats.length > 0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
+  </div>
+</div>

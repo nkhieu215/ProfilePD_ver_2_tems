@@ -1,0 +1,229 @@
+<div>
+  <div>
+    <form name="editForm" role="form" novalidate [formGroup]="editForm">
+      <h2 id="jhi-kich-ban-heading" data-cy="KichBanCreateUpdateHeading">Kịch bản</h2>
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="maThietBi">
+              <span>Mã kịch bản<span style="color: red"> *</span></span>
+            </th>
+            <th scope="col" jhiSortBy="loaiThietBi">
+              <span>Nhóm thiết bị<span style="color: red"> *</span></span>
+            </th>
+            <th scope="col" jhiSortBy="maThietBi"><span>Mã thiết bị- Mã máy</span></th>
+            <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+            <th scope="col" jhiSortBy="nhomSanPham"><span>Nhóm sản phẩm</span></th>
+            <th scope="col" jhiSortBy="maSanPham"><span>Mã sản phẩm</span></th>
+            <th scope="col" jhiSortBy="versionSanPham"><span>Version sản phẩm</span></th>
+            <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-cy="entityTable">
+            <td>
+              <input class="form-control" id="maKichBan" name="maKichBan" formControlName="maKichBan" required />
+            </td>
+            <td>
+              <input class="form-control" list="loaiThietBi" formControlName="loaiThietBi" (change)="getMaThietBi()" required />
+              <datalist id="loaiThietBi">
+                <option *ngFor="let items of listLoaiThietBi" value="{{ items.loaiThietBi }}"></option>
+              </datalist>
+            </td>
+            <td>
+              <!-- <input class="form-control" list="maThietBi" [(ngModel)]="maThietBi" [ngModelOptions]="{standalone: true}"
+                (change)="getThietBi()">
+              <datalist id="maThietBi">
+                <option *ngFor="let item of listMaThietBi" value="{{item.maThietBi}}"></option>
+              </datalist> -->
+
+              <ng-multiselect-dropdown
+                [placeholder]="'Search'"
+                [settings]="dropdownSettings"
+                [data]="listMaThietBi"
+                [(ngModel)]="selectedItems"
+                [ngModelOptions]="{ standalone: true }"
+                (onDeSelect)="onDeSelect($event)"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+              >
+              </ng-multiselect-dropdown>
+            </td>
+
+            <td>
+              <input class="form-control" data-cy="dayChuyen" list="dayChuyen" formControlName="dayChuyen" />
+              <datalist id="dayChuyen">
+                <option *ngFor="let item of listDayChuyen" value="{{ item.dayChuyen }}"></option>
+              </datalist>
+            </td>
+
+            <td>
+              <input class="form-control" list="nhomSanPham" data-cy="nhomSanPham" formControlName="nhomSanPham" />
+              <datalist id="nhomSanPham">
+                <option *ngFor="let items of listNhomSanPham" value="{{ items }}"></option>
+              </datalist>
+            </td>
+
+            <td>
+              <input class="form-control" id="maSanPham" data-cy="maSanPham" formControlName="maSanPham" />
+            </td>
+
+            <td>
+              <input class="form-control" id="versionSanPham" data-cy="versionSanPham" formControlName="versionSanPham" />
+            </td>
+            <td>
+              <select class="form-control" formControlName="trangThai" [(ngModel)]="selectedStatus">
+                <option value="" hidden>{{ trangThai }}</option>
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button
+        type="submit"
+        id="save-entity"
+        data-cy="entityCreateSaveButton"
+        [disabled]="editForm.invalid || isSaving"
+        class="btn btn-primary"
+        (click)="openSuccessPopupService()"
+        style="margin-bottom: 2em"
+      >
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+      </button>
+
+      <div *ngIf="showSuccessPopupService" class="success-popup">
+        <h3>{{ result }}</h3>
+        <button (click)="save()">Xác nhận</button>
+      </div>
+
+      <!-- --------------------------------- them moi thong so kich ban ---------------------------------------------- -->
+      <h2 id="jhi-thiet-bi-heading" data-cy="ThietBiCreateUpdateHeading">Thông số kịch bản</h2>
+      <button class="btn-add" style="border-radius: 0.5em; margin-bottom: 2em" (click)="addRowThongSoKichBan()">Add</button>
+      <div>
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="STT"><span>STT</span></th>
+              <th scope="col" jhiSortBy="thongSo">
+                <span>Thông số<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="minValue">
+                <span>Min<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="maxValue">
+                <span>Max<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="trungBinh">
+                <span>Trung bình<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="don"><span>Đơn vị</span></th>
+              <th scope="col" jhiSortBy="phanLoai"><span>Phân loại</span></th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col">Option</th>
+            </tr>
+          </thead>
+
+          <tr *ngFor="let data of listOfChiTietKichBan; let i = index; trackBy: trackId" class="editable-row">
+            <td>
+              <div>{{ i + 1 }}</div>
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                [(ngModel)]="data.thongSo"
+                [ngModelOptions]="{ standalone: true }"
+                list="thongSo"
+                required
+              />
+              <datalist id="thongSo">
+                <option *ngFor="let item of listOfThongSo" value="{{ item.tenThongSo }}"></option>
+              </datalist>
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.minValue"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="{{ data.minValue }}"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.maxValue"
+                placeholder="{{ data.maxValue }}"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.trungbinh"
+                placeholder="{{ data.trungbinh }}"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.donVi"
+                placeholder="{{ data.donVi }}"
+                [ngModelOptions]="{ standalone: true }"
+                list="donVi"
+              />
+              <datalist id="donVi">
+                <option *ngFor="let item of listDonVi" value="{{ item.donVi }}"></option>
+              </datalist>
+            </td>
+
+            <td>
+              <select class="form-control" [(ngModel)]="data.phanLoai" [ngModelOptions]="{ standalone: true }">
+                <option [ngValue]="" hidden>{{ data.phanLoai }}</option>
+                <option value="Thông số máy">Thông số máy</option>
+                <option value="Thông số sản phẩm">Thông số sản phẩm</option>
+              </select>
+            </td>
+
+            <td>
+              <select class="form-control" [(ngModel)]="data.phanLoai" [ngModelOptions]="{ standalone: true }">
+                <option [ngValue]="" hidden>{{ data.phanLoai }}</option>
+                <option value="Thông số máy">Thông số máy</option>
+                <option value="Thông số sản phẩm">Thông số sản phẩm</option>
+              </select>
+            </td>
+            <td><button class="btn btn-danger btn-sm" (click)="deleteRow(data.thongSo, data.id)">Xoá</button></td>
+          </tr>
+        </table>
+
+        <div>
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          </button>
+
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            (click)="openSuccessPopup()"
+            class="btn btn-primary"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
+
+          <div *ngIf="showSuccessPopup" class="success-popup">
+            <h3>{{ resultThongSo }}</h3>
+            <button (click)="saveChiTietKichBan()">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

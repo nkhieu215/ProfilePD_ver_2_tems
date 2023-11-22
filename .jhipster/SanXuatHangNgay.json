@@ -1,0 +1,59 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035259",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "san_xuat_hang_ngay",
+  "fields": [
+    {
+      "fieldName": "maKichBan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loaiThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dayChuyen",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maSanPham",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "versionSanPham",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "timeUpdate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "SanXuatHangNgay",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "chiTietSanXuat",
+      "otherEntityRelationshipName": "sanXuatHangNgay",
+      "relationshipName": "chiTietSanXuat",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

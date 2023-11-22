@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="lichSuUpdate">
+      <h2 data-cy="lichSuUpdateDetailsHeading"><span>Lich Su Update</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.id }}</span>
+        </dd>
+        <dt><span>Ma Kich Ban</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.maKichBan }}</span>
+        </dd>
+        <dt><span>Ma Thiet Bi</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.maThietBi }}</span>
+        </dd>
+        <dt><span>Loai Thiet Bi</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.loaiThietBi }}</span>
+        </dd>
+        <dt><span>Day Chuyen</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.dayChuyen }}</span>
+        </dd>
+        <dt><span>Ma San Pham</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.maSanPham }}</span>
+        </dd>
+        <dt><span>Version San Pham</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.versionSanPham }}</span>
+        </dd>
+        <dt><span>Time Update</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.timeUpdate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ lichSuUpdate.status }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/lich-su-update', lichSuUpdate.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div>
+  <h2 id="page-heading" data-cy="LichSuUpdateHeading">
+    <span>Lich Su Updates</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-lich-su-update"
+        [routerLink]="['/lich-su-update/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Lich Su Update </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="lichSuUpdates?.length === 0">
+    <span>No lichSuUpdates found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="lichSuUpdates && lichSuUpdates.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="maKichBan"><span>Ma Kich Ban</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="maThietBi"><span>Ma Thiet Bi</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="loaiThietBi"><span>Loai Thiet Bi</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dayChuyen"><span>Day Chuyen</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="maSanPham"><span>Ma San Pham</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="versionSanPham"><span>Version San Pham</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="timeUpdate"><span>Time Update</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lichSuUpdate of lichSuUpdates; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/lich-su-update', lichSuUpdate.id, 'view']">{{ lichSuUpdate.id }}</a>
+          </td>
+          <td>{{ lichSuUpdate.maKichBan }}</td>
+          <td>{{ lichSuUpdate.maThietBi }}</td>
+          <td>{{ lichSuUpdate.loaiThietBi }}</td>
+          <td>{{ lichSuUpdate.dayChuyen }}</td>
+          <td>{{ lichSuUpdate.maSanPham }}</td>
+          <td>{{ lichSuUpdate.versionSanPham }}</td>
+          <td>{{ lichSuUpdate.timeUpdate | formatMediumDatetime }}</td>
+          <td>{{ lichSuUpdate.status }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/lich-su-update', lichSuUpdate.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/lich-su-update', lichSuUpdate.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(lichSuUpdate)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="lichSuUpdates && lichSuUpdates.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

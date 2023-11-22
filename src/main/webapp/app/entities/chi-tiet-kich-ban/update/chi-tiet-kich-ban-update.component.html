@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-chi-tiet-kich-ban-heading" data-cy="ChiTietKichBanCreateUpdateHeading">Create or edit a Chi Tiet Kich Ban</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_maKichBan">Ma Kich Ban</label>
+          <input type="text" class="form-control" name="maKichBan" id="field_maKichBan" data-cy="maKichBan" formControlName="maKichBan" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_hangMkb">Hang Mkb</label>
+          <input type="number" class="form-control" name="hangMkb" id="field_hangMkb" data-cy="hangMkb" formControlName="hangMkb" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_thongSo">Thong So</label>
+          <input type="text" class="form-control" name="thongSo" id="field_thongSo" data-cy="thongSo" formControlName="thongSo" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_minValue">Min Value</label>
+          <input type="number" class="form-control" name="minValue" id="field_minValue" data-cy="minValue" formControlName="minValue" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_maxValue">Max Value</label>
+          <input type="number" class="form-control" name="maxValue" id="field_maxValue" data-cy="maxValue" formControlName="maxValue" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_trungbinh">Trungbinh</label>
+          <input type="number" class="form-control" name="trungbinh" id="field_trungbinh" data-cy="trungbinh" formControlName="trungbinh" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_donVi">Don Vi</label>
+          <input type="text" class="form-control" name="donVi" id="field_donVi" data-cy="donVi" formControlName="donVi" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_phanLoai">Phan Loai</label>
+          <input type="text" class="form-control" name="phanLoai" id="field_phanLoai" data-cy="phanLoai" formControlName="phanLoai" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_kichBan">Kich Ban</label>
+          <select class="form-control" id="field_kichBan" data-cy="kichBan" name="kichBan" formControlName="kichBan">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="kichBanOption.id === editForm.get('kichBan')!.value?.id ? editForm.get('kichBan')!.value : kichBanOption"
+              *ngFor="let kichBanOption of kichBansSharedCollection; trackBy: trackKichBanById"
+            >
+              {{ kichBanOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035300",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chi_tiet_san_xuat",
+  "fields": [
+    {
+      "fieldName": "maKichBan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hangSxhn",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "thongSo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "minValue",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "maxValue",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "trungbinh",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "donVi",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ChiTietSanXuat",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "sanXuatHangNgay",
+      "otherEntityRelationshipName": "chiTietSanXuat",
+      "relationshipName": "sanXuatHangNgay",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,179 @@
+<div>
+  <div>
+    <form name="editForm" role="form" novalidate [formGroup]="editForm">
+      <div>
+        <h2 id="jhi-thiet-bi-heading" data-cy="ThietBiCreateUpdateHeading">Thiết bị</h2>
+        <div>
+          <!-- ---------------------------------------------------- them moi thiet bi------------------------------------------ -->
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+                <th scope="col" jhiSortBy="maThietBi">
+                  <span>Nhóm thiết bị<span style="color: red"> *</span></span>
+                </th>
+                <th scope="col" jhiSortBy="loaiThietBi"><span>Mã thiết bị - Mã máy</span></th>
+                <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+                <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr data-cy="entityTable">
+                <td>
+                  <input
+                    #searchInput
+                    type="text"
+                    class="form-control"
+                    list="loaiThietBi"
+                    data-cy="loaiThietBi"
+                    formControlName="loaiThietBi"
+                    (change)="timKiemTheoLoaiThietBi()"
+                    required
+                  />
+                  <datalist id="loaiThietBi">
+                    <option *ngFor="let item of listLoaiThietBi" value="{{ item.loaiThietBi }}"></option>
+                  </datalist>
+                </td>
+                <td>
+                  <input
+                    #searchInput
+                    type="text"
+                    class="form-control"
+                    list="maThietBi"
+                    data-cy="maThietBi"
+                    [(ngModel)]="maThietBi"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="setDayChuyen()"
+                  />
+                  <datalist id="maThietBi">
+                    <option *ngFor="let item of listMaThietBi" value="{{ item.maThietBi }}"></option>
+                  </datalist>
+                </td>
+                <td>
+                  <input
+                    #searchInput
+                    type="text"
+                    class="form-control"
+                    data-cy="dayChuyen"
+                    list="dayChuyen"
+                    [(ngModel)]="dayChuyen"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                  <datalist id="dayChuyen">
+                    <option *ngFor="let item of listDayChuyen" value="{{ item.dayChuyen }}"></option>
+                  </datalist>
+                </td>
+                <td>
+                  <select
+                    class="form-control"
+                    id="status"
+                    data-cy="status"
+                    name="status"
+                    formControlName="status"
+                    [(ngModel)]="selectedStatus"
+                  >
+                    <option [ngValue]="null" hidden></option>
+                    <option value="active">active</option>
+                    <option value="deactive">deactive</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary"
+            (click)="openSuccessPopupService()"
+            style="margin-bottom: 2em"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
+
+          <div *ngIf="showSuccessPopupService" class="success-popup">
+            <h3>{{ result }}</h3>
+            <button (click)="save()">Xác nhận</button>
+          </div>
+        </div>
+        <!----------------------------------------------- them moi thong so thiet bi-------------------------------------------------------- -->
+        <h2 id="jhi-thiet-bi-heading" data-cy="ThietBiCreateUpdateHeading">Thông số thiết bị</h2>
+        <button class="btn-add" style="border-radius: 0.5em" (click)="addRow()">Add</button>
+
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="maThietBi">
+                <span>Thông số<span style="color: red">*</span></span>
+              </th>
+              <th scope="col" jhiSortBy="loaiThietBi"><span>Mô tả</span></th>
+              <th scope="col" jhiSortBy="updateBy"><span>Phân loại</span></th>
+              <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+              <th scope="col">Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of listOfThietBi; let i = index" class="editable-row">
+              <td>
+                <input
+                  class="input-table"
+                  type="text"
+                  [(ngModel)]="data.thongSo"
+                  [ngModelOptions]="{ standalone: true }"
+                  list="thongSo"
+                  (change)="setTenThongSo()"
+                />
+                <datalist id="thongSo">
+                  <option *ngFor="let item of listOfThongSo" value="{{ item.tenThongSo }}"></option>
+                </datalist>
+              </td>
+
+              <td>
+                <input class="input-table" type="text" [(ngModel)]="data.moTa" [ngModelOptions]="{ standalone: true }" />
+              </td>
+
+              <td>
+                <select class="form-control" [(ngModel)]="data.phanLoai" [ngModelOptions]="{ standalone: true }">
+                  <option [ngValue]="" hidden>{{ data.phanLoai }}</option>
+                  <option value="Thông số máy">Thông số máy</option>
+                  <option value="Thông số sản phẩm">Thông số sản phẩm</option>
+                </select>
+              </td>
+              <td>
+                <select class="form-control" [(ngModel)]="data.status" [ngModelOptions]="{ standalone: true }">
+                  <option [ngValue]="" hidden>{{ data.status }}</option>
+                  <option value="active">active</option>
+                  <option value="deactive">deactive</option>
+                </select>
+              </td>
+              <td><button class="btn btn-danger btn-sm" (click)="deleteRow(data.thongSo, data.id)">Xoá</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div>
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          </button>
+
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary"
+            (click)="openSuccessPopup()"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
+
+          <div *ngIf="showSuccessPopup" class="success-popup">
+            <h3>{{ resultThongSo }}</h3>
+            <button (click)="saveThongSoThietBi()">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

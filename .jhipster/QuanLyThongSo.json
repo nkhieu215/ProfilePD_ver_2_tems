@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035305",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "quan_ly_thong_so",
+  "fields": [
+    {
+      "fieldName": "maThongSo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenThongSo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "moTa",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "ngayUpdate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "updateBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "QuanLyThongSo",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

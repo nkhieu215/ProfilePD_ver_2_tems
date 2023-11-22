@@ -1,0 +1,151 @@
+<nav *ngIf="account !== null">
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebar">
+        <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
+          <span class="logo-img"></span>
+        </a>
+
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+              <fa-icon class="icon-navbar" icon="home"></fa-icon>
+              <span>Trang chủ</span>
+            </a>
+          </li>
+
+          <li
+            ngbDropdown
+            class="nav-item-profile dropdown pointer"
+            display="dynamic"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            style="list-style-type: none"
+            (click)="toggleDropDownProfile()"
+          >
+            <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);">
+              <span>
+                <fa-icon class="icon-navbar" icon="bars"></fa-icon>
+                <span>Profile Infor</span>
+              </span>
+            </a>
+
+            <ul>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="quan-ly-thong-so" (click)="collapseNavbar()">
+                  <fa-icon class="icon-navbar" icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span>Quản lý thông số</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="thiet-bi" (click)="collapseNavbar()">
+                  <fa-icon class="icon-navbar" icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span>Quản lý thiết bị</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="kich-ban" (click)="collapseNavbar()">
+                  <fa-icon class="icon-navbar" icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span>Quản lý kịch bản</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="san-xuat-hang-ngay" (click)="collapseNavbar()">
+                  <fa-icon class="icon-navbar" icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span>Sản xuất hàng ngày</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <li
+          ngbDropdown
+          class="nav-item-stamp dropdown pointer"
+          display="dynamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          style="list-style-type: none"
+          (click)="toggleDropDownStamp()"
+        >
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);">
+            <span>
+              <fa-icon class="icon-navbar" icon="bars"></fa-icon>
+              <span>Tem In</span>
+            </span>
+          </a>
+
+          <ul>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="lenh-san-xuat" (click)="collapseNavbar()">
+                <fa-icon class="icon-navbar" icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Thông tin tem sản xuất</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="chi-tiet-lenh-san-xuat" (click)="collapseNavbar()">
+                <fa-icon class="icon-navbar" icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Quản lý phê duyệt</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li
+          ngbDropdown
+          class="nav-item dropdown pointer"
+          display="dynamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          style="list-style-type: none"
+          (click)="toggleDropDown()"
+        >
+          <a
+            class="nav-link dropdown-toggle"
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            id="account-menu"
+            data-cy="accountMenu"
+            [ngSwitch]="account !== null"
+          >
+            <span *ngSwitchCase="true">
+              <fa-icon class="icon-navbar" icon="user"></fa-icon>
+              <span *ngIf="account">{{ account.login }}</span>
+            </span>
+          </a>
+
+          <ul>
+            <li class="nav-item">
+              <a
+                class="dropdown-item nav-link"
+                routerLink="account/settings"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
+                <fa-icon class="icon-navbar" icon="wrench" [fixedWidth]="true"></fa-icon>
+                <span jhiTranslate="global.menu.account.settings">Cài đặt</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="dropdown-item nav-link" (click)="logout()" id="logout" data-cy="logout">
+                <fa-icon class="icon-navbar" icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+                <span>Đăng xuất</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!-- <div [ngSwitch]="account !== null">
+          <div *ngSwitchCase="true">
+            <span *ngIf="account">{{ account.login }}</span>
+          </div>
+        </div> -->
+      </nav>
+    </div>
+  </div>
+</nav>

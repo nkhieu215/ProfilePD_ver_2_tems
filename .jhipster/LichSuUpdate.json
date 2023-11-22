@@ -1,0 +1,55 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035301",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "lich_su_update",
+  "fields": [
+    {
+      "fieldName": "maKichBan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loaiThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dayChuyen",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maSanPham",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "versionSanPham",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "timeUpdate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LichSuUpdate",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "chiTietLichSuUpdate",
+      "otherEntityRelationshipName": "lichSuUpdate",
+      "relationshipName": "chiTietLichSu",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

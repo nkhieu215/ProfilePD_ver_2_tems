@@ -1,0 +1,293 @@
+<div>
+  <div>
+    <div class="export-file">
+      <button (click)="exportToExcel()">Export</button>
+    </div>
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-chi-tiet-lenh-san-xuat-heading" data-cy="ChiTietLenhSanXuatCreateUpdateHeading">Duyệt yêu cầu</h2>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">
+                <span>Mã lệnh sản xuất</span>
+              </th>
+              <th scope="col">
+                <span>Mã SAP</span>
+              </th>
+              <th scope="col">
+                <span>Tên SAP</span>
+              </th>
+              <th scope="col">
+                <span>Mã WO</span>
+              </th>
+              <th scope="col">
+                <span>Version</span>
+              </th>
+              <th scope="col">
+                <span>Mã kho nhập</span>
+              </th>
+              <th scope="col">
+                <span>Tổng số lượng nhập</span>
+              </th>
+              <th scope="col">
+                <span>Cập nhật bởi</span>
+              </th>
+              <th scope="col">
+                <span>Thời gian in tem</span>
+              </th>
+              <th scope="col">
+                <span>Trạng thái</span>
+              </th>
+              <th scope="col">
+                <span>Lưu ý</span>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr data-cy="entityTable">
+              <td>
+                <input class="form-control" id="maLenhSanXuat" list="maLenhSanXuat" formControlName="maLenhSanXuat" />
+              </td>
+              <td>
+                <input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" />
+              </td>
+              <td>
+                <input class="form-control" id="sapName" list="sapName" formControlName="sapName" />
+              </td>
+              <td>
+                <input class="form-control" id="workOrderCode" list="workOrderCode" formControlName="workOrderCode" />
+              </td>
+              <td>
+                <input class="form-control" id="version" list="version" formControlName="version" />
+              </td>
+              <td>
+                <input class="form-control" id="storageCode" list="storageCode" formControlName="storageCode" />
+              </td>
+              <td>
+                <input class="form-control" id="totalQuantity" list="totalQuantity" formControlName="totalQuantity" />
+              </td>
+              <td>
+                <input class="form-control" id="UpdateBy" list="UpdateBy" formControlName="UpdateBy" />
+              </td>
+              <td>
+                <input class="form-control" id="entryTime" list="entryTime" formControlName="entryTime" />
+              </td>
+              <td>
+                <input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" />
+              </td>
+              <td>
+                <input class="form-control" id="comment" list="comment" formControlName="comment" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button class="btn-scan" role="button">Scan tem</button>
+        <input type="text" />
+        <h3>Danh sách scan thành công</h3>
+        <table>
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="STT">STT</th>
+              <th scope="col" jhiSortBy="reelID">Reel ID</th>
+              <th scope="col" jhiSortBy="partNumber">Part Number</th>
+              <th scope="col" jhiSortBy="vendor">Vendor</th>
+              <th scope="col" jhiSortBy="lot">IOT</th>
+              <th scope="col" jhiSortBy="userData1">User Data 1</th>
+              <th scope="col" jhiSortBy="userData2">User Data 2</th>
+              <th scope="col" jhiSortBy="userData3">User Data 3</th>
+              <th scope="col" jhiSortBy="userData4">User Data 4</th>
+              <th scope="col" jhiSortBy="userData5">User Data 5</th>
+              <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
+              <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
+              <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
+              <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
+              <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
+              <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
+              <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
+              <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
+              <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
+              <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
+              <th scope="col" jhiSortBy="comments">Comments</th>
+              <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
+              <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
+              <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
+              <th scope="col" jhiSortBy="locationOverride">Location Override</th>
+              <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
+              <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
+              <th scope="col" jhiSortBy="partClass">Part Class</th>
+              <th scope="col" jhiSortBy="sapCode">Sap Code</th>
+              <th scope="col" jhiSortBy="trangThai">Status</th>
+              <th scope="col" jhiSortBy="checked">Checked</th>
+              <!-- <th scope="col" jhiSortBy=""></th> -->
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr data-cy="entityTable">
+              <td></td>
+              <td><input class="form-control" id="reelID" list="reelID" formControlName="reelID" /></td>
+              <td><input class="form-control" id="partNumber" list="partNumber" formControlName="partNumber" /></td>
+              <td><input class="form-control" id="vendor" list="vendor" formControlName="vendor" /></td>
+              <td><input class="form-control" id="lot" list="lot" formControlName="lot" /></td>
+              <td><input class="form-control" id="userData1" list="userData1" formControlName="userData1" /></td>
+              <td><input class="form-control" id="userData2" list="userData2" formControlName="userData2" /></td>
+              <td><input class="form-control" id="userData3" list="userData3" formControlName="userData3" /></td>
+              <td><input class="form-control" id="userData4" list="userData4" formControlName="userData4" /></td>
+              <td><input class="form-control" id="userData5" list="userData5" formControlName="userData5" /></td>
+              <td><input class="form-control" id="initialQuantity" list="initialQuantity" formControlName="initialQuantity" /></td>
+              <td><input class="form-control" id="msdLevel" list="msdLevel" formControlName="msdLevel" /></td>
+              <td>
+                <input class="form-control" id="msdInitialFloorTime" list="msdInitialFloorTime" formControlName="msdInitialFloorTime" />
+              </td>
+              <td><input class="form-control" id="msdBagSealDate" list="msdBagSealDate" formControlName="msdBagSealDate" /></td>
+              <td><input class="form-control" id="marketUsage" list="marketUsage" formControlName="marketUsage" /></td>
+              <td><input class="form-control" id="quantityOverride" list="quantityOverride" formControlName="quantityOverride" /></td>
+              <td><input class="form-control" id="shelfTime" list="shelfTime" formControlName="shelfTime" /></td>
+              <td><input class="form-control" id="spMaterialName" list="spMaterialName" formControlName="spMaterialName" /></td>
+              <td><input class="form-control" id="warningLimit" list="warningLimit" formControlName="warningLimit" /></td>
+              <td><input class="form-control" id="maximumLimit" list="maximumLimit" formControlName="maximumLimit" /></td>
+              <td><input class="form-control" id="comments" list="comments" formControlName="comments" /></td>
+              <td><input class="form-control" id="warmupTime" list="warmupTime" formControlName="warmupTime" /></td>
+              <td><input class="form-control" id="storageUnit" list="storageUnit" formControlName="storageUnit" /></td>
+              <td><input class="form-control" id="subStorageUnit" list="subStorageUnit" formControlName="subStorageUnit" /></td>
+              <td><input class="form-control" id="locationOverride" list="locationOverride" formControlName="locationOverride" /></td>
+              <td><input class="form-control" id="expirationDate" list="expirationDate" formControlName="expirationDate" /></td>
+              <td><input class="form-control" id="manufacturingDate" list="manufacturingDate" formControlName="manufacturingDate" /></td>
+              <td><input class="form-control" id="partClass" list="partClass" formControlName="partClass" /></td>
+              <td><input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" /></td>
+              <td><input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" /></td>
+              <td><input type="checkbox" id="checked" list="checked" formControlName="checked" /></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Danh sách scan không thành công thành công</h3>
+        <table>
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="STT">STT</th>
+              <th scope="col" jhiSortBy="reelID">Reel ID</th>
+              <th scope="col" jhiSortBy="partNumber">Part Number</th>
+              <th scope="col" jhiSortBy="vendor">Vendor</th>
+              <th scope="col" jhiSortBy="lot">IOT</th>
+              <th scope="col" jhiSortBy="userData1">User Data 1</th>
+              <th scope="col" jhiSortBy="userData2">User Data 2</th>
+              <th scope="col" jhiSortBy="userData3">User Data 3</th>
+              <th scope="col" jhiSortBy="userData4">User Data 4</th>
+              <th scope="col" jhiSortBy="userData5">User Data 5</th>
+              <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
+              <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
+              <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
+              <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
+              <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
+              <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
+              <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
+              <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
+              <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
+              <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
+              <th scope="col" jhiSortBy="comments">Comments</th>
+              <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
+              <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
+              <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
+              <th scope="col" jhiSortBy="locationOverride">Location Override</th>
+              <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
+              <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
+              <th scope="col" jhiSortBy="partClass">Part Class</th>
+              <th scope="col" jhiSortBy="sapCode">Sap Code</th>
+              <th scope="col" jhiSortBy="trangThai">Status</th>
+              <th scope="col" jhiSortBy="checked">Checked</th>
+              <th scope="col" jhiSortBy=""></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr data-cy="entityTable">
+              <td></td>
+              <td><input class="form-control" id="reelID" list="reelID" formControlName="reelID" /></td>
+              <td><input class="form-control" id="partNumber" list="partNumber" formControlName="partNumber" /></td>
+              <td><input class="form-control" id="vendor" list="vendor" formControlName="vendor" /></td>
+              <td><input class="form-control" id="lot" list="lot" formControlName="lot" /></td>
+              <td><input class="form-control" id="userData1" list="userData1" formControlName="userData1" /></td>
+              <td><input class="form-control" id="userData2" list="userData2" formControlName="userData2" /></td>
+              <td><input class="form-control" id="userData3" list="userData3" formControlName="userData3" /></td>
+              <td><input class="form-control" id="userData4" list="userData4" formControlName="userData4" /></td>
+              <td><input class="form-control" id="userData5" list="userData5" formControlName="userData5" /></td>
+              <td><input class="form-control" id="initialQuantity" list="initialQuantity" formControlName="initialQuantity" /></td>
+              <td><input class="form-control" id="msdLevel" list="msdLevel" formControlName="msdLevel" /></td>
+              <td>
+                <input class="form-control" id="msdInitialFloorTime" list="msdInitialFloorTime" formControlName="msdInitialFloorTime" />
+              </td>
+              <td><input class="form-control" id="msdBagSealDate" list="msdBagSealDate" formControlName="msdBagSealDate" /></td>
+              <td><input class="form-control" id="marketUsage" list="marketUsage" formControlName="marketUsage" /></td>
+              <td><input class="form-control" id="quantityOverride" list="quantityOverride" formControlName="quantityOverride" /></td>
+              <td><input class="form-control" id="shelfTime" list="shelfTime" formControlName="shelfTime" /></td>
+              <td><input class="form-control" id="spMaterialName" list="spMaterialName" formControlName="spMaterialName" /></td>
+              <td><input class="form-control" id="warningLimit" list="warningLimit" formControlName="warningLimit" /></td>
+              <td><input class="form-control" id="maximumLimit" list="maximumLimit" formControlName="maximumLimit" /></td>
+              <td><input class="form-control" id="comments" list="comments" formControlName="comments" /></td>
+              <td><input class="form-control" id="warmupTime" list="warmupTime" formControlName="warmupTime" /></td>
+              <td><input class="form-control" id="storageUnit" list="storageUnit" formControlName="storageUnit" /></td>
+              <td><input class="form-control" id="subStorageUnit" list="subStorageUnit" formControlName="subStorageUnit" /></td>
+              <td><input class="form-control" id="locationOverride" list="locationOverride" formControlName="locationOverride" /></td>
+              <td><input class="form-control" id="expirationDate" list="expirationDate" formControlName="expirationDate" /></td>
+              <td><input class="form-control" id="manufacturingDate" list="manufacturingDate" formControlName="manufacturingDate" /></td>
+              <td><input class="form-control" id="partClass" list="partClass" formControlName="partClass" /></td>
+              <td><input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" /></td>
+              <td><input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" /></td>
+              <td><input type="checkbox" id="checked" list="checked" formControlName="checked" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="check"></fa-icon>&nbsp;<span>Phê duyệt</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="xing-square"></fa-icon>&nbsp;<span>Huỷ</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="cancel"></fa-icon>&nbsp;<span>Từ chối</span>
+        </button>
+
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

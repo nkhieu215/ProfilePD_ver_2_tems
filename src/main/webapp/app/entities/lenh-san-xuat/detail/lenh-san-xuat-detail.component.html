@@ -1,0 +1,232 @@
+<div>
+  <div>
+    <a id="exportToCSV" href="#" class="export">Export Data To Excel</a>
+
+    <div *ngIf="lenhSanXuat" id="dvData">
+      <h2 data-cy="lenhSanXuatDetailsHeading"><span>Gửi yêu cầu phê duyệt</span></h2>
+      <hr />
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="maLenhSanXuat"><span>Mã lệnh sản xuất</span></th>
+            <th scope="col" jhiSortBy="SAPcode"><span>Mã SAP</span></th>
+            <th scope="col" jhiSortBy="SAPname"><span>Tên SAP</span></th>
+            <th scope="col" jhiSortBy="WOcode"><span>Mã WO</span></th>
+            <th scope="col" jhiSortBy="version"><span>Version</span></th>
+            <th scope="col" jhiSortBy="InventoryCode"><span>Mã kho nhập</span></th>
+            <th scope="col" jhiSortBy="totalQuantity"><span>Tổng số lượng nhập</span></th>
+            <th scope="col" jhiSortBy="UpdateBy"><span>Cập nhật bởi</span></th>
+            <th scope="col" jhiSortBy="entryTime"><span>Thời gian in tem</span></th>
+            <th scope="col" jhiSortBy="status"><span>Trạng thái</span></th>
+            <th scope="col" jhiSortBy="comment"><span>Lưu ý</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <td>
+            <span>{{ lenhSanXuat.maLenhSanXuat }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.sapCode }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.sapName }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.workOrderCode }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.version }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.storageCode }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.totalQuantity }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.createBy }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.entryTime }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.trangThai }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.comment }}</span>
+          </td>
+        </tbody>
+      </table>
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <h2>Thông tin tem</h2>
+      <hr />
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="STT">STT</th>
+            <th scope="col" jhiSortBy="reelID">Reel ID</th>
+            <th scope="col" jhiSortBy="partNumber">Part Number</th>
+            <th scope="col" jhiSortBy="vendor">Vendor</th>
+            <th scope="col" jhiSortBy="lot">IOT</th>
+            <th scope="col" jhiSortBy="userData1">User Data 1</th>
+            <th scope="col" jhiSortBy="userData2">User Data 2</th>
+            <th scope="col" jhiSortBy="userData3">User Data 3</th>
+            <th scope="col" jhiSortBy="userData4">User Data 4</th>
+            <th scope="col" jhiSortBy="userData5">User Data 5</th>
+            <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
+            <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
+            <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
+            <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
+            <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
+            <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
+            <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
+            <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
+            <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
+            <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
+            <th scope="col" jhiSortBy="comments">Comments</th>
+            <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
+            <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
+            <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
+            <th scope="col" jhiSortBy="locationOverride">Location Override</th>
+            <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
+            <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
+            <th scope="col" jhiSortBy="partClass">Part Class</th>
+            <th scope="col" jhiSortBy="sapCode">Sap Code</th>
+            <th scope="col" jhiSortBy="trangThai">Status</th>
+            <th scope="col" jhiSortBy="checked">Checked</th>
+            <th scope="col" jhiSortBy=""></th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let data of chiTietLenhSanXuats; let i = index">
+          <td>
+            <span>{{ i + 1 }}</span>
+          </td>
+
+          <td>
+            <span>{{ data.reelID }}</span>
+          </td>
+
+          <td>
+            <span>{{ data.partNumber }}</span>
+          </td>
+          <td>
+            <span>{{ data.vendor }}</span>
+          </td>
+          <td>
+            <span>{{ data.lot }}</span>
+          </td>
+          <td>
+            <span>{{ data.userData1 }}</span>
+          </td>
+          <td>
+            <span>{{ data.userData2 }}</span>
+          </td>
+          <td>
+            <span>{{ data.userData3 }}</span>
+          </td>
+          <td>
+            <span>{{ data.userData4 }}</span>
+          </td>
+          <td>
+            <span>{{ data.userData5 }}</span>
+          </td>
+          <td>
+            <span>{{ data.initialQuantity }}</span>
+          </td>
+          <td>
+            <span>{{ data.msdLevel }}</span>
+          </td>
+          <td>
+            <span>{{ data.msdInitialFloorTime }}</span>
+          </td>
+          <td>
+            <span>{{ data.msdBagSealDate }}</span>
+          </td>
+          <td>
+            <span>{{ data.marketUsage }}</span>
+          </td>
+          <td>
+            <span>{{ data.quantityOverride }}</span>
+          </td>
+          <td>
+            <span>{{ data.shelfTime }}</span>
+          </td>
+          <td>
+            <span>{{ data.spMaterialName }}</span>
+          </td>
+          <td>
+            <span>{{ data.warningLimit }}</span>
+          </td>
+          <td>
+            <span>{{ data.maximumLimit }}</span>
+          </td>
+          <td>
+            <span>{{ data.comments }}</span>
+          </td>
+          <td>
+            <span>{{ data.warmupTime }}</span>
+          </td>
+          <td>
+            <span>{{ data.storageUnit }}</span>
+          </td>
+          <td>
+            <span>{{ data.subStorageUnit }}</span>
+          </td>
+          <td>
+            <span>{{ data.locationOverride }}</span>
+          </td>
+          <td>
+            <span>{{ data.expirationDate }}</span>
+          </td>
+          <td>
+            <span>{{ data.manufacturingDate }}</span>
+          </td>
+          <td>
+            <span>{{ data.partClass }}</span>
+          </td>
+          <td>
+            <span>{{ data.sapCode }}</span>
+          </td>
+          <td>
+            <span>{{ data.trangThai }}</span>
+          </td>
+          <td>
+            <span>{{ data.checked }}</span>
+          </td>
+        </tbody>
+      </table>
+
+      <button type="button" [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Gửi phê duyệt</span>
+      </button>
+
+      <button type="button" [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Huỷ</span>
+      </button>
+
+      <button type="button" [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Lưu</span>
+      </button>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
+      </button>
+    </div>
+  </div>
+</div>

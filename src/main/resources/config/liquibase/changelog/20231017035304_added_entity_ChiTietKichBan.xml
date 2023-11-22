@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity ChiTietKichBan.
+    -->
+    <changeSet id="20231017035304-1" author="jhipster">
+        <createTable tableName="chi_tiet_kich_ban">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ma_kich_ban" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hang_mkb" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="thong_so" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="min_value" type="${floatType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="max_value" type="${floatType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="trungbinh" type="${floatType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="don_vi" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="phan_loai" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="kich_ban_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20231017035304-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/chi_tiet_kich_ban.csv"
+                  separator=";"
+                  tableName="chi_tiet_kich_ban"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="ma_kich_ban" type="string"/>
+            <column name="hang_mkb" type="numeric"/>
+            <column name="thong_so" type="string"/>
+            <column name="min_value" type="numeric"/>
+            <column name="max_value" type="numeric"/>
+            <column name="trungbinh" type="numeric"/>
+            <column name="don_vi" type="string"/>
+            <column name="phan_loai" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

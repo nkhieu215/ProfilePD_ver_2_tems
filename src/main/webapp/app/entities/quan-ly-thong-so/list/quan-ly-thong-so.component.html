@@ -1,0 +1,166 @@
+<div>
+  <h2 id="page-heading" data-cy="QuanLyThongSoHeading">
+    <span>Quản lý thông số</span>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-quan-ly-thong-so"
+        [routerLink]="['/quan-ly-thong-so/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Thêm mới </span>
+      </button>
+    </div>
+  </h2>
+
+  <div class="alert" id="no-result" *ngIf="quanLyThongSos?.length === 0">
+    <div class="loader">
+      <div class="justify-content-center jimu-primary-loading"></div>
+    </div>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="quanLyThongSos && quanLyThongSos.length > 0">
+    <form [formGroup]="formSearch">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+            <th scope="col" jhiSortBy="id">
+              <span>STT</span>
+              <input type="text" style="width: 10px; border: none; background-color: #6c7ae0" />
+            </th>
+
+            <th scope="col" jhiSortBy="maThongSo">
+              <!-- ----------------------------- Tìm kiếm theo mã thông số ----------------------------->
+              <span>Mã thông số</span>
+              <input #searchInput type="text" formControlName="maThongSo" placeholder="search" list="maThongSo" />
+              <!--------------------------- chọn mã thông số ----------------------->
+              <datalist id="maThongSo">
+                <option *ngFor="let data of quanLyThongSos">
+                  {{ data.maThongSo }}
+                </option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo tên thông số ----------------------------->
+            <th scope="col" jhiSortBy="tenThongSo">
+              <span>Tên thông số</span>
+              <input #searchInput type="text" formControlName="tenThongSo" placeholder="search" list="tenThongSo" />
+              <datalist id="tenThongSo">
+                <option *ngFor="let data of quanLyThongSos" value="{{ data.tenThongSo }}"></option>
+              </datalist>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo mô tả ----------------------------->
+            <th scope="col" jhiSortBy="moTa">
+              <span>Mô tả</span>
+              <input #searchInput type="text" list="moTa" style="background-color: #6c7ae0; border: none" />
+              <!-- <datalist id="moTa">
+                <option *ngFor="let data of listQuanLyThongSo" value="{{data.moTa}}" ></option>
+              </datalist> -->
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo ngày tạo ( chưa làm được )----------------------------->
+            <th scope="col" jhiSortBy="ngayTao">
+              <span>Ngày tạo</span>
+              <input type="datetime-local" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo ngày cập nhật ( chưa làm được )----------------------------->
+            <th scope="col" jhiSortBy="ngayUpdate">
+              <span>Ngày cập nhật</span>
+              <input type="datetime-local" />
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo người tạo ----------------------------->
+            <th scope="col" jhiSortBy="updateBy">
+              <span>Update By</span>
+              <select class="form-control form-select" formControlName="updateBy" style="width: 5vw">
+                <option value="admin">admin</option>
+                <option value="user">user</option>
+              </select>
+            </th>
+            <!-- ----------------------------- Tìm kiếm theo trạng thái ----------------------------->
+            <th scope="col" jhiSortBy="status">
+              <span>Trạng thái</span>
+              <select class="form-control form-select" formControlName="status" style="width: 5vw">
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </th>
+
+            <th scope="col">Options<input style="border: none; width: 70%; background-color: #6c7ae0" /></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let quanLyThongSo of quanLyThongSos | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+              let i = index;
+              trackBy: trackId
+            "
+            data-cy="entityTable"
+          >
+            <td>
+              <a>{{ i + 1 }}</a>
+            </td>
+            <td>{{ quanLyThongSo.maThongSo }}</td>
+            <td>{{ quanLyThongSo.tenThongSo }}</td>
+            <td>{{ quanLyThongSo.moTa }}</td>
+            <td>{{ quanLyThongSo.ngayTao | formatMediumDatetime }}</td>
+            <td>{{ quanLyThongSo.ngayUpdate | formatMediumDatetime }}</td>
+            <td>{{ quanLyThongSo.updateBy }}</td>
+            <td>{{ quanLyThongSo.status }}</td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/quan-ly-thong-so', quanLyThongSo.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <!-- <span class="d-none d-md-inline">View</span> -->
+                </button>
+
+                <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+                  type="submit"
+                  [routerLink]="['/quan-ly-thong-so', quanLyThongSo.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+
+                <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+                  type="submit"
+                  (click)="delete(quanLyThongSo)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+  <div *ngIf="quanLyThongSos && quanLyThongSos.length > 0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
+  </div>
+</div>

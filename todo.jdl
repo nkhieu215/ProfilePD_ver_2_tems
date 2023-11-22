@@ -1,0 +1,154 @@
+
+
+entity ThietBi {
+    maThietBi String,
+    loaiThietBi String,
+    dayChuyen String,
+    ngayTao ZonedDateTime,
+    timeUpdate ZonedDateTime,
+    updateBy String,
+    trangThai String
+}
+entity ThongSoMay{
+    maThietBi String,
+    loaiThietBi String,
+    hangTms Integer,
+    thongSo String,
+    moTa String,
+    trangThai String,
+    phanLoai String
+}
+entity SanXuatHangNgay {
+    maKichBan String,
+    maThietBi String,
+    loaiThietBi String,
+    dayChuyen String,
+    maSanPham String,
+    versionSanPham String,
+    ngayTao ZonedDateTime,
+    timeUpdate ZonedDateTime,
+    trangThai String
+}
+entity ChiTietSanXuat {
+    maKichBan String,
+    hangSxhn Integer,
+    thongSo String,
+    minValue Float,
+    maxValue Float,
+    trungbinh Float,
+    donVi String,
+}
+entity LichSuUpdate {
+    maKichBan String,
+    maThietBi String,
+    loaiThietBi String,
+    dayChuyen String,
+    maSanPham String,
+    versionSanPham String,
+    timeUpdate ZonedDateTime,
+    status String
+}
+entity ChiTietLichSuUpdate {
+    maKichBan String,
+    hangLssx Integer,
+    thongSo String,
+    minValue Float,
+    maxValue Float,
+    trungbinh Float,
+    donVi String,
+}
+entity KichBan {
+    maKichBan String,
+    maThietBi String,
+    loaiThietBi String,
+    dayChuyen String,
+    maSanPham String,
+    versionSanPham String,
+    ngayTao ZonedDateTime,
+    timeUpdate ZonedDateTime,
+    updateBy String,
+    trangThai String
+}
+entity ChiTietKichBan {
+    maKichBan String,
+    hangMkb Integer,
+    thongSo String,
+    minValue Float,
+    maxValue Float,
+    trungbinh Float,
+    donVi String,
+    phanLoai String
+}
+entity QuanLyThongSo {
+    maThongSo String,
+    tenThongSo String,
+    moTa String,
+    ngayTao ZonedDateTime,
+    ngayUpdate ZonedDateTime,
+    updateBy String,
+    status String
+}
+entity LenhSanXuat {
+    maLenhSanXuat Long required unique,
+    sapCode String,
+    sapName String,
+    workOrderCode String,
+    version String,
+    storageCode String,
+    totalQuantity String,
+    createBy String,
+    entryTime String,
+    trangThai String,
+    comment String,
+}
+entity ChiTietLenhSanXuat{
+    reelID Integer required unique,
+    partNumber String required,
+    vendor String required,
+    lot String required,
+    userData1 String required,
+    userData2 String required,
+    userData3 String required,
+    userData4 Integer required,
+    userData5 Integer required,
+    initialQuantity Integer required,
+    msdLevel String,
+    msdInitialFloorTime String,
+    msdBagSealDate String,
+    marketUsage String,
+    quantityOverride Integer required,
+    shelfTime String,
+    spMaterialName String,
+    warningLimit String,
+    maximumLimit String,
+    comments String,
+    warmupTime ZonedDateTime,
+    storageUnit String required,
+    subStorageUnit String,
+    locationOverride String,
+    expirationDate String required,
+    manufacturingDate String required,
+    partClass String,
+    sapCode Integer,
+    trangThai String,
+    checked Integer
+}
+relationship OneToMany{
+    LenhSanXuat to  ChiTietLenhSanXuat
+}
+relationship OneToMany {
+    ThietBi{thongSoMay} to ThongSoMay{thietBi}
+}
+relationship OneToMany {
+    SanXuatHangNgay{chiTietSanXuat} to ChiTietSanXuat{sanXuatHangNgay}
+}
+relationship OneToMany {
+    LichSuUpdate{chiTietLichSu} to ChiTietLichSuUpdate{lichSuUpdate}
+}
+relationship OneToMany {
+    KichBan{chiTietKichBan} to ChiTietKichBan{kichBan}
+}
+paginate * with pagination
+
+
+

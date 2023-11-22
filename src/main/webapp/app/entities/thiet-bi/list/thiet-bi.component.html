@@ -1,0 +1,166 @@
+<div>
+  <h2 id="page-heading" data-cy="ThietBiHeading">
+    <span>Quản lý thiết bị</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-thiet-bi"
+        [routerLink]="['/thiet-bi/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Thêm mới </span>
+      </button>
+    </div>
+  </h2>
+
+  <div class="alert" id="no-result" *ngIf="thietBis?.length === 0">
+    <div class="loader">
+      <div class="justify-content-center jimu-primary-loading"></div>
+    </div>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="thietBis && thietBis.length > 0">
+    <form [formGroup]="formSearch">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+            <th scope="col" jhiSortBy="id">
+              <span>STT</span>
+              <input type="text" style="width: 10px; border: none; background-color: #6c7ae0" />
+            </th>
+            <th scope="col" jhiSortBy="loaiThietBi">
+              <!-- ----------------------------- Tìm kiếm theo Nhóm thiết bị ----------------------------->
+              <span>Nhóm thiết bị</span>
+              <input #searchInput type="text" formControlName="loaiThietBi" placeholder="search" list="loaiThietBi" />
+              <!--------------------------- chọn mã thông số ----------------------->
+              <datalist id="loaiThietBi">
+                <option *ngFor="let data of thietBis">
+                  {{ data.loaiThietBi }}
+                </option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="maThietBi">
+              <!-- ----------------------------- Tìm kiếm theo mã thiết bị ----------------------------->
+              <span>Mã thiết bị</span>
+              <input #searchInput type="text" formControlName="maThietBi" placeholder="search" list="maThietBi" />
+              <datalist id="maThietBi">
+                <option *ngFor="let data of thietBis" value="{{ data.maThietBi }}"></option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="dayChuyen">
+              <!-- ----------------------------- Tìm kiếm theo dây chuyền ----------------------------->
+              <span>Dây chuyền</span>
+              <input #searchInput type="text" formControlName="dayChuyen" placeholder="search" list="dayChuyen" />
+              <datalist id="dayChuyen">
+                <option *ngFor="let data of thietBis" value="{{ data.dayChuyen }}"></option>
+              </datalist>
+            </th>
+
+            <th scope="col" jhiSortBy="ngayTao">
+              <!-- ----------------------------- Tìm kiếm theo ngày tạo ----------------------------->
+              <span>Ngày tạo</span>
+              <input type="date" formControlName="ngayTao" placeholder="search" />
+            </th>
+
+            <th scope="col" jhiSortBy="timeUpdate" style="width: 160px">
+              <!-- ----------------------------- Tìm kiếm theo ngày cập nhật ----------------------------->
+              <span>Thời gian cập nhật</span>
+              <input type="date" formControlName="timeUpdate" placeholder="search" />
+            </th>
+
+            <th scope="col" jhiSortBy="updateBy">
+              <!-- ----------------------------- Tìm kiếm theo người tạo----------------------------->
+              <span>Update By</span>
+              <select class="form-control form-select" formControlName="updateBy" style="width: 6em">
+                <option value="admin">admin</option>
+                <option value="user">user</option>
+              </select>
+            </th>
+
+            <th scope="col" jhiSortBy="status" style="width: 8em">
+              <!-- ----------------------------- Tìm kiếm theo trạng thái----------------------------->
+              <span>Trạng thái</span>
+              <select class="form-control form-select" formControlName="status">
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </th>
+
+            <th scope="col">
+              <span>Options<input style="border: none; width: 70%; background-color: #6c7ae0" /></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let thietBi of thietBis | paginate: { itemsPerPage: itemPerPage, currentPage: page }; let i = index; trackBy: trackId"
+            data-cy="entityTable"
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ thietBi.loaiThietBi }}</td>
+            <td>{{ thietBi.maThietBi }}</td>
+            <td>{{ thietBi.dayChuyen }}</td>
+            <td>{{ thietBi.ngayTao | formatMediumDatetime }}</td>
+            <td>{{ thietBi.timeUpdate | formatMediumDatetime }}</td>
+            <td>{{ thietBi.updateBy }}</td>
+            <td>{{ thietBi.status }}</td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/thiet-bi', thietBi.id, 'view']"
+                  class="btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                </button>
+
+                <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+                  type="submit"
+                  [routerLink]="['/thiet-bi', thietBi.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+
+                <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_PROFILE'"
+                  type="submit"
+                  (click)="delete(thietBi)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                >
+                  <fa-icon icon="times" class="delete-icon"></fa-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <div *ngIf="thietBis && thietBis.length > 0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
+  </div>
+</div>

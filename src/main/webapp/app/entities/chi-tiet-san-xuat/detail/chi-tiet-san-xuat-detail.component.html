@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="chiTietSanXuat">
+      <h2 data-cy="chiTietSanXuatDetailsHeading"><span>Chi Tiet San Xuat</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.id }}</span>
+        </dd>
+        <dt><span>Ma Kich Ban</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.maKichBan }}</span>
+        </dd>
+        <dt><span>Hang Sxhn</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.hangSxhn }}</span>
+        </dd>
+        <dt><span>Thong So</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.thongSo }}</span>
+        </dd>
+        <dt><span>Min Value</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.minValue }}</span>
+        </dd>
+        <dt><span>Max Value</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.maxValue }}</span>
+        </dd>
+        <dt><span>Trungbinh</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.trungbinh }}</span>
+        </dd>
+        <dt><span>Don Vi</span></dt>
+        <dd>
+          <span>{{ chiTietSanXuat.donVi }}</span>
+        </dd>
+        <dt><span>San Xuat Hang Ngay</span></dt>
+        <dd>
+          <div *ngIf="chiTietSanXuat.sanXuatHangNgay">
+            <a [routerLink]="['/san-xuat-hang-ngay', chiTietSanXuat.sanXuatHangNgay?.id, 'view']">{{
+              chiTietSanXuat.sanXuatHangNgay?.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/chi-tiet-san-xuat', chiTietSanXuat.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

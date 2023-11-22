@@ -1,0 +1,51 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035257",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "thiet_bi",
+  "fields": [
+    {
+      "fieldName": "maThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loaiThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dayChuyen",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "timeUpdate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "updateBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ThietBi",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "thongSoMay",
+      "otherEntityRelationshipName": "thietBi",
+      "relationshipName": "thongSoMay",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

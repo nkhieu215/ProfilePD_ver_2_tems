@@ -1,0 +1,68 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035306",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "lenh_san_xuat",
+  "fields": [
+    {
+      "fieldName": "maLenhSanXuat",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "sapCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sapName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "workOrderCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "version",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "storageCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalQuantity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "entryTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "comment",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LenhSanXuat",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "chiTietLenhSanXuat",
+      "otherEntityRelationshipName": "lenhSanXuat",
+      "relationshipName": "chiTietLenhSanXuat",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

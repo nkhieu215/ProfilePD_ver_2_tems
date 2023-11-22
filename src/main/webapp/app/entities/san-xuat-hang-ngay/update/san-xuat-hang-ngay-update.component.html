@@ -1,0 +1,218 @@
+<!-- ----------------------------------------------------- Điền thông tin kịch bản ------------------------------------------ -->
+<div>
+  <div>
+    <form name="editFormSXHN" role="form" novalidate [formGroup]="editForm">
+      <h2 id="jhi-san-xuat-hang-ngay-heading" data-cy="SanXuatHangNgayCreateUpdateHeading">Sản xuất hàng ngày</h2>
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="maThietBi">
+              <span>Mã kịch bản<span style="color: red"> *</span></span>
+            </th>
+            <th scope="col" jhiSortBy="loaiThietBi">
+              <span>Nhóm thiết bị<span style="color: red"> *</span></span>
+            </th>
+            <th scope="col" jhiSortBy="maThietBi">
+              <span>Mã thiết bị<span style="color: red"> *</span></span>
+            </th>
+            <th scope="col" jhiSortBy="dayChuyen"><span>Dây chuyền</span></th>
+            <th scope="col" jhiSortBy="nhomSanPham"><span>Nhóm sản phẩm</span></th>
+            <th scope="col" jhiSortBy="maSanPham"><span>Mã sản phẩm</span></th>
+            <th scope="col" jhiSortBy="versionSanPham"><span>Version sản phẩm</span></th>
+            <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-cy="entityTable">
+            <td>
+              <input
+                class="form-control"
+                type="text"
+                list="maKichBan"
+                formControlName="maKichBan"
+                (change)="getChiTietKichBan()"
+                required
+              />
+              <datalist id="maKichBan">
+                <option *ngFor="let item of listKichBan" value="{{ item.maKichBan }}"></option>
+              </datalist>
+            </td>
+            <td>
+              <input class="form-control" type="text" formControlName="loaiThietBi" required />
+            </td>
+            <td>
+              <ng-multiselect-dropdown
+                [placeholder]="'Search'"
+                [settings]="dropdownSettings"
+                [data]="listMaThietBi"
+                [(ngModel)]="selectedItems"
+                [ngModelOptions]="{ standalone: true }"
+                (onDeSelect)="onDeSelect($event)"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+              >
+              </ng-multiselect-dropdown>
+              <!-- <tr *ngFor="let item of selectedItems">
+                <td><input type="text" [(ngModel)]="item.maThietBi" [ngModelOptions]="{ standalone: true }" required /></td>
+              </tr> -->
+            </td>
+
+            <td>
+              <input class="form-control" type="text" list="dayChuyen" [(ngModel)]="dayChuyen" [ngModelOptions]="{ standalone: true }" />
+              <datalist id="dayChuyen">
+                <option *ngFor="let item of listDayChuyen" value="{{ item.dayChuyen }}"></option>
+              </datalist>
+            </td>
+
+            <td>
+              <input type="text" class="form-control" data-cy="nhomSanPham" list="nhomSanPham" formControlName="nhomSanPham" />
+              <datalist id="nhomSanPham">
+                <option *ngFor="let item of listNhomSanPham" value="{{ item }}"></option>
+              </datalist>
+            </td>
+
+            <td>
+              <input type="text" class="form-control" data-cy="maSanPham" list="maSanPham" formControlName="maSanPham" />
+            </td>
+
+            <td>
+              <input type="text" class="form-control" data-cy="versionSanPham" list="versionSanPham" formControlName="versionSanPham" />
+            </td>
+
+            <td>
+              <select class="form-control" formControlName="trangThai" [(ngModel)]="selectedStatus">
+                <option value="" hidden></option>
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- ----------------------------- button luu thong tin san xuat hang ngay ----------------->
+      <button
+        type="submit"
+        id="save-entity"
+        data-cy="entityCreateSaveButton"
+        [disabled]="editForm.invalid || isSaving"
+        class="btn btn-primary"
+        (click)="openSuccessPopupService()"
+        style="margin-bottom: 2em"
+      >
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+      </button>
+
+      <div *ngIf="showSuccessPopupService" class="success-popup">
+        <h3>{{ result }}</h3>
+        <button (click)="save()">Xác nhận</button>
+      </div>
+
+      <!-- ---------------------------------- them moi kich ban san xuat hang ngay ----------------------------- -->
+
+      <h2 id="jhi-kich-ban-heading" data-cy="KichBanCreateUpdateHeading" style="padding-top: 2em">Thông số sản xuất hàng ngày</h2>
+      <button class="btn-add" style="border-radius: 0.5em" (click)="addRowThongSoKichBan()">Add</button>
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="maKichBan"><span>STT</span></th>
+              <th scope="col" jhiSortBy="maKichBan">
+                <span>Thông số<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="thongSo">
+                <span>Min<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="trangThai">
+                <span>Max<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="phanLoai">
+                <span>Trung bình<span style="color: red"> *</span></span>
+              </th>
+              <th scope="col" jhiSortBy="phanLoai"><span>Đơn vị</span></th>
+              <th scope="col">Options</th>
+            </tr>
+          </thead>
+
+          <tr *ngFor="let data of listOfChiTietKichBan; let i = index; trackBy: trackId" class="editable-row">
+            <td>
+              <div>{{ i + 1 }}</div>
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                [(ngModel)]="data.thongSo"
+                [ngModelOptions]="{ standalone: true }"
+                list="thongSo"
+                required
+              />
+              <datalist id="thongSo">
+                <option *ngFor="let item of listOfThongSo" value="{{ item.tenThongSo }}"></option>
+              </datalist>
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.minValue"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="{{ data.minValue }}"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.maxValue"
+                placeholder="{{ data.maxValue }}"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.trungbinh"
+                placeholder="{{ data.trungbinh }}"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="data.donVi"
+                placeholder="{{ data.donVi }}"
+                [ngModelOptions]="{ standalone: true }"
+                list="donVi"
+              />
+              <datalist id="donVi">
+                <option *ngFor="let item of listDonVi" value="{{ item.donVi }}"></option>
+              </datalist>
+            </td>
+            <td><button class="btn btn-danger btn-sm" (click)="deleteRow(data.thongSo, data.id)">Xoá</button></td>
+          </tr>
+        </table>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          (click)="openSuccessPopup()"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+
+        <div *ngIf="showSuccessPopup" class="success-popup">
+          <h3>{{ resultThongSo }}</h3>
+          <button (click)="saveChiTietSanXuat()">Xác nhận</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

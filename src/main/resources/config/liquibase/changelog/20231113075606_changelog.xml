@@ -1,0 +1,150 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="Dell (generated)" id="1699862174266-30">
+        <createTable tableName="kich_ban_change_status">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="kich_ban_change_statusPK"/>
+            </column>
+            <column name="color_change" type="varchar(255)"/>
+            <column name="ma_kich_ban" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-31">
+        <addColumn tableName="nhom_san_pham">
+            <column name="kich_ban_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-32">
+        <addColumn tableName="chi_tiet_lenh_san_xuat">
+            <column name="lenh_san_xuat_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-33">
+        <addColumn tableName="kich_ban">
+            <column name="nhom_san_pham" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-34">
+        <addPrimaryKey columnNames="id" constraintName="nhom_san_phamPK" tableName="nhom_san_pham"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-35">
+        <addUniqueConstraint columnNames="reel_id" constraintName="UC_CHI_TIET_LENH_SAN_XUATREEL_ID_COL" tableName="chi_tiet_lenh_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-36">
+        <addUniqueConstraint columnNames="ma_lenh_san_xuat" constraintName="UC_LENH_SAN_XUATMA_LENH_SAN_XUAT_COL" tableName="lenh_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-37">
+        <addForeignKeyConstraint baseColumnNames="lenh_san_xuat_id" baseTableName="chi_tiet_lenh_san_xuat" constraintName="FK24hocs1ls1tp84m8uj6ej32xy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="lenh_san_xuat" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-38">
+        <addForeignKeyConstraint baseColumnNames="kich_ban_id" baseTableName="nhom_san_pham" constraintName="FKo3bsmd5yxrafjvmbid2vb87wg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="kich_ban" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-39">
+        <dropForeignKeyConstraint baseTableName="DetailProcessing" constraintName="FK__DetailPro__Produ__07C12930"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-40">
+        <dropForeignKeyConstraint baseTableName="chi_tiet_lenh_san_xuat" constraintName="FK__chi_tiet___ma_le__1EA48E88"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-41">
+        <dropTable tableName="DetailProcessing"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-42">
+        <dropTable tableName="ProductionOrderModels"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-43">
+        <dropColumn columnName="ma_lenh_san_xuat_id" tableName="chi_tiet_lenh_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-44">
+        <dropColumn columnName="reset_date" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-45">
+        <dropColumn columnName="signal" tableName="kich_ban"/>
+    </changeSet>
+    <!-- <changeSet author="Dell (generated)" id="1699862174266-1">
+        <alterSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-2">
+        <alterSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-3">
+        <alterSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-4">
+        <alterSequence sequenceName="sequence_generator"/> -->
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-5">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="loai_thiet_bi" tableName="kich_ban"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-6">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="loai_thiet_bi" tableName="nhom_thiet_bi"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-7">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="loai_thiet_bi" tableName="san_xuat_hang_ngay"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-8">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="loai_thiet_bi" tableName="thiet_bi"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-9">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="loai_thiet_bi" tableName="thong_so_may"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-10">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ma_kich_ban" tableName="chi_tiet_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-11">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ma_kich_ban" tableName="kich_ban"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-12">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ma_kich_ban" tableName="san_xuat_hang_ngay"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-13">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ma_thiet_bi" tableName="nhom_thiet_bi"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-14">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ma_thiet_bi" tableName="san_xuat_hang_ngay"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-15">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ma_thong_so" tableName="quan_ly_thong_so"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-16">
+        <dropNotNullConstraint columnDataType="float" columnName="max_value" tableName="chi_tiet_kich_ban"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-17">
+        <dropNotNullConstraint columnDataType="float" columnName="max_value" tableName="chi_tiet_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-18">
+        <dropNotNullConstraint columnDataType="float" columnName="min_value" tableName="chi_tiet_kich_ban"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-19">
+        <dropNotNullConstraint columnDataType="float" columnName="min_value" tableName="chi_tiet_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-20">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="storage_unit" tableName="chi_tiet_lenh_san_xuat" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-21">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ten_don_vi" tableName="don_vi"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-22">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="ten_thong_so" tableName="quan_ly_thong_so"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-23">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="thong_so" tableName="chi_tiet_kich_ban"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-24">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="thong_so" tableName="chi_tiet_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-25">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="thong_so" tableName="thong_so_may"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-26">
+        <dropNotNullConstraint columnDataType="float" columnName="trungbinh" tableName="chi_tiet_kich_ban"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-27">
+        <dropNotNullConstraint columnDataType="float" columnName="trungbinh" tableName="chi_tiet_san_xuat"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-28">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="user_data_4" tableName="chi_tiet_lenh_san_xuat" validate="true"/>
+    </changeSet>
+    <changeSet author="Dell (generated)" id="1699862174266-29">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="user_data_5" tableName="chi_tiet_lenh_san_xuat" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

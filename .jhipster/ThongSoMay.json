@@ -1,0 +1,51 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035258",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "thong_so_may",
+  "fields": [
+    {
+      "fieldName": "maThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loaiThietBi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hangTms",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "thongSo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "moTa",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phanLoai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ThongSoMay",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "thietBi",
+      "otherEntityRelationshipName": "thongSoMay",
+      "relationshipName": "thietBi",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

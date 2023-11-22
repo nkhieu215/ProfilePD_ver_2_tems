@@ -1,0 +1,9 @@
+<div class="row" *ngIf="account === null">
+  <div>
+    <img src="../../content/images/logo-icon.png" alt="logo-RangDong" />
+    <h2>Công ty cổ phần bóng đèn và phích nước rạng đông</h2>
+    <p>Vui lòng thực hiện đăng nhập!</p>
+    <button (click)="login()" data-cy="login" id="loginButton">Đăng nhập</button>
+    <!-- <button *ngIf="!loggedIn" (click)="logout()" data-cy="logout" id="logoutButton">đăng xuất</button>     -->
+  </div>
+</div>

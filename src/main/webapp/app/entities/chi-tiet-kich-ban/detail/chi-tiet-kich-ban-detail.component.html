@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="chiTietKichBan">
+      <h2 data-cy="chiTietKichBanDetailsHeading"><span>Chi Tiet Kich Ban</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.id }}</span>
+        </dd>
+        <dt><span>Ma Kich Ban</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.maKichBan }}</span>
+        </dd>
+        <dt><span>Hang Mkb</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.trangThai }}</span>
+        </dd>
+        <dt><span>Thong So</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.thongSo }}</span>
+        </dd>
+        <dt><span>Min Value</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.minValue }}</span>
+        </dd>
+        <dt><span>Max Value</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.maxValue }}</span>
+        </dd>
+        <dt><span>Trungbinh</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.trungbinh }}</span>
+        </dd>
+        <dt><span>Don Vi</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.donVi }}</span>
+        </dd>
+        <dt><span>Phan Loai</span></dt>
+        <dd>
+          <span>{{ chiTietKichBan.phanLoai }}</span>
+        </dd>
+        <dt><span>Kich Ban</span></dt>
+        <dd>
+          <div *ngIf="chiTietKichBan.kichBan">
+            <a [routerLink]="['/kich-ban', chiTietKichBan.kichBan?.id, 'view']">{{ chiTietKichBan.kichBan?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/chi-tiet-kich-ban', chiTietKichBan.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

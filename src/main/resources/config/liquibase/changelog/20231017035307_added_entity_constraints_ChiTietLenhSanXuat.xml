@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity ChiTietLenhSanXuat.
+    -->
+    <changeSet id="20231017035307-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="ma_lenh_san_xuat_id"
+                                 baseTableName="chi_tiet_lenh_san_xuat"
+                                 constraintName="fk_chi_tiet_lenh_san_xuat__ma_lenh_san_xuat_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lenh_san_xuat"/>
+    </changeSet>
+</databaseChangeLog>

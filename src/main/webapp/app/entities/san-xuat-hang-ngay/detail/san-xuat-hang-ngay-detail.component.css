@@ -1,0 +1,59 @@
+* {
+  font-family: 'Nunito', sans-serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+th {
+  color: #ffffff;
+  background-color: #6c7ae0;
+  text-align: left;
+  padding: 8px;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+tr {
+  background-color: #f8f8f8;
+}
+
+td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  width: 12rem;
+}
+
+.export-file {
+  float: right;
+  padding-right: 1rem;
+}
+
+.export-file button {
+  background-color: #17bb17;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.export-file button:hover {
+  background-color: #30a830;
+}
+
+.export-file button:focus {
+  outline: none;
+  box-shadow: 0 0 5px #17bb17;
+}

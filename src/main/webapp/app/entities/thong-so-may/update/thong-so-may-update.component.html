@@ -1,0 +1,231 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm" style="width: 125%">
+      <h2 id="jhi-thong-so-may-heading" data-cy="ThongSoMayCreateUpdateHeading">Thêm mới thông số máy</h2>
+
+      <form [formGroup]="form">
+        <header class="header-tsm">
+          <div>
+            <label class="form-label" for="field_maThietBi">
+              <p>Mã thiết bị</p>
+            </label>
+            <select class="form-control" id="field_maThietBi" data-cy="maThietBi" name="maThietBi" formControlName="maThietBi">
+              <option [ngValue]="null"></option>
+              <option
+                [ngValue]="maThietBiOption.id === editForm.get('maThietBi')!.value?.id ? editForm.get('maThietBi')!.value : maThietBiOption"
+                *ngFor="let maThietBiOption of thietBisSharedCollection; trackBy: trackThietBiById"
+              >
+                {{ maThietBiOption.maThietBi }}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label" for="field_maThietBi">
+              <p>Nhóm thiết bị</p>
+            </label>
+            <select class="form-control" id="field_maThietBi" data-cy="maThietBi" name="maThietBi" formControlName="maThietBi">
+              <option [ngValue]="null"></option>
+              <option
+                [ngValue]="maThietBiOption.id === editForm.get('maThietBi')!.value?.id ? editForm.get('maThietBi')!.value : maThietBiOption"
+                *ngFor="let maThietBiOption of thietBisSharedCollection; trackBy: trackThietBiById"
+              >
+                {{ maThietBiOption.maThietBi }}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label" for="field_maThietBi">
+              <p>Dây chuyền</p>
+            </label>
+            <select class="form-control" id="field_maThietBi" data-cy="maThietBi" name="maThietBi" formControlName="maThietBi">
+              <option [ngValue]="null"></option>
+              <option
+                [ngValue]="maThietBiOption.id === editForm.get('maThietBi')!.value?.id ? editForm.get('maThietBi')!.value : maThietBiOption"
+                *ngFor="let maThietBiOption of thietBisSharedCollection; trackBy: trackThietBiById"
+              >
+                {{ maThietBiOption.dayChuyen }}
+              </option>
+            </select>
+          </div>
+        </header>
+      </form>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+              <th scope="col" jhiSortBy="id"><span>STT</span></th>
+              <!-- <th scope="col" jhiSortBy="thongSo"><span>Ngày tạo</span></th>
+              <th scope="col" jhiSortBy="thongSo"><span>Ngày cập nhật</span></th> -->
+              <th scope="col" jhiSortBy="thongSo"><span>Thông số</span></th>
+              <th scope="col" jhiSortBy="thongSo"><span>Mô tả</span></th>
+              <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+              <th scope="col" jhiSortBy="phanLoai"><span>Phân loại</span></th>
+              <!-- <th scope="col" jhiSortBy="thietBi.id"><span>Thiet Bi</span> <fa-icon icon="sort"></fa-icon></th> -->
+              <th scope="col"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let thongSoMay of thongSoMays; trackBy: trackId" data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/thong-so-may', thongSoMay.id, 'view']">{{ thongSoMay.id }}</a>
+              </td>
+
+              <td>
+                {{ thongSoMay.trangThai }}
+                <input
+                  type="text"
+                  class="form-control"
+                  name="loaiThietBi"
+                  id="field_loaiThietBi"
+                  data-cy="loaiThietBi"
+                  formControlName="loaiThietBi"
+                />
+              </td>
+              <td>
+                {{ thongSoMay.trangThai }}
+                <input
+                  type="text"
+                  class="form-control"
+                  name="loaiThietBi"
+                  id="field_loaiThietBi"
+                  data-cy="loaiThietBi"
+                  formControlName="loaiThietBi"
+                />
+              </td>
+              <td>
+                {{ thongSoMay.trangThai }}
+                <input
+                  type="text"
+                  class="form-control"
+                  name="loaiThietBi"
+                  id="field_loaiThietBi"
+                  data-cy="loaiThietBi"
+                  formControlName="loaiThietBi"
+                />
+              </td>
+              <td>
+                {{ thongSoMay.trangThai }}
+                <input
+                  type="text"
+                  class="form-control"
+                  name="loaiThietBi"
+                  id="field_loaiThietBi"
+                  data-cy="loaiThietBi"
+                  formControlName="loaiThietBi"
+                />
+              </td>
+              <!-- <td>{{ thongSoMay.phanLoai }}</td> -->
+              <td>
+                <div *ngIf="thongSoMay.thietBi">
+                  <a [routerLink]="['/thiet-bi', thongSoMay.thietBi?.id, 'view']">{{ thongSoMay.thietBi?.id }}</a>
+                </div>
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <!-- <button type="submit" [routerLink]="['/thong-so-may', thongSoMay.id, 'view']" class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </button>
+          
+                  <button type="submit" [routerLink]="['/thong-so-may', thongSoMay.id, 'edit']" class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </button> -->
+
+                  <button type="submit" (click)="delete(thongSoMay)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+
+          <!-- <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+  
+          <div class="row mb-3">
+            <label class="form-label" for="field_maThietBi">Mã thông số</label>
+            <input type="text" class="form-control" name="maThietBi" id="field_maThietBi" data-cy="maThietBi" formControlName="maThietBi" />
+          </div>
+  
+          <div class="row mb-3">
+            <label class="form-label" for="field_loaiThietBi">Thông số</label>
+            <input
+              type="text"
+              class="form-control"
+              name="loaiThietBi"
+              id="field_loaiThietBi"
+              data-cy="loaiThietBi"
+              formControlName="loaiThietBi"
+            />
+          </div>
+  
+          <div class="row mb-3">
+            <label class="form-label" for="field_hangTms">Mô tả</label>
+            <input type="number" class="form-control" name="hangTms" id="field_hangTms" data-cy="hangTms" formControlName="hangTms" />
+          </div>
+  
+          <div class="row mb-3">
+            <label class="form-label" for="field_thongSo">Trạng thái</label>
+            <input type="text" class="form-control" name="thongSo" id="field_thongSo" data-cy="thongSo" formControlName="thongSo" />
+          </div>
+  
+          <div class="row mb-3">
+            <label class="form-label" for="field_moTa">Tùy chọn</label>
+            <input type="text" class="form-control" name="moTa" id="field_moTa" data-cy="moTa" formControlName="moTa" />
+          </div> -->
+        </table>
+
+        <!-- <div class="row mb-3">
+          <label class="form-label" for="field_trangThai">Trang Thai</label>
+          <input type="text" class="form-control" name="trangThai" id="field_trangThai" data-cy="trangThai" formControlName="trangThai" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_phanLoai">Phan Loai</label>
+          <input type="text" class="form-control" name="phanLoai" id="field_phanLoai" data-cy="phanLoai" formControlName="phanLoai" />
+        </div> -->
+
+        <!-- <div class="row mb-3">
+          <label class="form-label" for="field_thietBi">Thiet Bi</label>
+          <select class="form-control" id="field_thietBi" data-cy="thietBi" name="thietBi" formControlName="thietBi">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="thietBiOption.id === editForm.get('thietBi')!.value?.id ? editForm.get('thietBi')!.value : thietBiOption"
+              *ngFor="let thietBiOption of thietBisSharedCollection; trackBy: trackThietBiById"
+            >
+              {{ thietBiOption.id }}
+            </option>
+          </select>
+        </div> -->
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

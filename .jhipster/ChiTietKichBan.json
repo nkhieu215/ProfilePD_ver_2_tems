@@ -1,0 +1,55 @@
+{
+  "applications": "*",
+  "changelogDate": "20231017035304",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chi_tiet_kich_ban",
+  "fields": [
+    {
+      "fieldName": "maKichBan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hangMkb",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "thongSo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "minValue",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "maxValue",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "trungbinh",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "donVi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phanLoai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ChiTietKichBan",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "kichBan",
+      "otherEntityRelationshipName": "chiTietKichBan",
+      "relationshipName": "kichBan",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
