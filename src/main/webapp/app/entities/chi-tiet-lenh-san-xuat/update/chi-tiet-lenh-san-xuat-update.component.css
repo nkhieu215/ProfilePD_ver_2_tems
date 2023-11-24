@@ -193,3 +193,8 @@ select {
 .btn-scan:hover {
   background-color: #1c84ff;
 }
+
+.custom-width {
+  display: inline-block;
+  width: 10rem;
+}

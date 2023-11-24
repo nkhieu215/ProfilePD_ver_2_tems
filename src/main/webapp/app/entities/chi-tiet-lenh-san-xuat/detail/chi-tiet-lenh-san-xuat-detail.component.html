@@ -1,154 +1,156 @@
 <div>
-  <div>
-    <div *ngIf="chiTietLenhSanXuat">
+  <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+    <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
+  </button>
+
+  <div class="table-responsive" id="entities">
+    <button class="exportCSV" (click)="exportToExcel()">Export to excel</button>
+    <button class="exportCSV" (click)="exportCSV()">Export to csv</button>
+    <div *ngIf="lenhSanXuat" id="dvData">
       <h2 data-cy="chiTietLenhSanXuatDetailsHeading"><span>Duyệt yêu cầu</span></h2>
 
       <hr />
 
-      <jhi-alert-error></jhi-alert-error>
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr>
+            <th scope="col"><span>Mã lệnh sản xuất</span></th>
+            <th scope="col"><span>Mã SAP</span></th>
+            <th scope="col"><span>Tên SAP</span></th>
+            <th scope="col"><span>Mã WO</span></th>
+            <th scope="col"><span>Version</span></th>
+            <th scope="col"><span>Mã kho nhập</span></th>
+            <th scope="col"><span>Tổng số lượng nhập</span></th>
+            <th scope="col"><span>Cập nhật bởi</span></th>
+            <th scope="col"><span>Thời gian in tem</span></th>
+            <th scope="col"><span>Trạng thái</span></th>
+            <th scope="col"><span>Lưu ý</span></th>
+          </tr>
+        </thead>
 
-      <jhi-alert></jhi-alert>
+        <tbody>
+          <tr data-cy="entityTable">
+            <td>
+              <span>{{ lenhSanXuat.maLenhSanXuat }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.sapCode }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.sapName }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.workOrderCode }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.version }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.storageCode }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.totalQuantity }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.createBy }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.entryTime }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.trangThai }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.comment }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.id }}</span>
-        </dd>
-        <dt><span>Reel ID</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.reelID }}</span>
-        </dd>
-        <dt><span>Part Number</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.partNumber }}</span>
-        </dd>
-        <dt><span>Vendor</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.vendor }}</span>
-        </dd>
-        <dt><span>Lot</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.lot }}</span>
-        </dd>
-        <dt><span>User Data 1</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.userData1 }}</span>
-        </dd>
-        <dt><span>User Data 2</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.userData2 }}</span>
-        </dd>
-        <dt><span>User Data 3</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.userData3 }}</span>
-        </dd>
-        <dt><span>User Data 4</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.userData4 }}</span>
-        </dd>
-        <dt><span>User Data 5</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.userData5 }}</span>
-        </dd>
-        <dt><span>Initial Quantity</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.initialQuantity }}</span>
-        </dd>
-        <dt><span>Msd Level</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.msdLevel }}</span>
-        </dd>
-        <dt><span>Msd Initial Floor Time</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.msdInitialFloorTime }}</span>
-        </dd>
-        <dt><span>Msd Bag Seal Date</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.msdBagSealDate }}</span>
-        </dd>
-        <dt><span>Market Usage</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.marketUsage }}</span>
-        </dd>
-        <dt><span>Quantity Override</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.quantityOverride }}</span>
-        </dd>
-        <dt><span>Shelf Time</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.shelfTime }}</span>
-        </dd>
-        <dt><span>Sp Material Name</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.spMaterialName }}</span>
-        </dd>
-        <dt><span>Warning Limit</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.warningLimit }}</span>
-        </dd>
-        <dt><span>Maximum Limit</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.maximumLimit }}</span>
-        </dd>
-        <dt><span>Comments</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.comments }}</span>
-        </dd>
-        <dt><span>Warmup Time</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.warmupTime | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>Storage Unit</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.storageUnit }}</span>
-        </dd>
-        <dt><span>Sub Storage Unit</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.subStorageUnit }}</span>
-        </dd>
-        <dt><span>Location Override</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.locationOverride }}</span>
-        </dd>
-        <dt><span>Expiration Date</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.expirationDate }}</span>
-        </dd>
-        <dt><span>Manufacturing Date</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.manufacturingDate }}</span>
-        </dd>
-        <dt><span>Part Class</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.partClass }}</span>
-        </dd>
-        <dt><span>Sap Code</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.sapCode }}</span>
-        </dd>
-        <dt><span>Trang Thai</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.trangThai }}</span>
-        </dd>
-        <dt><span>Checked</span></dt>
-        <dd>
-          <span>{{ chiTietLenhSanXuat.checked }}</span>
-        </dd>
-        <dt><span>Lenh San Xuat</span></dt>
-        <dd>
-          <div *ngIf="chiTietLenhSanXuat.lenhSanXuat">
-            <a [routerLink]="['/lenh-san-xuat', chiTietLenhSanXuat.lenhSanXuat?.id, 'view']">{{ chiTietLenhSanXuat.lenhSanXuat?.id }}</a>
-          </div>
-        </dd>
-      </dl>
+      <h2>Thông tin tem</h2>
+      <table class="table table-striped" id="table-data">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="STT">STT</th>
+            <th scope="col" jhiSortBy="reelID">Reel ID</th>
+            <th scope="col" jhiSortBy="partNumber">Part Number</th>
+            <th scope="col" jhiSortBy="vendor">Vendor</th>
+            <th scope="col" jhiSortBy="lot">IOT</th>
+            <th scope="col" jhiSortBy="userData1">User Data 1</th>
+            <th scope="col" jhiSortBy="userData2">User Data 2</th>
+            <th scope="col" jhiSortBy="userData3">User Data 3</th>
+            <th scope="col" jhiSortBy="userData4">User Data 4</th>
+            <th scope="col" jhiSortBy="userData5">User Data 5</th>
+            <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
+            <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
+            <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
+            <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
+            <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
+            <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
+            <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
+            <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
+            <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
+            <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
+            <th scope="col" jhiSortBy="comments">Comments</th>
+            <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
+            <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
+            <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
+            <th scope="col" jhiSortBy="locationOverride">Location Override</th>
+            <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
+            <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
+            <th scope="col" jhiSortBy="partClass">Part Class</th>
+            <th scope="col" jhiSortBy="sapCode">Sap Code</th>
+            <th scope="col" jhiSortBy="trangThai">Status</th>
+          </tr>
+        </thead>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-      </button>
+        <tbody>
+          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index">
+            <td>
+              <span>
+                {{ i + 1 }}
+              </span>
+            </td>
+            <td>{{ data.reelID }}</td>
+            <td>{{ data.partNumber }}</td>
+            <td>{{ data.vendor }}</td>
+            <td>{{ data.lot }}</td>
+            <td>{{ data.userData1 }}</td>
+            <td>{{ data.userData2 }}</td>
+            <td>{{ data.userData3 }}</td>
+            <td>{{ data.userData4 }}</td>
+            <td>{{ data.userData5 }}</td>
+            <td>{{ data.initialQuantity }}</td>
+            <td>{{ data.msdLevel }}</td>
+            <td>{{ data.msdInitialFloorTime }}</td>
+            <td>{{ data.msdBagSealDate }}</td>
+            <td>{{ data.marketUsage }}</td>
+            <td>{{ data.quantityOverride }}</td>
+            <td>{{ data.shelfTime }}</td>
+            <td>{{ data.spMaterialName }}</td>
+            <td>{{ data.warningLimit }}</td>
+            <td>{{ data.maximumLimit }}</td>
+            <td>{{ data.comments }}</td>
+            <td>{{ data.warmupTime }}</td>
+            <td>
+              <span class="custom-width">
+                {{ data.storageUnit }}
+              </span>
+            </td>
+            <td>{{ data.subStorageUnit }}</td>
+            <td>{{ data.locationOverride }}</td>
+            <td>{{ data.expirationDate }}</td>
+            <td>{{ data.manufacturingDate }}</td>
+            <td>{{ data.partClass }}</td>
+            <td>{{ data.sapCode }}</td>
+            <td>{{ data.trangThai }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <button type="button" [routerLink]="['/chi-tiet-lenh-san-xuat', chiTietLenhSanXuat.id, 'edit']" class="btn btn-primary">
+      <!-- <button type="button" [routerLink]="['/chi-tiet-lenh-san-xuat', lenhSanXuat.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
+      </button> -->
     </div>
   </div>
 </div>

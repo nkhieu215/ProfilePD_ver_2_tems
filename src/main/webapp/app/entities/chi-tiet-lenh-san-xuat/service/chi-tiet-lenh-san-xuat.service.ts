@@ -1,3 +1,4 @@
+import { ILenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -10,15 +11,18 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { IChiTietLenhSanXuat, getChiTietLenhSanXuatIdentifier } from '../chi-tiet-lenh-san-xuat.model';
 
 export type EntityResponseType = HttpResponse<IChiTietLenhSanXuat>;
+export type EntityResponseType1 = HttpResponse<ILenhSanXuat>;
 export type EntityArrayResponseType = HttpResponse<IChiTietLenhSanXuat[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ChiTietLenhSanXuatService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-lenh-san-xuats');
+  protected resourceUrl1 = this.applicationConfigService.getEndpointFor('api/lenh-san-xuats');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
+    console.log('thanh cong 1');
     const copy = this.convertDateFromClient(chiTietLenhSanXuat);
     return this.http
       .post<IChiTietLenhSanXuat>(this.resourceUrl, copy, { observe: 'response' })
@@ -27,6 +31,7 @@ export class ChiTietLenhSanXuatService {
 
   update(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(chiTietLenhSanXuat);
+    console.log('thanh cong 2');
     return this.http
       .put<IChiTietLenhSanXuat>(`${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`, copy, {
         observe: 'response',
@@ -36,6 +41,7 @@ export class ChiTietLenhSanXuatService {
 
   partialUpdate(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(chiTietLenhSanXuat);
+    console.log('thanh cong 3');
     return this.http
       .patch<IChiTietLenhSanXuat>(`${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`, copy, {
         observe: 'response',
@@ -44,13 +50,19 @@ export class ChiTietLenhSanXuatService {
   }
 
   find(id: number): Observable<EntityResponseType> {
+    console.log('thanh cong 4s');
     return this.http
       .get<IChiTietLenhSanXuat>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
-
+  // lay thong tin lenh san xuat
+  find1(id: number): Observable<EntityResponseType1> {
+    console.log('thanh cong 4');
+    return this.http.get<ILenhSanXuat>(`${this.resourceUrl1}/${id}`, { observe: 'response' });
+  }
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
+    console.log('thanh cong 5');
     return this.http
       .get<IChiTietLenhSanXuat[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));

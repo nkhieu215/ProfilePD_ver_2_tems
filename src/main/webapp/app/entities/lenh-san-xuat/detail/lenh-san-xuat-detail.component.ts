@@ -3,8 +3,11 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IChiTietLenhSanXuat } from 'app/entities/chi-tiet-lenh-san-xuat/chi-tiet-lenh-san-xuat.model';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import * as XLSX from 'xlsx';
 import { ILenhSanXuat } from '../lenh-san-xuat.model';
+import { ngxCsv } from 'ngx-csv/ngx-csv';
+
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'jhi-lenh-san-xuat-detail',
@@ -14,12 +17,42 @@ import { ILenhSanXuat } from '../lenh-san-xuat.model';
 export class LenhSanXuatDetailComponent implements OnInit {
   resourceUrl = this.applicationConfigService.getEndpointFor('/api/chi-tiet-lenh-san-xuat');
   lenhSanXuat: ILenhSanXuat | null = null;
-  chiTietLenhSanXuats: IChiTietLenhSanXuat[] | null = [];
+  fileName = 'Chi-tiet-lenh-san-xuat';
+  chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
   predicate!: string;
   ascending!: boolean;
-
+  // khởi tạo biến lưu dữ liệu xuất file
+  data: {
+    reelID?: number;
+    partNumber?: string;
+    vendor?: string;
+    lot?: string;
+    userData1?: string;
+    userData2?: string;
+    userData3?: string;
+    userData4?: number;
+    userData5?: number;
+    initialQuantity?: number;
+    msdLevel?: string | null;
+    msdInitialFloorTime?: string | null;
+    msdBagSealDate?: string | null;
+    marketUsage?: string | null;
+    quantityOverride?: number;
+    shelfTime?: string | null;
+    spMaterialName?: string | null;
+    warningLimit?: string | null;
+    maximumLimit?: string | null;
+    comments?: string | null;
+    warmupTime?: dayjs.Dayjs | null;
+    storageUnit?: string;
+    subStorageUnit?: string | null;
+    locationOverride?: string | null;
+    expirationDate?: string;
+    manufacturingDate?: string;
+    partClass?: string | null;
+    sapCode?: number | null;
+  }[] = [];
   @ViewChild('dvData') dvData!: ElementRef;
-
   constructor(
     protected activatedRoute: ActivatedRoute,
     protected applicationConfigService: ApplicationConfigService,
@@ -35,63 +68,128 @@ export class LenhSanXuatDetailComponent implements OnInit {
         this.chiTietLenhSanXuats = res;
         console.log('res', res);
         console.log('lenhSanXuat', this.chiTietLenhSanXuats);
+        this.dataExport(this.chiTietLenhSanXuats);
       });
     }
   }
+  dataExport(list: IChiTietLenhSanXuat[]): void {
+    for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
+      const data1: {
+        reelID?: number;
+        partNumber?: string;
+        vendor?: string;
+        lot?: string;
+        userData1?: string;
+        userData2?: string;
+        userData3?: string;
+        userData4?: number;
+        userData5?: number;
+        initialQuantity?: number;
+        msdLevel?: string | null;
+        msdInitialFloorTime?: string | null;
+        msdBagSealDate?: string | null;
+        marketUsage?: string | null;
+        quantityOverride?: number;
+        shelfTime?: string | null;
+        spMaterialName?: string | null;
+        warningLimit?: string | null;
+        maximumLimit?: string | null;
+        comments?: string | null;
+        warmupTime?: dayjs.Dayjs | null;
+        storageUnit?: string;
+        subStorageUnit?: string | null;
+        locationOverride?: string | null;
+        expirationDate?: string;
+        manufacturingDate?: string;
+        partClass?: string | null;
+        sapCode?: number | null;
+      } = {
+        reelID: list[i].reelID,
+        partNumber: list[i].partNumber,
+        vendor: list[i].vendor,
+        lot: list[i].lot,
+        userData1: list[i].userData1,
+        userData2: list[i].userData2,
+        userData3: list[i].userData3,
+        userData4: list[i].userData4,
+        userData5: list[i].userData5,
+        initialQuantity: list[i].initialQuantity,
+        msdLevel: list[i].msdLevel,
+        msdInitialFloorTime: list[i].msdInitialFloorTime,
+        msdBagSealDate: list[i].msdBagSealDate,
+        marketUsage: list[i].marketUsage,
+        quantityOverride: list[i].quantityOverride,
+        shelfTime: list[i].shelfTime,
+        spMaterialName: list[i].spMaterialName,
+        warningLimit: list[i].warningLimit,
+        maximumLimit: list[i].maximumLimit,
+        comments: list[i].comments,
+        warmupTime: list[i].warmupTime,
+        storageUnit: list[i].storageUnit,
+        subStorageUnit: list[i].subStorageUnit,
+        locationOverride: list[i].locationOverride,
+        expirationDate: list[i].expirationDate,
+        manufacturingDate: list[i].manufacturingDate,
+        partClass: list[i].partClass,
+        sapCode: list[i].sapCode,
+      };
+      this.data.push(data1);
+    }
+    console.log(this.data);
+  }
+  exportCSV(): void {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: 'Your title',
+      useBom: true,
+      noDownload: false,
+      headers: [
+        'ReelID',
+        'PartNumber',
+        'Vendor',
+        'Lot',
+        'UserData1',
+        'UserData2',
+        'UserData3',
+        'UserData4',
+        'UserData5',
+        'InitialQuantity',
+        'MsdLevel',
+        'MsdInitialFloorTime',
+        'MsdBagSealDate',
+        'MarketUsage',
+        'QuantityOverride',
+        'ShelfTime',
+        'SpMaterialName',
+        'WarningLimit',
+        'MaximumLimit',
+        'Comments',
+        'WarmupTime',
+        'StorageUnit',
+        'SubStorageUnit',
+        'LocationOverride',
+        'ExpirationDate',
+        'ManufacturingDate',
+        'PartClass',
+        'SapCode',
+      ],
+    };
+    new ngxCsv(this.data, this.fileName, options);
+  }
 
+  exportToExcel(): void {
+    // const data = document.getElementById("table-data");
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.data);
+    // create workbook
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'ChiTietSanXuatHangNgay');
+    XLSX.writeFile(wb, `${this.fileName}.xlsx`);
+  }
   previousState(): void {
     window.history.back();
   }
-
-  // exportTableToCSV(): void {
-  //   const args: [HTMLTableElement, string] = [this.dvData.nativeElement.querySelector('table'), 'export.csv'];
-  //   this.exportTableToCSV029(...args);
-  // }
-
-  // exportTableToCSV029(table: HTMLTableElement, filename: string): void {
-  //   const rows = Array.from(table.querySelectorAll('tr:has(td'));
-  //   const tmpColDelim = String.fromCharCode(11);
-  //   const tmpRowDelim = String.fromCharCode(0);
-  //   const colDelim = '","';
-  //   const rowDelim = '"\r\n"';
-
-  //   const csv = '"' + rows.map((row) => {
-  //     const cols = Array.from(row.querySelectorAll('td'));
-  //     return cols.map((col) => {
-  //       const text = col.textContent ?? '';
-  //       return text.replace(/"/g, '""'); // escape double quotes
-  //     }).join(tmpColDelim);
-  //   }).join(tmpRowDelim)
-  //     .split(tmpRowDelim).join(rowDelim)
-  //     .split(tmpColDelim).join(colDelim) + '"';
-
-  //   if ((window.navigator as any).msSaveBlob) {
-  //     const blob = new Blob([decodeURIComponent(csv)], { type: 'text/csv;charset=utf8' });
-
-  //     window.navigator.msSaveBlob (blob, filename);
-  //   } else if (window.Blob && window.URL) {
-  //     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-  //     const csvUrl = URL.createObjectURL(blob);
-
-  //     const link = document.createElement('a');
-  //     link.href = csvUrl;
-  //     link.style.visibility = 'hidden';
-  //     link.download = filename;
-
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   } else {
-  //     const csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
-
-  //     const link = document.createElement('a');
-  //     link.href = csvData;
-  //     link.style.visibility = 'hidden';
-  //     link.download = filename;
-
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   }
-  // }
 }

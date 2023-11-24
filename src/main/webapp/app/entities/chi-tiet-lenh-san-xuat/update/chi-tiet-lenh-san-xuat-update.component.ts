@@ -1,5 +1,6 @@
+import { ApplicationConfigService } from './../../../core/config/application-config.service';
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,7 +11,7 @@ import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { IChiTietLenhSanXuat, ChiTietLenhSanXuat } from '../chi-tiet-lenh-san-xuat.model';
 import { ChiTietLenhSanXuatService } from '../service/chi-tiet-lenh-san-xuat.service';
-import { ILenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
+import { ILenhSanXuat, LenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
 import { LenhSanXuatService } from 'app/entities/lenh-san-xuat/service/lenh-san-xuat.service';
 
 @Component({
@@ -19,64 +20,64 @@ import { LenhSanXuatService } from 'app/entities/lenh-san-xuat/service/lenh-san-
   styleUrls: ['./chi-tiet-lenh-san-xuat-update.component.css'],
 })
 export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
+  resourceUrl = this.applicationConfigService.getEndpointFor('/api/chi-tiet-lenh-san-xuat');
+
   isSaving = false;
   predicate!: string;
   ascending!: boolean;
+
+  selectedStatus = '';
+
+  changeStatus: {
+    id: number;
+    totalQuantity: string;
+    trangThai: string;
+  } = { id: 0, totalQuantity: '', trangThai: '' };
+
+  chiTietLenhSanXuats: IChiTietLenhSanXuat[] | null = [];
 
   lenhSanXuatsSharedCollection: ILenhSanXuat[] = [];
 
   editForm = this.fb.group({
     id: [],
-    reelID: [null, [Validators.required]],
-    partNumber: [null, [Validators.required]],
-    vendor: [null, [Validators.required]],
-    lot: [null, [Validators.required]],
-    userData1: [null, [Validators.required]],
-    userData2: [null, [Validators.required]],
-    userData3: [null, [Validators.required]],
-    userData4: [null, [Validators.required]],
-    userData5: [null, [Validators.required]],
-    initialQuantity: [null, [Validators.required]],
-    msdLevel: [],
-    msdInitialFloorTime: [],
-    msdBagSealDate: [],
-    marketUsage: [],
-    quantityOverride: [null, [Validators.required]],
-    shelfTime: [],
-    spMaterialName: [],
-    warningLimit: [],
-    maximumLimit: [],
-    comments: [],
-    warmupTime: [],
-    storageUnit: [null, [Validators.required]],
-    subStorageUnit: [],
-    locationOverride: [],
-    expirationDate: [null, [Validators.required]],
-    manufacturingDate: [null, [Validators.required]],
-    partClass: [],
+    maLenhSanXuat: [null, [Validators.required]],
     sapCode: [],
+    sapName: [],
+    workOrderCode: [],
+    version: [],
+    storageCode: [],
+    totalQuantity: [],
+    createBy: [],
+    entryTime: [],
     trangThai: [],
-    checked: [],
-    lenhSanXuat: [],
+    comment: [],
   });
 
   constructor(
     protected chiTietLenhSanXuatService: ChiTietLenhSanXuatService,
     protected lenhSanXuatService: LenhSanXuatService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected applicationConfigService: ApplicationConfigService,
+    protected http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ chiTietLenhSanXuat }) => {
-      if (chiTietLenhSanXuat.id === undefined) {
-        const today = dayjs().startOf('day');
-        chiTietLenhSanXuat.warmupTime = today;
-      }
+    this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
+      // if (lenhSanXuat.id === undefined) {
+      //   const today = dayjs().startOf('day');
+      //   lenhSanXuat.warmupTime = today;
+      // }
+      console.log('test: ', lenhSanXuat);
+      this.http.get<any>(`${this.resourceUrl}/${lenhSanXuat.id as number}`).subscribe(res => {
+        this.chiTietLenhSanXuats = res;
+        console.log('res', res);
+        console.log('lenhSanXuat', this.chiTietLenhSanXuats);
+      });
 
-      this.updateForm(chiTietLenhSanXuat);
+      this.updateForm(lenhSanXuat);
 
-      this.loadRelationshipsOptions();
+      // this.loadRelationshipsOptions();
     });
   }
 
@@ -84,13 +85,37 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     window.history.back();
   }
 
+  pheDuyetTem(): void {
+    this.changeStatus.trangThai = 'Đã phê duyệt';
+    console.log(this.changeStatus);
+    this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
+      console.log('Thành công');
+    });
+  }
+
+  khoHuyStatus(): void {
+    this.changeStatus.trangThai = 'Kho huỷ';
+    console.log(this.changeStatus);
+    this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
+      console.log('Thành công');
+    });
+  }
+
+  khoTuChoiStatus(): void {
+    this.changeStatus.trangThai = 'Từ chối';
+    console.log(this.changeStatus);
+    this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
+      console.log('Thành công');
+    });
+  }
+
   save(): void {
     this.isSaving = true;
-    const chiTietLenhSanXuat = this.createFromForm();
-    if (chiTietLenhSanXuat.id !== undefined) {
-      this.subscribeToSaveResponse(this.chiTietLenhSanXuatService.update(chiTietLenhSanXuat));
+    const lenhSanXuat = this.createFromForm();
+    if (lenhSanXuat.id !== undefined) {
+      this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
     } else {
-      this.subscribeToSaveResponse(this.chiTietLenhSanXuatService.create(chiTietLenhSanXuat));
+      this.subscribeToSaveResponse(this.lenhSanXuatService.create(lenhSanXuat));
     }
   }
 
@@ -98,7 +123,11 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     return item.id!;
   }
 
-  subscribeToSaveResponse(result: Observable<HttpResponse<IChiTietLenhSanXuat>>): void {
+  trackId(_index: number, item: IChiTietLenhSanXuat): number {
+    return item.id!;
+  }
+
+  subscribeToSaveResponse(result: Observable<HttpResponse<ILenhSanXuat>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),
@@ -117,95 +146,55 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  updateForm(chiTietLenhSanXuat: IChiTietLenhSanXuat): void {
+  updateForm(lenhSanXuat: ILenhSanXuat): void {
     this.editForm.patchValue({
-      id: chiTietLenhSanXuat.id,
-      reelID: chiTietLenhSanXuat.reelID,
-      partNumber: chiTietLenhSanXuat.partNumber,
-      vendor: chiTietLenhSanXuat.vendor,
-      lot: chiTietLenhSanXuat.lot,
-      userData1: chiTietLenhSanXuat.userData1,
-      userData2: chiTietLenhSanXuat.userData2,
-      userData3: chiTietLenhSanXuat.userData3,
-      userData4: chiTietLenhSanXuat.userData4,
-      userData5: chiTietLenhSanXuat.userData5,
-      initialQuantity: chiTietLenhSanXuat.initialQuantity,
-      msdLevel: chiTietLenhSanXuat.msdLevel,
-      msdInitialFloorTime: chiTietLenhSanXuat.msdInitialFloorTime,
-      msdBagSealDate: chiTietLenhSanXuat.msdBagSealDate,
-      marketUsage: chiTietLenhSanXuat.marketUsage,
-      quantityOverride: chiTietLenhSanXuat.quantityOverride,
-      shelfTime: chiTietLenhSanXuat.shelfTime,
-      spMaterialName: chiTietLenhSanXuat.spMaterialName,
-      warningLimit: chiTietLenhSanXuat.warningLimit,
-      maximumLimit: chiTietLenhSanXuat.maximumLimit,
-      comments: chiTietLenhSanXuat.comments,
-      warmupTime: chiTietLenhSanXuat.warmupTime ? chiTietLenhSanXuat.warmupTime.format(DATE_TIME_FORMAT) : null,
-      storageUnit: chiTietLenhSanXuat.storageUnit,
-      subStorageUnit: chiTietLenhSanXuat.subStorageUnit,
-      locationOverride: chiTietLenhSanXuat.locationOverride,
-      expirationDate: chiTietLenhSanXuat.expirationDate,
-      manufacturingDate: chiTietLenhSanXuat.manufacturingDate,
-      partClass: chiTietLenhSanXuat.partClass,
-      sapCode: chiTietLenhSanXuat.sapCode,
-      trangThai: chiTietLenhSanXuat.trangThai,
-      checked: chiTietLenhSanXuat.checked,
-      lenhSanXuat: chiTietLenhSanXuat.lenhSanXuat,
+      id: lenhSanXuat.id,
+      maLenhSanXuat: lenhSanXuat.maLenhSanXuat,
+      sapCode: lenhSanXuat.sapCode,
+      sapName: lenhSanXuat.sapName,
+      workOrderCode: lenhSanXuat.workOrderCode,
+      version: lenhSanXuat.version,
+      storageCode: lenhSanXuat.storageCode,
+      totalQuantity: lenhSanXuat.totalQuantity,
+      createBy: lenhSanXuat.createBy,
+      entryTime: lenhSanXuat.entryTime,
+      trangThai: lenhSanXuat.trangThai,
+      comment: lenhSanXuat.comment,
     });
 
-    this.lenhSanXuatsSharedCollection = this.lenhSanXuatService.addLenhSanXuatToCollectionIfMissing(
-      this.lenhSanXuatsSharedCollection,
-      chiTietLenhSanXuat.lenhSanXuat
-    );
+    // this.lenhSanXuatsSharedCollection = this.lenhSanXuatService.addLenhSanXuatToCollectionIfMissing(
+    //   this.lenhSanXuatsSharedCollection,
+    //   chiTietLenhSanXuat.lenhSanXuat
+    // );
   }
 
-  loadRelationshipsOptions(): void {
-    this.lenhSanXuatService
-      .query()
-      .pipe(map((res: HttpResponse<ILenhSanXuat[]>) => res.body ?? []))
-      .pipe(
-        map((lenhSanXuats: ILenhSanXuat[]) =>
-          this.lenhSanXuatService.addLenhSanXuatToCollectionIfMissing(lenhSanXuats, this.editForm.get('lenhSanXuat')!.value)
-        )
-      )
-      .subscribe((lenhSanXuats: ILenhSanXuat[]) => (this.lenhSanXuatsSharedCollection = lenhSanXuats));
-  }
+  // loadRelationshipsOptions(): void {
+  //   this.lenhSanXuatService
+  //     .query()
+  //     .pipe(map((res: HttpResponse<ILenhSanXuat[]>) => res.body ?? []))
+  //     .pipe(
+  //       map((lenhSanXuats: ILenhSanXuat[]) =>
+  //         this.lenhSanXuatService.addLenhSanXuatToCollectionIfMissing(lenhSanXuats, this.editForm.get('lenhSanXuat')!.value)
+  //       )
+  //     )
+  //     .subscribe((lenhSanXuats: ILenhSanXuat[]) => (this.lenhSanXuatsSharedCollection = lenhSanXuats));
+  // }
 
-  createFromForm(): IChiTietLenhSanXuat {
+  createFromForm(): ILenhSanXuat {
     return {
-      ...new ChiTietLenhSanXuat(),
+      ...new LenhSanXuat(),
       id: this.editForm.get(['id'])!.value,
-      reelID: this.editForm.get(['reelID'])!.value,
-      partNumber: this.editForm.get(['partNumber'])!.value,
-      vendor: this.editForm.get(['vendor'])!.value,
-      lot: this.editForm.get(['lot'])!.value,
-      userData1: this.editForm.get(['userData1'])!.value,
-      userData2: this.editForm.get(['userData2'])!.value,
-      userData3: this.editForm.get(['userData3'])!.value,
-      userData4: this.editForm.get(['userData4'])!.value,
-      userData5: this.editForm.get(['userData5'])!.value,
-      initialQuantity: this.editForm.get(['initialQuantity'])!.value,
-      msdLevel: this.editForm.get(['msdLevel'])!.value,
-      msdInitialFloorTime: this.editForm.get(['msdInitialFloorTime'])!.value,
-      msdBagSealDate: this.editForm.get(['msdBagSealDate'])!.value,
-      marketUsage: this.editForm.get(['marketUsage'])!.value,
-      quantityOverride: this.editForm.get(['quantityOverride'])!.value,
-      shelfTime: this.editForm.get(['shelfTime'])!.value,
-      spMaterialName: this.editForm.get(['spMaterialName'])!.value,
-      warningLimit: this.editForm.get(['warningLimit'])!.value,
-      maximumLimit: this.editForm.get(['maximumLimit'])!.value,
-      comments: this.editForm.get(['comments'])!.value,
-      warmupTime: this.editForm.get(['warmupTime'])!.value ? dayjs(this.editForm.get(['warmupTime'])!.value, DATE_TIME_FORMAT) : undefined,
-      storageUnit: this.editForm.get(['storageUnit'])!.value,
-      subStorageUnit: this.editForm.get(['subStorageUnit'])!.value,
-      locationOverride: this.editForm.get(['locationOverride'])!.value,
-      expirationDate: this.editForm.get(['expirationDate'])!.value,
-      manufacturingDate: this.editForm.get(['manufacturingDate'])!.value,
-      partClass: this.editForm.get(['partClass'])!.value,
+      maLenhSanXuat: this.editForm.get(['maLenhSanXuat'])!.value,
       sapCode: this.editForm.get(['sapCode'])!.value,
+      sapName: this.editForm.get(['sapName'])!.value,
+      workOrderCode: this.editForm.get(['workOrderCode'])!.value,
+      version: this.editForm.get(['version'])!.value,
+      storageCode: this.editForm.get(['storageCode'])!.value,
+      totalQuantity: this.editForm.get(['totalQuantity'])!.value,
+      createBy: this.editForm.get(['createBy'])!.value,
+      entryTime: this.editForm.get(['entryTime'])!.value,
       trangThai: this.editForm.get(['trangThai'])!.value,
-      checked: this.editForm.get(['checked'])!.value,
-      lenhSanXuat: this.editForm.get(['lenhSanXuat'])!.value,
+      comment: this.editForm.get(['comment'])!.value,
     };
   }
 

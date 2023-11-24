@@ -103,7 +103,14 @@
 
             <th scope="col" jhiSortBy="trangThai">
               <span>Trạng thái</span>
-              <input #searchInput type="text" formControlName="trangThai" placeholder="search" list="trangThai" />
+              <select class="form-control form-select" formControlName="trangThai">
+                <option value="Draft">Bản nháp</option>
+                <option value="Draft">Chờ duyệt</option>
+                <option value="Draft">Đã phê duyệt</option>
+                <option value="Draft">Từ chối</option>
+                <option value="Draft">Kho huỷ</option>
+                <option value="Draft">Bộ phận sản xuất huỷ</option>
+              </select>
             </th>
 
             <th scope="col" jhiSortBy="comment">

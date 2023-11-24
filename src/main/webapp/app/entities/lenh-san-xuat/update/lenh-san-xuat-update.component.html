@@ -1,5 +1,5 @@
 <div>
-  <div>
+  <div class="table-responsive" id="entities">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin tem sản xuất</h2>
       <table>
@@ -61,6 +61,7 @@
           </tr>
         </tbody>
       </table>
+
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin chi tiết tem</h2>
       <button class="btn-add" (click)="addRowThongSoTemIn()">Add</button>
 
@@ -68,10 +69,10 @@
         <thead>
           <tr>
             <th scope="col"><span>STT</span></th>
-            <th scope="col"><span>Reel ID</span></th>
-            <th scope="col">Part Number</th>
-            <th scope="col">Vendor</th>
-            <th scope="col">IOT</th>
+            <th scope="col"><span class="custom-width">Reel ID</span></th>
+            <th scope="col"><span class="custom-width">Part Number</span></th>
+            <th scope="col"><span class="custom-width">Vendor</span></th>
+            <th scope="col"><span class="custom-width">LOT</span></th>
             <th scope="col">User Data 1</th>
             <th scope="col">User Data 2</th>
             <th scope="col">User Data 3</th>
@@ -89,14 +90,14 @@
             <th scope="col">Maximum Limit</th>
             <th scope="col">Comments</th>
             <th scope="col">Warm Up Time</th>
-            <th scope="col">Storage Unit</th>
+            <th scope="col"><span class="custom-width">Storage Unit</span></th>
             <th scope="col">Sub Storage Unit</th>
             <th scope="col">Location Override</th>
             <th scope="col">Expiration Date</th>
             <th scope="col">ManuFacturing Date</th>
             <th scope="col">Part Class</th>
-            <th scope="col">Sap Code</th>
-            <th scope="col">Status</th>
+            <th scope="col"><span class="custom-width">Sap Code</span></th>
+            <th scope="col"><span class="custom-width">Status</span></th>
             <th scope="col">Options</th>
           </tr>
         </thead>
@@ -280,7 +281,10 @@
             <input class="input-table" type="text" list="sapCode" [(ngModel)]="data.sapCode" [ngModelOptions]="{ standalone: true }" />
           </td>
           <td>
-            <input class="input-table" type="text" list="trangThai" [(ngModel)]="data.trangThai" [ngModelOptions]="{ standalone: true }" />
+            <select class="form-control form-select" formControlName="trangThai">
+              <option value="">Active</option>
+              <option value="">Deactive</option>
+            </select>
           </td>
         </tr>
       </table>
@@ -299,7 +303,7 @@
         <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
       </button>
 
-      <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+      <button type="button" id="cancel-save" class="btn btn-secondary" (click)="boPhanSanXuatHuy()">
         <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ</span>
       </button>
 

@@ -136,3 +136,8 @@ select {
 .success-popup button:hover {
   background-color: #0056b3;
 }
+
+.custom-width {
+  display: inline-block;
+  width: 10rem;
+}

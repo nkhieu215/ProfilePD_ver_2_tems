@@ -90,7 +90,7 @@
     "no-console": "off",
     "no-eval": "error",
     "no-labels": "error",
-    "no-new": "error",
+    "no-new": ["off"],
     "no-new-wrappers": "error",
     "object-shorthand": ["error", "always", { "avoidExplicitReturnArrows": true }],
     "radix": "error",

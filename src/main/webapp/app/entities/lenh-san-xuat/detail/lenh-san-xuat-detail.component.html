@@ -2,9 +2,10 @@
   <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
     <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
   </button>
-  <div>
-    <a id="exportToCSV" href="#" class="export">Export Data To Excel</a>
-
+  <div class="table-responsive" id="entities">
+    <!-- <a href="#" class="export" (click)="exportCSV()">Export Data To Excel</a> -->
+    <button class="exportCSV" (click)="exportToExcel()">Export to excel</button>
+    <button class="exportCSV" (click)="exportCSV()">Export to csv</button>
     <div *ngIf="lenhSanXuat" id="dvData">
       <h2 data-cy="lenhSanXuatDetailsHeading"><span>Gửi yêu cầu phê duyệt</span></h2>
       <hr />
@@ -78,7 +79,7 @@
 
       <h2>Thông tin tem</h2>
       <hr />
-      <table class="table table-striped" aria-describedby="page-heading">
+      <table class="table table-striped" id="table-data">
         <thead>
           <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
             <th scope="col" jhiSortBy="STT">STT</th>
@@ -111,107 +112,108 @@
             <th scope="col" jhiSortBy="partClass">Part Class</th>
             <th scope="col" jhiSortBy="sapCode">Sap Code</th>
             <th scope="col" jhiSortBy="trangThai">Status</th>
-            <th scope="col" jhiSortBy="checked">Checked</th>
-            <th scope="col" jhiSortBy=""></th>
           </tr>
         </thead>
 
-        <tbody *ngFor="let data of chiTietLenhSanXuats; let i = index">
-          <td>
-            <span>{{ i + 1 }}</span>
-          </td>
+        <tbody>
+          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index">
+            <td>
+              <span>
+                {{ i + 1 }}
+              </span>
+            </td>
 
-          <td>
-            <span>{{ data.reelID }}</span>
-          </td>
+            <td>
+              {{ data.reelID }}
+            </td>
 
-          <td>
-            <span>{{ data.partNumber }}</span>
-          </td>
-          <td>
-            <span>{{ data.vendor }}</span>
-          </td>
-          <td>
-            <span>{{ data.lot }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData1 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData2 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData3 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData4 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData5 }}</span>
-          </td>
-          <td>
-            <span>{{ data.initialQuantity }}</span>
-          </td>
-          <td>
-            <span>{{ data.msdLevel }}</span>
-          </td>
-          <td>
-            <span>{{ data.msdInitialFloorTime }}</span>
-          </td>
-          <td>
-            <span>{{ data.msdBagSealDate }}</span>
-          </td>
-          <td>
-            <span>{{ data.marketUsage }}</span>
-          </td>
-          <td>
-            <span>{{ data.quantityOverride }}</span>
-          </td>
-          <td>
-            <span>{{ data.shelfTime }}</span>
-          </td>
-          <td>
-            <span>{{ data.spMaterialName }}</span>
-          </td>
-          <td>
-            <span>{{ data.warningLimit }}</span>
-          </td>
-          <td>
-            <span>{{ data.maximumLimit }}</span>
-          </td>
-          <td>
-            <span>{{ data.comments }}</span>
-          </td>
-          <td>
-            <span>{{ data.warmupTime }}</span>
-          </td>
-          <td>
-            <span>{{ data.storageUnit }}</span>
-          </td>
-          <td>
-            <span>{{ data.subStorageUnit }}</span>
-          </td>
-          <td>
-            <span>{{ data.locationOverride }}</span>
-          </td>
-          <td>
-            <span>{{ data.expirationDate }}</span>
-          </td>
-          <td>
-            <span>{{ data.manufacturingDate }}</span>
-          </td>
-          <td>
-            <span>{{ data.partClass }}</span>
-          </td>
-          <td>
-            <span>{{ data.sapCode }}</span>
-          </td>
-          <td>
-            <span>{{ data.trangThai }}</span>
-          </td>
-          <td>
-            <span>{{ data.checked }}</span>
-          </td>
+            <td>
+              {{ data.partNumber }}
+            </td>
+            <td>
+              {{ data.vendor }}
+            </td>
+            <td>
+              {{ data.lot }}
+            </td>
+            <td>
+              {{ data.userData1 }}
+            </td>
+            <td>
+              {{ data.userData2 }}
+            </td>
+            <td>
+              {{ data.userData3 }}
+            </td>
+            <td>
+              {{ data.userData4 }}
+            </td>
+            <td>
+              {{ data.userData5 }}
+            </td>
+            <td>
+              {{ data.initialQuantity }}
+            </td>
+            <td>
+              {{ data.msdLevel }}
+            </td>
+            <td>
+              {{ data.msdInitialFloorTime }}
+            </td>
+            <td>
+              {{ data.msdBagSealDate }}
+            </td>
+            <td>
+              {{ data.marketUsage }}
+            </td>
+            <td>
+              {{ data.quantityOverride }}
+            </td>
+            <td>
+              {{ data.shelfTime }}
+            </td>
+            <td>
+              {{ data.spMaterialName }}
+            </td>
+            <td>
+              {{ data.warningLimit }}
+            </td>
+            <td>
+              {{ data.maximumLimit }}
+            </td>
+            <td>
+              {{ data.comments }}
+            </td>
+            <td>
+              {{ data.warmupTime }}
+            </td>
+            <td>
+              <span class="custom-width">
+                {{ data.storageUnit }}
+              </span>
+            </td>
+            <td>
+              {{ data.subStorageUnit }}
+            </td>
+            <td>
+              {{ data.locationOverride }}
+            </td>
+            <td>
+              {{ data.expirationDate }}
+            </td>
+            <td>
+              {{ data.manufacturingDate }}
+            </td>
+            <td>
+              {{ data.partClass }}
+            </td>
+            <td>
+              {{ data.sapCode }}
+            </td>
+            <td>
+              {{ data.trangThai }}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

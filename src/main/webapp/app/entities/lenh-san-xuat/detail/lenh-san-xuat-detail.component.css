@@ -87,3 +87,8 @@ a.export:visited {
   border: 1px solid #ccc;
   padding: 8px;
 }
+
+.custom-width {
+  display: inline-block;
+  width: 10rem;
+}

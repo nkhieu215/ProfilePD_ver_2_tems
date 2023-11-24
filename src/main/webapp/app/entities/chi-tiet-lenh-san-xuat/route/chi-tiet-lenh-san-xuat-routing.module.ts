@@ -1,3 +1,4 @@
+import { LenhSanXuatRoutingResolveService } from './../../lenh-san-xuat/route/lenh-san-xuat-routing-resolve.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -20,7 +21,7 @@ const chiTietLenhSanXuatRoute: Routes = [
     path: ':id/view',
     component: ChiTietLenhSanXuatDetailComponent,
     resolve: {
-      chiTietLenhSanXuat: ChiTietLenhSanXuatRoutingResolveService,
+      lenhSanXuat: LenhSanXuatRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
   },
@@ -36,7 +37,7 @@ const chiTietLenhSanXuatRoute: Routes = [
     path: ':id/edit',
     component: ChiTietLenhSanXuatUpdateComponent,
     resolve: {
-      chiTietLenhSanXuat: ChiTietLenhSanXuatRoutingResolveService,
+      lenhSanXuat: LenhSanXuatRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
   },

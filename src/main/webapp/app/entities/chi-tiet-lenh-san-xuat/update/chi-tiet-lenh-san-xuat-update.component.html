@@ -1,10 +1,10 @@
 <div>
-  <div>
+  <div class="table-responsive" id="entities">
     <div class="export-file">
       <button (click)="exportToExcel()">Export</button>
     </div>
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-chi-tiet-lenh-san-xuat-heading" data-cy="ChiTietLenhSanXuatCreateUpdateHeading">Duyệt yêu cầu</h2>
+      <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Duyệt yêu cầu</h2>
       <div>
         <table>
           <thead>
@@ -69,7 +69,7 @@
                 <input class="form-control" id="totalQuantity" list="totalQuantity" formControlName="totalQuantity" />
               </td>
               <td>
-                <input class="form-control" id="UpdateBy" list="UpdateBy" formControlName="UpdateBy" />
+                <input class="form-control" id="createBy" list="createBy" formControlName="createBy" />
               </td>
               <td>
                 <input class="form-control" id="entryTime" list="entryTime" formControlName="entryTime" />
@@ -86,171 +86,364 @@
 
         <button class="btn-scan" role="button">Scan tem</button>
         <input type="text" />
-        <h3>Danh sách tem có trong lệnh</h3>
-        <table>
+
+        <h3 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Danh sách tem có trong lệnh</h3>
+        <table class="table table-striped" aria-describedby="page-heading">
           <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-              <th scope="col" jhiSortBy="STT">STT</th>
-              <th scope="col" jhiSortBy="reelID">Reel ID</th>
-              <th scope="col" jhiSortBy="partNumber">Part Number</th>
-              <th scope="col" jhiSortBy="vendor">Vendor</th>
-              <th scope="col" jhiSortBy="lot">IOT</th>
-              <th scope="col" jhiSortBy="userData1">User Data 1</th>
-              <th scope="col" jhiSortBy="userData2">User Data 2</th>
-              <th scope="col" jhiSortBy="userData3">User Data 3</th>
-              <th scope="col" jhiSortBy="userData4">User Data 4</th>
-              <th scope="col" jhiSortBy="userData5">User Data 5</th>
-              <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
-              <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
-              <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
-              <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
-              <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
-              <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
-              <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
-              <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
-              <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
-              <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
-              <th scope="col" jhiSortBy="comments">Comments</th>
-              <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
-              <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
-              <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
-              <th scope="col" jhiSortBy="locationOverride">Location Override</th>
-              <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
-              <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
-              <th scope="col" jhiSortBy="partClass">Part Class</th>
-              <th scope="col" jhiSortBy="sapCode">Sap Code</th>
-              <th scope="col" jhiSortBy="trangThai">Status</th>
-              <th scope="col" jhiSortBy="checked">Checked</th>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col"><span class="custom-width">Reel ID</span></th>
+              <th scope="col"><span class="custom-width">Part Number</span></th>
+              <th scope="col"><span class="custom-width">Vendor</span></th>
+              <th scope="col"><span class="custom-width">LOT</span></th>
+              <th scope="col">User Data 1</th>
+              <th scope="col">User Data 2</th>
+              <th scope="col">User Data 3</th>
+              <th scope="col">User Data 4</th>
+              <th scope="col">User Data 5</th>
+              <th scope="col">Initial Quantity</th>
+              <th scope="col">MSD Level</th>
+              <th scope="col">MSD Initial Floor Time</th>
+              <th scope="col">MSD Bag Seal Date</th>
+              <th scope="col">Market Usage</th>
+              <th scope="col">Quantity Override</th>
+              <th scope="col">Shelf Time</th>
+              <th scope="col">SP Material Name</th>
+              <th scope="col">Warning Limit</th>
+              <th scope="col">Maximum Limit</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Warm Up Time</th>
+              <th scope="col"><span class="custom-width">Storage Unit</span></th>
+              <th scope="col">Sub Storage Unit</th>
+              <th scope="col">Location Override</th>
+              <th scope="col">Expiration Date</th>
+              <th scope="col">ManuFacturing Date</th>
+              <th scope="col">Part Class</th>
+              <th scope="col">Sap Code</th>
+              <th scope="col"><span class="custom-width">Status</span></th>
+              <th scope="col">Checked</th>
               <!-- <th scope="col" jhiSortBy=""></th> -->
             </tr>
           </thead>
 
-          <tbody>
-            <tr data-cy="entityTable">
-              <td></td>
-              <td><input class="form-control" id="reelID" list="reelID" formControlName="reelID" /></td>
-              <td><input class="form-control" id="partNumber" list="partNumber" formControlName="partNumber" /></td>
-              <td><input class="form-control" id="vendor" list="vendor" formControlName="vendor" /></td>
-              <td><input class="form-control" id="lot" list="lot" formControlName="lot" /></td>
-              <td><input class="form-control" id="userData1" list="userData1" formControlName="userData1" /></td>
-              <td><input class="form-control" id="userData2" list="userData2" formControlName="userData2" /></td>
-              <td><input class="form-control" id="userData3" list="userData3" formControlName="userData3" /></td>
-              <td><input class="form-control" id="userData4" list="userData4" formControlName="userData4" /></td>
-              <td><input class="form-control" id="userData5" list="userData5" formControlName="userData5" /></td>
-              <td><input class="form-control" id="initialQuantity" list="initialQuantity" formControlName="initialQuantity" /></td>
-              <td><input class="form-control" id="msdLevel" list="msdLevel" formControlName="msdLevel" /></td>
-              <td>
-                <input class="form-control" id="msdInitialFloorTime" list="msdInitialFloorTime" formControlName="msdInitialFloorTime" />
-              </td>
-              <td><input class="form-control" id="msdBagSealDate" list="msdBagSealDate" formControlName="msdBagSealDate" /></td>
-              <td><input class="form-control" id="marketUsage" list="marketUsage" formControlName="marketUsage" /></td>
-              <td><input class="form-control" id="quantityOverride" list="quantityOverride" formControlName="quantityOverride" /></td>
-              <td><input class="form-control" id="shelfTime" list="shelfTime" formControlName="shelfTime" /></td>
-              <td><input class="form-control" id="spMaterialName" list="spMaterialName" formControlName="spMaterialName" /></td>
-              <td><input class="form-control" id="warningLimit" list="warningLimit" formControlName="warningLimit" /></td>
-              <td><input class="form-control" id="maximumLimit" list="maximumLimit" formControlName="maximumLimit" /></td>
-              <td><input class="form-control" id="comments" list="comments" formControlName="comments" /></td>
-              <td><input class="form-control" id="warmupTime" list="warmupTime" formControlName="warmupTime" /></td>
-              <td><input class="form-control" id="storageUnit" list="storageUnit" formControlName="storageUnit" /></td>
-              <td><input class="form-control" id="subStorageUnit" list="subStorageUnit" formControlName="subStorageUnit" /></td>
-              <td><input class="form-control" id="locationOverride" list="locationOverride" formControlName="locationOverride" /></td>
-              <td><input class="form-control" id="expirationDate" list="expirationDate" formControlName="expirationDate" /></td>
-              <td><input class="form-control" id="manufacturingDate" list="manufacturingDate" formControlName="manufacturingDate" /></td>
-              <td><input class="form-control" id="partClass" list="partClass" formControlName="partClass" /></td>
-              <td><input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" /></td>
-              <td><input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" /></td>
-              <td><input type="checkbox" id="checked" list="checked" formControlName="checked" /></td>
-            </tr>
-          </tbody>
+          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index; trackBy: trackId" class="editable-row">
+            <td>
+              <span>{{ i + 1 }}</span>
+            </td>
+
+            <td>
+              <input class="input-table" type="text" list="reelID" [(ngModel)]="data.reelID" [ngModelOptions]="{ standalone: true }" />
+            </td>
+
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="partNumber"
+                [(ngModel)]="data.partNumber"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="vendor" [(ngModel)]="data.vendor" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="lot" [(ngModel)]="data.lot" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData1"
+                [(ngModel)]="data.userData1"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData2"
+                [(ngModel)]="data.userData2"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData3"
+                [(ngModel)]="data.userData3"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData4"
+                [(ngModel)]="data.userData4"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData5"
+                [(ngModel)]="data.userData5"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="initialQuantity"
+                [(ngModel)]="data.initialQuantity"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="msdLevel" [(ngModel)]="data.msdLevel" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="msdInitialFloorTime"
+                [(ngModel)]="data.msdInitialFloorTime"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="msdBagSealDate"
+                [(ngModel)]="data.msdBagSealDate"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="marketUsage"
+                [(ngModel)]="data.marketUsage"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="quantityOverride"
+                [(ngModel)]="data.quantityOverride"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="shelfTime"
+                [(ngModel)]="data.shelfTime"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="spMaterialName"
+                [(ngModel)]="data.spMaterialName"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="warningLimit"
+                [(ngModel)]="data.warningLimit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="maximumLimit"
+                [(ngModel)]="data.maximumLimit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="comments" [(ngModel)]="data.comments" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="warmupTime"
+                [(ngModel)]="data.warmupTime"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="storageUnit"
+                [(ngModel)]="data.storageUnit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="subStorageUnit"
+                [(ngModel)]="data.subStorageUnit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="locationOverride"
+                [(ngModel)]="data.locationOverride"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="expirationDate"
+                [(ngModel)]="data.expirationDate"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="manufacturingDate"
+                [(ngModel)]="data.manufacturingDate"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="partClass"
+                [(ngModel)]="data.partClass"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="sapCode" [(ngModel)]="data.sapCode" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <select class="form-control form-select" formControlName="trangThai">
+                <option [ngValue]="" hidden>{{ data.trangThai }}</option>
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </td>
+            <td>
+              <input type="checkbox" />
+            </td>
+          </tr>
         </table>
 
         <h3>Danh sách tem không có trong lệnh</h3>
         <table>
           <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-              <th scope="col" jhiSortBy="STT">STT</th>
-              <th scope="col" jhiSortBy="reelID">Reel ID</th>
-              <th scope="col" jhiSortBy="partNumber">Part Number</th>
-              <th scope="col" jhiSortBy="vendor">Vendor</th>
-              <th scope="col" jhiSortBy="lot">IOT</th>
-              <th scope="col" jhiSortBy="userData1">User Data 1</th>
-              <th scope="col" jhiSortBy="userData2">User Data 2</th>
-              <th scope="col" jhiSortBy="userData3">User Data 3</th>
-              <th scope="col" jhiSortBy="userData4">User Data 4</th>
-              <th scope="col" jhiSortBy="userData5">User Data 5</th>
-              <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
-              <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
-              <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
-              <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
-              <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
-              <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
-              <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
-              <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
-              <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
-              <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
-              <th scope="col" jhiSortBy="comments">Comments</th>
-              <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
-              <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
-              <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
-              <th scope="col" jhiSortBy="locationOverride">Location Override</th>
-              <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
-              <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
-              <th scope="col" jhiSortBy="partClass">Part Class</th>
-              <th scope="col" jhiSortBy="sapCode">Sap Code</th>
-              <th scope="col" jhiSortBy="trangThai">Status</th>
-              <th scope="col" jhiSortBy="checked">Checked</th>
-              <th scope="col" jhiSortBy=""></th>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col"><span class="custom-width">Reel ID</span></th>
+              <th scope="col"><span class="custom-width">Part Number</span></th>
+              <th scope="col"><span class="custom-width">Vendor</span></th>
+              <th scope="col"><span class="custom-width">LOT</span></th>
+              <th scope="col">User Data 1</th>
+              <th scope="col">User Data 2</th>
+              <th scope="col">User Data 3</th>
+              <th scope="col">User Data 4</th>
+              <th scope="col">User Data 5</th>
+              <th scope="col">Initial Quantity</th>
+              <th scope="col">MSD Level</th>
+              <th scope="col">MSD Initial Floor Time</th>
+              <th scope="col">MSD Bag Seal Date</th>
+              <th scope="col">Market Usage</th>
+              <th scope="col">Quantity Override</th>
+              <th scope="col">Shelf Time</th>
+              <th scope="col">SP Material Name</th>
+              <th scope="col">Warning Limit</th>
+              <th scope="col">Maximum Limit</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Warm Up Time</th>
+              <th scope="col"><span class="custom-width">Storage Unit</span></th>
+              <th scope="col">Sub Storage Unit</th>
+              <th scope="col">Location Override</th>
+              <th scope="col">Expiration Date</th>
+              <th scope="col">ManuFacturing Date</th>
+              <th scope="col">Part Class</th>
+              <th scope="col"><span class="custom-width">Sap Code</span></th>
+              <th scope="col">Status</th>
+              <th scope="col">Checked</th>
+              <!-- <th scope="col"></th> -->
             </tr>
           </thead>
 
           <tbody>
-            <tr data-cy="entityTable">
-              <td></td>
-              <td><input class="form-control" id="reelID" list="reelID" formControlName="reelID" /></td>
-              <td><input class="form-control" id="partNumber" list="partNumber" formControlName="partNumber" /></td>
-              <td><input class="form-control" id="vendor" list="vendor" formControlName="vendor" /></td>
-              <td><input class="form-control" id="lot" list="lot" formControlName="lot" /></td>
-              <td><input class="form-control" id="userData1" list="userData1" formControlName="userData1" /></td>
-              <td><input class="form-control" id="userData2" list="userData2" formControlName="userData2" /></td>
-              <td><input class="form-control" id="userData3" list="userData3" formControlName="userData3" /></td>
-              <td><input class="form-control" id="userData4" list="userData4" formControlName="userData4" /></td>
-              <td><input class="form-control" id="userData5" list="userData5" formControlName="userData5" /></td>
-              <td><input class="form-control" id="initialQuantity" list="initialQuantity" formControlName="initialQuantity" /></td>
-              <td><input class="form-control" id="msdLevel" list="msdLevel" formControlName="msdLevel" /></td>
+            <tr *ngFor="let i = index" class="editable-row">
               <td>
-                <input class="form-control" id="msdInitialFloorTime" list="msdInitialFloorTime" formControlName="msdInitialFloorTime" />
+                <span>{{ i + 1 }}</span>
               </td>
-              <td><input class="form-control" id="msdBagSealDate" list="msdBagSealDate" formControlName="msdBagSealDate" /></td>
-              <td><input class="form-control" id="marketUsage" list="marketUsage" formControlName="marketUsage" /></td>
-              <td><input class="form-control" id="quantityOverride" list="quantityOverride" formControlName="quantityOverride" /></td>
-              <td><input class="form-control" id="shelfTime" list="shelfTime" formControlName="shelfTime" /></td>
-              <td><input class="form-control" id="spMaterialName" list="spMaterialName" formControlName="spMaterialName" /></td>
-              <td><input class="form-control" id="warningLimit" list="warningLimit" formControlName="warningLimit" /></td>
-              <td><input class="form-control" id="maximumLimit" list="maximumLimit" formControlName="maximumLimit" /></td>
-              <td><input class="form-control" id="comments" list="comments" formControlName="comments" /></td>
-              <td><input class="form-control" id="warmupTime" list="warmupTime" formControlName="warmupTime" /></td>
-              <td><input class="form-control" id="storageUnit" list="storageUnit" formControlName="storageUnit" /></td>
-              <td><input class="form-control" id="subStorageUnit" list="subStorageUnit" formControlName="subStorageUnit" /></td>
-              <td><input class="form-control" id="locationOverride" list="locationOverride" formControlName="locationOverride" /></td>
-              <td><input class="form-control" id="expirationDate" list="expirationDate" formControlName="expirationDate" /></td>
-              <td><input class="form-control" id="manufacturingDate" list="manufacturingDate" formControlName="manufacturingDate" /></td>
-              <td><input class="form-control" id="partClass" list="partClass" formControlName="partClass" /></td>
-              <td><input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" /></td>
-              <td><input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" /></td>
-              <td><input type="checkbox" id="checked" list="checked" formControlName="checked" /></td>
+              <td><input class="input-table" type="text" list="reelID" /></td>
+              <td><input class="form-control" id="partNumber" list="partNumber" /></td>
+              <td><input class="form-control" id="vendor" list="vendor" /></td>
+              <td><input class="form-control" id="lot" list="lot" /></td>
+              <td><input class="form-control" id="userData1" list="userData1" /></td>
+              <td><input class="form-control" id="userData2" list="userData2" /></td>
+              <td><input class="form-control" id="userData3" list="userData3" /></td>
+              <td><input class="form-control" id="userData4" list="userData4" /></td>
+              <td><input class="form-control" id="userData5" list="userData5" /></td>
+              <td><input class="form-control" id="initialQuantity" list="initialQuantity" /></td>
+              <td><input class="form-control" id="msdLevel" list="msdLevel" /></td>
+              <td>
+                <input class="form-control" id="msdInitialFloorTime" list="msdInitialFloorTime" />
+              </td>
+              <td><input class="form-control" id="msdBagSealDate" list="msdBagSealDate" /></td>
+              <td><input class="form-control" id="marketUsage" list="marketUsage" /></td>
+              <td><input class="form-control" id="quantityOverride" list="quantityOverride" /></td>
+              <td><input class="form-control" id="shelfTime" list="shelfTime" /></td>
+              <td><input class="form-control" id="spMaterialName" list="spMaterialName" /></td>
+              <td><input class="form-control" id="warningLimit" list="warningLimit" /></td>
+              <td><input class="form-control" id="maximumLimit" list="maximumLimit" /></td>
+              <td><input class="form-control" id="comments" list="comments" /></td>
+              <td><input class="form-control" id="warmupTime" list="warmupTime" /></td>
+              <td><input class="form-control" id="storageUnit" list="storageUnit" /></td>
+              <td><input class="form-control" id="subStorageUnit" list="subStorageUnit" /></td>
+              <td><input class="form-control" id="locationOverride" list="locationOverride" /></td>
+              <td><input class="form-control" id="expirationDate" list="expirationDate" /></td>
+              <td><input class="form-control" id="manufacturingDate" list="manufacturingDate" /></td>
+              <td><input class="form-control" id="partClass" list="partClass" /></td>
+              <td><input class="form-control" id="sapCode" list="sapCode" /></td>
+              <td><input class="form-control" id="trangThai" list="trangThai" /></td>
+              <td><input type="checkbox" id="checked" list="checked" /></td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div>
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+        <button type="submit" id="save-entity" class="btn btn-primary" (click)="pheDuyetTem()">
           <fa-icon icon="check"></fa-icon>&nbsp;<span>Phê duyệt</span>
         </button>
 
@@ -264,23 +457,11 @@
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
         </button>
 
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+        <button type="submit" id="save-entity" class="btn btn-primary" (click)="khoHuyStatus()">
           <fa-icon icon="xing-square"></fa-icon>&nbsp;<span>Huỷ</span>
         </button>
 
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
+        <button type="submit" id="save-entity" class="btn btn-primary" (click)="khoTuChoiStatus()">
           <fa-icon icon="cancel"></fa-icon>&nbsp;<span>Từ chối</span>
         </button>
 

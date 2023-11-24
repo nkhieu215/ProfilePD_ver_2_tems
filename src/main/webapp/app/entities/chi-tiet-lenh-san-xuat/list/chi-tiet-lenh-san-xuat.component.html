@@ -99,9 +99,14 @@
               <input type="datetime-local" ngbDatepicker #d="ngbDatepicker" />
             </th>
 
-            <th scope="col" jhiSortBy="initialQuantity">
+            <th scope="col" jhiSortBy="trangThai">
               <span>Trạng thái</span>
-              <input #searchInput type="text" formControlName="trangThai" placeholder="search" list="trangThai" />
+              <select class="form-control form-select" formControlName="trangThai">
+                <option value="">Chờ duyệt</option>
+                <option value="">Đã phê duyệt</option>
+                <option value="">Từ chối</option>
+                <option value="">Kho huỷ</option>
+              </select>
             </th>
 
             <th scope="col" jhiSortBy="msdLevel">

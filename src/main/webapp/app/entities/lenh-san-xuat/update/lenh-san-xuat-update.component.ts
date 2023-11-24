@@ -54,6 +54,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
+      console.log('test:', lenhSanXuat);
       // gán thông tin xác định vào changeStatus
       this.changeStatus.id = lenhSanXuat.id;
       this.changeStatus.totalQuantity = lenhSanXuat.totalQuantity;
@@ -80,6 +81,14 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     // Xác định đối tượng thay đổi
     // gán giá trị tương ứng
     this.changeStatus.trangThai = 'Chờ phê duyệt';
+    console.log(this.changeStatus);
+    this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
+      console.log('Thành công');
+    });
+  }
+
+  boPhanSanXuatHuy(): void {
+    this.changeStatus.trangThai = 'Bộ phận sản xuất huỷ';
     console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
       console.log('Thành công');
