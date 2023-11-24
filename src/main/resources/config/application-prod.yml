@@ -33,9 +33,9 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:sqlserver://localhost:1433;database=ProfileProductions;encrypt=true;trustServerCertificate=true;
+    url: jdbc:sqlserver://172.168.6.99:1433;database=ProfileProductions;encrypt=true;trustServerCertificate=true;
     username: SA
-    password: 123456
+    password: Led@R@ngDong
     hikari:
       poolName: Hikari
       auto-commit: false
