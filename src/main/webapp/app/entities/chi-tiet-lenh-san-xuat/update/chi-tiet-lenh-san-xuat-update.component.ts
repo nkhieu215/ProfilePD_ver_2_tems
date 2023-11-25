@@ -1,10 +1,10 @@
 import { ApplicationConfigService } from './../../../core/config/application-config.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, scan } from 'rxjs/operators';
 
 import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
@@ -13,6 +13,7 @@ import { IChiTietLenhSanXuat, ChiTietLenhSanXuat } from '../chi-tiet-lenh-san-xu
 import { ChiTietLenhSanXuatService } from '../service/chi-tiet-lenh-san-xuat.service';
 import { ILenhSanXuat, LenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
 import { LenhSanXuatService } from 'app/entities/lenh-san-xuat/service/lenh-san-xuat.service';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-chi-tiet-lenh-san-xuat-update',
@@ -39,9 +40,46 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   chiTietLenhSanXuatActive: IChiTietLenhSanXuat[] = [];
   //tạo danh sách lệnh sản xuất không có trong danh sách
   chiTietLenhSanXuatNotList: IChiTietLenhSanXuat[] = [];
-
+  // tạo biến lưu trữ giá trị scan
+  @Input() scanResults = '';
+  // tạo biến check sự tồn tại trong danh sách
+  isExisted = false;
+  scanValue: IChiTietLenhSanXuat = {
+    reelID: 0,
+    partNumber: 'null',
+    vendor: 'null',
+    lot: 'null',
+    userData1: 'null',
+    userData2: 'null',
+    userData3: 'null',
+    userData4: 0,
+    userData5: 0,
+    initialQuantity: 0,
+    msdLevel: 'null',
+    msdInitialFloorTime: 'null',
+    msdBagSealDate: 'null',
+    marketUsage: 'null',
+    quantityOverride: 0,
+    shelfTime: 'null',
+    spMaterialName: 'null',
+    warningLimit: 'null',
+    maximumLimit: 'null',
+    comments: 'null',
+    warmupTime: 'null',
+    storageUnit: 'null',
+    subStorageUnit: 'null',
+    locationOverride: 'null',
+    expirationDate: 'null',
+    manufacturingDate: 'null',
+    partClass: 'null',
+    sapCode: 0,
+    trangThai: 'deactive',
+    checked: 1,
+  };
   lenhSanXuatsSharedCollection: ILenhSanXuat[] = [];
-
+  scanResult = this.fb.group({
+    result: [],
+  });
   editForm = this.fb.group({
     id: [],
     maLenhSanXuat: [null, [Validators.required]],
@@ -67,6 +105,10 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // bắt sự kiện scan
+    this.scanResult.valueChanges.subscribe(data => {
+      console.log('data: ', data.length);
+    });
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
       // if (lenhSanXuat.id === undefined) {
       //   const today = dayjs().startOf('day');
@@ -91,7 +133,6 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         console.log('active list: ', this.chiTietLenhSanXuatActive);
         console.log('not list list: ', this.chiTietLenhSanXuatNotList);
       });
-
       this.updateForm(lenhSanXuat);
 
       // this.loadRelationshipsOptions();
@@ -178,25 +219,135 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       trangThai: lenhSanXuat.trangThai,
       comment: lenhSanXuat.comment,
     });
-
-    // this.lenhSanXuatsSharedCollection = this.lenhSanXuatService.addLenhSanXuatToCollectionIfMissing(
-    //   this.lenhSanXuatsSharedCollection,
-    //   chiTietLenhSanXuat.lenhSanXuat
-    // );
   }
-
-  // loadRelationshipsOptions(): void {
-  //   this.lenhSanXuatService
-  //     .query()
-  //     .pipe(map((res: HttpResponse<ILenhSanXuat[]>) => res.body ?? []))
-  //     .pipe(
-  //       map((lenhSanXuats: ILenhSanXuat[]) =>
-  //         this.lenhSanXuatService.addLenhSanXuatToCollectionIfMissing(lenhSanXuats, this.editForm.get('lenhSanXuat')!.value)
-  //       )
-  //     )
-  //     .subscribe((lenhSanXuats: ILenhSanXuat[]) => (this.lenhSanXuatsSharedCollection = lenhSanXuats));
-  // }
-
+  // chuyển hướng con trỏ
+  setInputValue(): void {
+    this.isExisted = false;
+    const input = document.getElementById('scan');
+    if (input) {
+      input.focus();
+    }
+  }
+  // bắt sự kiện scan
+  catchScanEvent(): void {
+    const test = this.scanResults.split('#');
+    for (let i = 0; i < test.length; i++) {
+      if (i === 0) {
+        this.scanValue.reelID = Number(test[i]);
+      }
+      if (i === 1) {
+        this.scanValue.partNumber = test[i];
+      }
+      if (i === 2) {
+        this.scanValue.vendor = test[i];
+      }
+      if (i === 3) {
+        this.scanValue.lot = test[i];
+      }
+      if (i === 4) {
+        this.scanValue.userData1 = test[i];
+      }
+      if (i === 5) {
+        this.scanValue.userData2 = test[i];
+      }
+      if (i === 6) {
+        test[i] = 'null';
+        this.scanValue.userData3 = test[i];
+      }
+      if (i === 7) {
+        this.scanValue.userData4 = Number(test[i]);
+      }
+      if (i === 8) {
+        this.scanValue.userData5 = Number(test[i]);
+      }
+      if (i === 9) {
+        this.scanValue.initialQuantity = Number(test[i]);
+      }
+      if (i === 10) {
+        this.scanValue.quantityOverride = Number(test[i]);
+      }
+      if (i === 11) {
+        this.scanValue.storageUnit = test[i];
+      }
+      if (i === 12) {
+        this.scanValue.expirationDate = test[i];
+      }
+      if (i === 13) {
+        this.scanValue.manufacturingDate = test[i];
+      }
+      if (i === 14) {
+        this.scanValue.sapCode = Number(test[i]);
+      }
+    }
+    // check trong danh sách
+    for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
+      // có trong danh sách
+      if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'active') {
+        this.isExisted = true;
+        this.chiTietLenhSanXuats[i].checked = 1;
+        console.log('đã tìm thấy tem trong danh sách');
+        break;
+      }
+      // có trong danh sách nhưng ở trạng thái deactive
+      if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'deactive') {
+        this.isExisted = true;
+        this.chiTietLenhSanXuats[i].checked = 1;
+        console.log('Tem đang ở trạng thái deactive');
+        break;
+      }
+    }
+    //không nằm trong danh sách
+    if (this.isExisted === false) {
+      // this.scanValue.comments = 'not list';
+      const item: IChiTietLenhSanXuat = {
+        reelID: this.scanValue.reelID,
+        partNumber: this.scanValue.partNumber,
+        vendor: this.scanValue.vendor,
+        lot: this.scanValue.lot,
+        userData1: this.scanValue.userData1,
+        userData2: this.scanValue.userData2,
+        userData3: this.scanValue.userData3,
+        userData4: this.scanValue.userData4,
+        userData5: this.scanValue.userData5,
+        initialQuantity: this.scanValue.initialQuantity,
+        msdLevel: 'null',
+        msdInitialFloorTime: 'null',
+        msdBagSealDate: 'null',
+        marketUsage: 'null',
+        quantityOverride: this.scanValue.quantityOverride,
+        shelfTime: 'null',
+        spMaterialName: 'null',
+        warningLimit: 'null',
+        maximumLimit: 'null',
+        comments: 'not list',
+        warmupTime: 'null',
+        storageUnit: this.scanValue.storageUnit,
+        subStorageUnit: 'null',
+        locationOverride: 'null',
+        expirationDate: this.scanValue.expirationDate,
+        manufacturingDate: this.scanValue.manufacturingDate,
+        partClass: 'null',
+        sapCode: this.scanValue.sapCode,
+        trangThai: 'deactive',
+        checked: 1,
+      };
+      this.chiTietLenhSanXuats.push(item);
+      console.log('tem không nằm trong danh sách');
+    }
+    //cập nhật lại danh sách chi tiết lsx ở trạng thái active
+    this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active' && a.comments === 'null');
+    // sắp xếp danh sách
+    this.chiTietLenhSanXuatActive.sort(function (a, b) {
+      if (a.checked !== undefined && a.checked !== null && b.checked !== undefined && b.checked !== null) {
+        return a.checked - b.checked;
+      }
+      return 0;
+    });
+    //cập nhật lại danh sách chi tiết lsx không có trong danh sách
+    this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.comments === 'not list');
+    this.scanResults = '';
+    console.log(this.scanValue);
+  }
   createFromForm(): ILenhSanXuat {
     return {
       ...new LenhSanXuat(),

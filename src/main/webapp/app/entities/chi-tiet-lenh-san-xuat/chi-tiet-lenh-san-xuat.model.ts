@@ -23,7 +23,7 @@ export interface IChiTietLenhSanXuat {
   warningLimit?: string | null;
   maximumLimit?: string | null;
   comments?: string | null;
-  warmupTime?: dayjs.Dayjs | null;
+  warmupTime?: string | null;
   storageUnit?: string;
   subStorageUnit?: string | null;
   locationOverride?: string | null;
@@ -59,7 +59,7 @@ export class ChiTietLenhSanXuat implements IChiTietLenhSanXuat {
     public warningLimit?: string | null,
     public maximumLimit?: string | null,
     public comments?: string | null,
-    public warmupTime?: dayjs.Dayjs | null,
+    public warmupTime?: string | null,
     public storageUnit?: string,
     public subStorageUnit?: string | null,
     public locationOverride?: string | null,

@@ -23,37 +23,37 @@ export class ChiTietLenhSanXuatService {
 
   create(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
     console.log('thanh cong 1');
-    const copy = this.convertDateFromClient(chiTietLenhSanXuat);
-    return this.http
-      .post<IChiTietLenhSanXuat>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    const copy = chiTietLenhSanXuat;
+    return this.http.post<IChiTietLenhSanXuat>(this.resourceUrl, copy, { observe: 'response' });
   }
 
   update(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(chiTietLenhSanXuat);
+    const copy = chiTietLenhSanXuat;
     console.log('thanh cong 2');
-    return this.http
-      .put<IChiTietLenhSanXuat>(`${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`, copy, {
+    return this.http.put<IChiTietLenhSanXuat>(
+      `${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`,
+      copy,
+      {
         observe: 'response',
-      })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+      }
+    );
   }
 
   partialUpdate(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(chiTietLenhSanXuat);
+    const copy = chiTietLenhSanXuat;
     console.log('thanh cong 3');
-    return this.http
-      .patch<IChiTietLenhSanXuat>(`${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`, copy, {
+    return this.http.patch<IChiTietLenhSanXuat>(
+      `${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`,
+      copy,
+      {
         observe: 'response',
-      })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+      }
+    );
   }
 
   find(id: number): Observable<EntityResponseType> {
     console.log('thanh cong 4s');
-    return this.http
-      .get<IChiTietLenhSanXuat>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<IChiTietLenhSanXuat>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
   // lay thong tin lenh san xuat
   find1(id: number): Observable<EntityResponseType1> {
@@ -63,9 +63,7 @@ export class ChiTietLenhSanXuatService {
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     console.log('thanh cong 5');
-    return this.http
-      .get<IChiTietLenhSanXuat[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<IChiTietLenhSanXuat[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -92,27 +90,5 @@ export class ChiTietLenhSanXuatService {
       return [...chiTietLenhSanXuatsToAdd, ...chiTietLenhSanXuatCollection];
     }
     return chiTietLenhSanXuatCollection;
-  }
-
-  protected convertDateFromClient(chiTietLenhSanXuat: IChiTietLenhSanXuat): IChiTietLenhSanXuat {
-    return Object.assign({}, chiTietLenhSanXuat, {
-      warmupTime: chiTietLenhSanXuat.warmupTime?.isValid() ? chiTietLenhSanXuat.warmupTime.toJSON() : undefined,
-    });
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.warmupTime = res.body.warmupTime ? dayjs(res.body.warmupTime) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((chiTietLenhSanXuat: IChiTietLenhSanXuat) => {
-        chiTietLenhSanXuat.warmupTime = chiTietLenhSanXuat.warmupTime ? dayjs(chiTietLenhSanXuat.warmupTime) : undefined;
-      });
-    }
-    return res;
   }
 }

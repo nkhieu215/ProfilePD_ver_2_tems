@@ -769,10 +769,14 @@ public class UserServices {
     public void updateChiTietLenhSanXuat(List<ChiTietLenhSanXuat> request) {
         for (ChiTietLenhSanXuat chiTietLenhSanXuat : request) {
             ChiTietLenhSanXuat entity = this.chiTietLenhSanXuatRepository.findById(chiTietLenhSanXuat.getId()).orElse(null);
-            entity.setInitialQuantity(chiTietLenhSanXuat.getInitialQuantity());
-            entity.setStorageUnit(chiTietLenhSanXuat.getStorageUnit());
-            entity.setTrangThai(chiTietLenhSanXuat.getTrangThai());
-            this.chiTietLenhSanXuatRepository.save(chiTietLenhSanXuat);
+            if (entity != null) {
+                entity.setInitialQuantity(chiTietLenhSanXuat.getInitialQuantity());
+                entity.setStorageUnit(chiTietLenhSanXuat.getStorageUnit());
+                entity.setTrangThai(chiTietLenhSanXuat.getTrangThai());
+                this.chiTietLenhSanXuatRepository.save(chiTietLenhSanXuat);
+            } else {
+                System.out.println("khong tim thay");
+            }
         }
     }
 

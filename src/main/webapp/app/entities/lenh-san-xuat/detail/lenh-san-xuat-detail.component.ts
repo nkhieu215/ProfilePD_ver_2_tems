@@ -43,7 +43,7 @@ export class LenhSanXuatDetailComponent implements OnInit {
     warningLimit?: string | null;
     maximumLimit?: string | null;
     comments?: string | null;
-    warmupTime?: dayjs.Dayjs | null;
+    warmupTime?: string | null;
     storageUnit?: string;
     subStorageUnit?: string | null;
     locationOverride?: string | null;
@@ -95,7 +95,7 @@ export class LenhSanXuatDetailComponent implements OnInit {
         warningLimit?: string | null;
         maximumLimit?: string | null;
         comments?: string | null;
-        warmupTime?: dayjs.Dayjs | null;
+        warmupTime?: string | null;
         storageUnit?: string;
         subStorageUnit?: string | null;
         locationOverride?: string | null;

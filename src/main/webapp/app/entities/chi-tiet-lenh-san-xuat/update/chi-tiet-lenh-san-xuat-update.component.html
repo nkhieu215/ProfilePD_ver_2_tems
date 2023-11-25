@@ -3,7 +3,7 @@
     <div class="export-file">
       <button (click)="exportToExcel()">Export</button>
     </div>
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate [formGroup]="editForm">
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Duyệt yêu cầu</h2>
       <div>
         <table>
@@ -83,9 +83,11 @@
             </tr>
           </tbody>
         </table>
-
-        <button class="btn-scan" role="button">Scan tem</button>
-        <input type="text" />
+        <form [formGroup]="scanResult">
+          <button class="btn-scan" role="button" (click)="setInputValue()">Scan tem</button>
+          <input type="text" id="scan" [(ngModel)]="scanResults" [ngModelOptions]="{ standalone: true }" hidden />
+          <button class="btn-scan" *ngIf="scanResults !== ''" (click)="catchScanEvent()">Kiểm tra</button>
+        </form>
         <!-- danh sách tems có trong lệnh sản xuất -->
         <h3 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Danh sách tem có trong lệnh</h3>
         <table class="table table-striped" aria-describedby="page-heading">
@@ -647,6 +649,7 @@
           data-cy="entityCreateSaveButton"
           [disabled]="editForm.invalid || isSaving"
           class="btn btn-primary"
+          (click)="save()"
         >
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
         </button>
