@@ -765,6 +765,17 @@ public class UserServices {
         }
     }
 
+    //☺ cập nhật chi tiết lệnh sản xuất
+    public void updateChiTietLenhSanXuat(List<ChiTietLenhSanXuat> request) {
+        for (ChiTietLenhSanXuat chiTietLenhSanXuat : request) {
+            ChiTietLenhSanXuat entity = this.chiTietLenhSanXuatRepository.findById(chiTietLenhSanXuat.getId()).orElse(null);
+            entity.setInitialQuantity(chiTietLenhSanXuat.getInitialQuantity());
+            entity.setStorageUnit(chiTietLenhSanXuat.getStorageUnit());
+            entity.setTrangThai(chiTietLenhSanXuat.getTrangThai());
+            this.chiTietLenhSanXuatRepository.save(chiTietLenhSanXuat);
+        }
+    }
+
     //---------------------------------------- * ----------------------------------------------------------------------
     // ---------------------- Nhom san pham ---------------------
     public List<String> getAllNhomSanPham() {

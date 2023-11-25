@@ -34,7 +34,11 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     trangThai: string;
   } = { id: 0, totalQuantity: '', trangThai: '' };
 
-  chiTietLenhSanXuats: IChiTietLenhSanXuat[] | null = [];
+  chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
+  //tạo danh sách lệnh sản xuất ở trạng thái active
+  chiTietLenhSanXuatActive: IChiTietLenhSanXuat[] = [];
+  //tạo danh sách lệnh sản xuất không có trong danh sách
+  chiTietLenhSanXuatNotList: IChiTietLenhSanXuat[] = [];
 
   lenhSanXuatsSharedCollection: ILenhSanXuat[] = [];
 
@@ -73,6 +77,19 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         this.chiTietLenhSanXuats = res;
         console.log('res', res);
         console.log('lenhSanXuat', this.chiTietLenhSanXuats);
+        //lấy danh sách chi tiết lsx ở trạng thái active
+        this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active' && a.comments === 'null');
+        // sắp xếp danh sách
+        this.chiTietLenhSanXuatActive.sort(function (a, b) {
+          if (a.checked !== undefined && a.checked !== null && b.checked !== undefined && b.checked !== null) {
+            return a.checked - b.checked;
+          }
+          return 0;
+        });
+        //lấy danh sách chi tiết lsx không có trong danh sách
+        this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.comments === 'not list');
+        console.log('active list: ', this.chiTietLenhSanXuatActive);
+        console.log('not list list: ', this.chiTietLenhSanXuatNotList);
       });
 
       this.updateForm(lenhSanXuat);

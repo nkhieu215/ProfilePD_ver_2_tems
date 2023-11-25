@@ -86,7 +86,7 @@
 
         <button class="btn-scan" role="button">Scan tem</button>
         <input type="text" />
-
+        <!-- danh sách tems có trong lệnh sản xuất -->
         <h3 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Danh sách tem có trong lệnh</h3>
         <table class="table table-striped" aria-describedby="page-heading">
           <thead>
@@ -126,7 +126,7 @@
             </tr>
           </thead>
 
-          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index; trackBy: trackId" class="editable-row">
+          <tr *ngFor="let data of chiTietLenhSanXuatActive; let i = index; trackBy: trackId" class="editable-row">
             <td>
               <span>{{ i + 1 }}</span>
             </td>
@@ -349,20 +349,20 @@
               <input class="input-table" type="text" list="sapCode" [(ngModel)]="data.sapCode" [ngModelOptions]="{ standalone: true }" />
             </td>
             <td>
-              <select class="form-control form-select" formControlName="trangThai">
+              <select class="form-control form-select" [(ngModel)]="data.trangThai" [ngModelOptions]="{ standalone: true }">
                 <option [ngValue]="" hidden>{{ data.trangThai }}</option>
                 <option value="active">active</option>
                 <option value="deactive">deactive</option>
               </select>
             </td>
             <td>
-              <input type="checkbox" />
+              <input type="text" [(ngModel)]="data.checked" [ngModelOptions]="{ standalone: true }" />
             </td>
           </tr>
         </table>
-
+        <!-- danh sách tem không nằm trong lệnh sản xuất -->
         <h3>Danh sách tem không có trong lệnh</h3>
-        <table>
+        <table class="table table-striped" aria-describedby="page-heading">
           <thead>
             <tr>
               <th scope="col">STT</th>
@@ -393,52 +393,246 @@
               <th scope="col">Expiration Date</th>
               <th scope="col">ManuFacturing Date</th>
               <th scope="col">Part Class</th>
-              <th scope="col"><span class="custom-width">Sap Code</span></th>
-              <th scope="col">Status</th>
+              <th scope="col">Sap Code</th>
+              <th scope="col"><span class="custom-width">Status</span></th>
               <th scope="col">Checked</th>
-              <!-- <th scope="col"></th> -->
+              <!-- <th scope="col" jhiSortBy=""></th> -->
             </tr>
           </thead>
 
-          <tbody>
-            <tr *ngFor="let i = index" class="editable-row">
-              <td>
-                <span>{{ i + 1 }}</span>
-              </td>
-              <td><input class="input-table" type="text" list="reelID" /></td>
-              <td><input class="form-control" id="partNumber" list="partNumber" /></td>
-              <td><input class="form-control" id="vendor" list="vendor" /></td>
-              <td><input class="form-control" id="lot" list="lot" /></td>
-              <td><input class="form-control" id="userData1" list="userData1" /></td>
-              <td><input class="form-control" id="userData2" list="userData2" /></td>
-              <td><input class="form-control" id="userData3" list="userData3" /></td>
-              <td><input class="form-control" id="userData4" list="userData4" /></td>
-              <td><input class="form-control" id="userData5" list="userData5" /></td>
-              <td><input class="form-control" id="initialQuantity" list="initialQuantity" /></td>
-              <td><input class="form-control" id="msdLevel" list="msdLevel" /></td>
-              <td>
-                <input class="form-control" id="msdInitialFloorTime" list="msdInitialFloorTime" />
-              </td>
-              <td><input class="form-control" id="msdBagSealDate" list="msdBagSealDate" /></td>
-              <td><input class="form-control" id="marketUsage" list="marketUsage" /></td>
-              <td><input class="form-control" id="quantityOverride" list="quantityOverride" /></td>
-              <td><input class="form-control" id="shelfTime" list="shelfTime" /></td>
-              <td><input class="form-control" id="spMaterialName" list="spMaterialName" /></td>
-              <td><input class="form-control" id="warningLimit" list="warningLimit" /></td>
-              <td><input class="form-control" id="maximumLimit" list="maximumLimit" /></td>
-              <td><input class="form-control" id="comments" list="comments" /></td>
-              <td><input class="form-control" id="warmupTime" list="warmupTime" /></td>
-              <td><input class="form-control" id="storageUnit" list="storageUnit" /></td>
-              <td><input class="form-control" id="subStorageUnit" list="subStorageUnit" /></td>
-              <td><input class="form-control" id="locationOverride" list="locationOverride" /></td>
-              <td><input class="form-control" id="expirationDate" list="expirationDate" /></td>
-              <td><input class="form-control" id="manufacturingDate" list="manufacturingDate" /></td>
-              <td><input class="form-control" id="partClass" list="partClass" /></td>
-              <td><input class="form-control" id="sapCode" list="sapCode" /></td>
-              <td><input class="form-control" id="trangThai" list="trangThai" /></td>
-              <td><input type="checkbox" id="checked" list="checked" /></td>
-            </tr>
-          </tbody>
+          <tr *ngFor="let data of chiTietLenhSanXuatNotList; let i = index; trackBy: trackId" class="editable-row">
+            <td>
+              <span>{{ i + 1 }}</span>
+            </td>
+
+            <td>
+              <input class="input-table" type="text" list="reelID" [(ngModel)]="data.reelID" [ngModelOptions]="{ standalone: true }" />
+            </td>
+
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="partNumber"
+                [(ngModel)]="data.partNumber"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="vendor" [(ngModel)]="data.vendor" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="lot" [(ngModel)]="data.lot" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData1"
+                [(ngModel)]="data.userData1"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData2"
+                [(ngModel)]="data.userData2"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData3"
+                [(ngModel)]="data.userData3"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData4"
+                [(ngModel)]="data.userData4"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="userData5"
+                [(ngModel)]="data.userData5"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="initialQuantity"
+                [(ngModel)]="data.initialQuantity"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="msdLevel" [(ngModel)]="data.msdLevel" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="msdInitialFloorTime"
+                [(ngModel)]="data.msdInitialFloorTime"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="msdBagSealDate"
+                [(ngModel)]="data.msdBagSealDate"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="marketUsage"
+                [(ngModel)]="data.marketUsage"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="quantityOverride"
+                [(ngModel)]="data.quantityOverride"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="shelfTime"
+                [(ngModel)]="data.shelfTime"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="spMaterialName"
+                [(ngModel)]="data.spMaterialName"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="warningLimit"
+                [(ngModel)]="data.warningLimit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="maximumLimit"
+                [(ngModel)]="data.maximumLimit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="comments" [(ngModel)]="data.comments" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="warmupTime"
+                [(ngModel)]="data.warmupTime"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="storageUnit"
+                [(ngModel)]="data.storageUnit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="subStorageUnit"
+                [(ngModel)]="data.subStorageUnit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="locationOverride"
+                [(ngModel)]="data.locationOverride"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="expirationDate"
+                [(ngModel)]="data.expirationDate"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="manufacturingDate"
+                [(ngModel)]="data.manufacturingDate"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="partClass"
+                [(ngModel)]="data.partClass"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <input class="input-table" type="text" list="sapCode" [(ngModel)]="data.sapCode" [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <select class="form-control form-select" [(ngModel)]="data.trangThai" [ngModelOptions]="{ standalone: true }">
+                <option [ngValue]="" hidden>{{ data.trangThai }}</option>
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" [(ngModel)]="data.checked" [ngModelOptions]="{ standalone: true }" />
+            </td>
+          </tr>
         </table>
       </div>
 

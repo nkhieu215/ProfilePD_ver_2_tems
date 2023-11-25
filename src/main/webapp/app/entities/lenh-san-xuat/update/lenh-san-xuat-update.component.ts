@@ -1,5 +1,5 @@
 import { IChiTietLenhSanXuat } from './../../chi-tiet-lenh-san-xuat/chi-tiet-lenh-san-xuat.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -17,12 +17,13 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 })
 export class LenhSanXuatUpdateComponent implements OnInit {
   resourceUrl = this.applicationConfigService.getEndpointFor('/api/chi-tiet-lenh-san-xuat');
-  chiTietLenhSanXuats: IChiTietLenhSanXuat[] | null = [];
-
+  resourceUrl1 = this.applicationConfigService.getEndpointFor('/api/chi-tiet-lenh-san-xuat/update');
+  chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
+  @Input() storageUnit = '';
   isSaving = false;
   predicate!: string;
   ascending!: boolean;
-
+  tongSoLuong = 0;
   changeStatus: {
     id: number;
     totalQuantity: string;
@@ -100,6 +101,9 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     const lenhSanXuat = this.createFromForm();
     if (lenhSanXuat.id !== undefined) {
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
+      this.http.put<any>(`${this.resourceUrl1}`, this.chiTietLenhSanXuats).subscribe(() => {
+        console.log(this.chiTietLenhSanXuats);
+      });
     } else {
       this.subscribeToSaveResponse(this.lenhSanXuatService.create(lenhSanXuat));
     }
@@ -123,7 +127,28 @@ export class LenhSanXuatUpdateComponent implements OnInit {
   onSaveFinalize(): void {
     this.isSaving = false;
   }
-
+  // bắt sự kiện thay đổi số lượng
+  changeQuantity(): void {
+    // cộng lại số lượng tổng
+    this.tongSoLuong = 0;
+    for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
+      if (this.chiTietLenhSanXuats[i].trangThai === 'active') {
+        const result = this.chiTietLenhSanXuats[i].initialQuantity;
+        if (result) {
+          this.tongSoLuong += Number(result);
+        }
+      }
+    }
+    this.editForm.patchValue({
+      totalQuantity: this.tongSoLuong,
+    });
+  }
+  // cập nhật storageUnit tất cả danh sách
+  changeAllStorageUnit(): void {
+    for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
+      this.chiTietLenhSanXuats[i].storageUnit = this.storageUnit;
+    }
+  }
   updateForm(lenhSanXuat: ILenhSanXuat): void {
     this.editForm.patchValue({
       id: lenhSanXuat.id,

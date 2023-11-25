@@ -1,6 +1,6 @@
 <div>
   <div class="table-responsive" id="entities">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate [formGroup]="editForm">
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin tem sản xuất</h2>
       <table>
         <thead>
@@ -90,7 +90,11 @@
             <th scope="col">Maximum Limit</th>
             <th scope="col">Comments</th>
             <th scope="col">Warm Up Time</th>
-            <th scope="col"><span class="custom-width">Storage Unit</span></th>
+            <th scope="col">
+              <span class="custom-width">Storage Unit</span>
+              <input type="text" [(ngModel)]="storageUnit" [ngModelOptions]="{ standalone: true }" />
+              <button (click)="changeAllStorageUnit()"><fa-icon icon="eye"></fa-icon></button>
+            </th>
             <th scope="col">Sub Storage Unit</th>
             <th scope="col">Location Override</th>
             <th scope="col">Expiration Date</th>
@@ -146,6 +150,7 @@
               list="initialQuantity"
               [(ngModel)]="data.initialQuantity"
               [ngModelOptions]="{ standalone: true }"
+              (change)="changeQuantity()"
             />
           </td>
           <td>
@@ -281,9 +286,15 @@
             <input class="input-table" type="text" list="sapCode" [(ngModel)]="data.sapCode" [ngModelOptions]="{ standalone: true }" />
           </td>
           <td>
-            <select class="form-control form-select" formControlName="trangThai">
-              <option value="">Active</option>
-              <option value="">Deactive</option>
+            <select
+              class="form-control form-select"
+              [(ngModel)]="data.trangThai"
+              [ngModelOptions]="{ standalone: true }"
+              (change)="changeQuantity()"
+            >
+              <option [ngValue]="" hidden>{{ data.trangThai }}</option>
+              <option value="active">active</option>
+              <option value="deactive">deactive</option>
             </select>
           </td>
         </tr>
@@ -299,6 +310,7 @@
         data-cy="entityCreateSaveButton"
         [disabled]="editForm.invalid || isSaving"
         class="btn btn-primary"
+        (click)="save()"
       >
         <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
       </button>
