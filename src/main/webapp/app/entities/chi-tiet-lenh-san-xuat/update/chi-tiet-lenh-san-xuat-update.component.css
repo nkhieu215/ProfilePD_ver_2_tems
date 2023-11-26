@@ -198,3 +198,31 @@ select {
   display: inline-block;
   width: 10rem;
 }
+
+.custom-search {
+  display: flex;
+}
+
+.inp-replace {
+  display: block;
+  /* position: relative; */
+  box-sizing: border-box;
+}
+
+.btn-replace {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* position: absolute;
+  margin-left: 3rem; */
+}
+
+.btn-replace:hover {
+  background-color: #2980b9;
+}
+
+.btn-replace fa-icon {
+  margin-right: 5px;
+}

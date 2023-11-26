@@ -773,9 +773,9 @@ public class UserServices {
                 entity.setInitialQuantity(chiTietLenhSanXuat.getInitialQuantity());
                 entity.setStorageUnit(chiTietLenhSanXuat.getStorageUnit());
                 entity.setTrangThai(chiTietLenhSanXuat.getTrangThai());
-                this.chiTietLenhSanXuatRepository.save(chiTietLenhSanXuat);
+                this.chiTietLenhSanXuatRepository.save(entity);
             } else {
-                System.out.println("khong tim thay");
+                this.chiTietLenhSanXuatRepository.save(chiTietLenhSanXuat);
             }
         }
     }
