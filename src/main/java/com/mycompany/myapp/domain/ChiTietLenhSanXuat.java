@@ -128,6 +128,8 @@ public class ChiTietLenhSanXuat implements Serializable {
     @JsonIgnoreProperties(value = { "chiTietLenhSanXuats" }, allowSetters = true)
     private LenhSanXuat lenhSanXuat;
 
+    public ChiTietLenhSanXuat() {}
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {

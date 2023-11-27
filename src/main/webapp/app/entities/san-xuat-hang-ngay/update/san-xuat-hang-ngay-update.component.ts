@@ -516,7 +516,7 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
       } else {
         this.http.post<any>(this.chiTietSanXuatUrl, this.listOfChiTietKichBan).subscribe(() => {
           this.resultThongSo = 'Thêm mới chi tiết sản xuất thành công';
-          // this.previousState();
+          this.previousState();
         });
       }
       // console.log(this.listOfChiTietKichBan);
@@ -524,7 +524,7 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
       //------------ cập nhật kich_ban_id trong table chi tiết sản xuất -------------
       this.http.put<any>(this.putChiTietSanXuatUrl, this.listOfChiTietKichBan).subscribe(() => {
         this.resultThongSo = 'Cập nhật chi tiết sản xuất thành công';
-        // this.previousState();
+        this.previousState();
         // console.log(this.listOfChiTietKichBan);
       });
     }
@@ -581,6 +581,7 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
       maxValue: 0,
       trungbinh: 0,
       donVi: '',
+      trangThai: 'active',
     };
     this.listOfChiTietKichBan.push(newRow);
     const newRow1 = {
@@ -592,6 +593,7 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
       maxValue: 0,
       trungbinh: 0,
       donVi: '',
+      trangThai: 'active',
     };
     this.originListOfChiTietKichBan.push(newRow1);
     console.log('add row', this.listOfChiTietKichBan);

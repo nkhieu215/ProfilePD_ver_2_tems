@@ -3,14 +3,14 @@ import { ILenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
 
 export interface IChiTietLenhSanXuat {
   id?: number;
-  reelID?: number;
+  reelID?: string;
   partNumber?: string;
   vendor?: string;
   lot?: string;
   userData1?: string;
   userData2?: string;
   userData3?: string;
-  userData4?: number;
+  userData4?: string;
   userData5?: number;
   initialQuantity?: number;
   msdLevel?: string | null;
@@ -30,7 +30,7 @@ export interface IChiTietLenhSanXuat {
   expirationDate?: string;
   manufacturingDate?: string;
   partClass?: string | null;
-  sapCode?: number | null;
+  sapCode?: string | null;
   trangThai?: string | null;
   checked?: number | null;
   lenhSanXuat?: ILenhSanXuat | null;
@@ -39,14 +39,14 @@ export interface IChiTietLenhSanXuat {
 export class ChiTietLenhSanXuat implements IChiTietLenhSanXuat {
   constructor(
     public id?: number,
-    public reelID?: number,
+    public reelID?: string,
     public partNumber?: string,
     public vendor?: string,
     public lot?: string,
     public userData1?: string,
     public userData2?: string,
     public userData3?: string,
-    public userData4?: number,
+    public userData4?: string,
     public userData5?: number,
     public initialQuantity?: number,
     public msdLevel?: string | null,
@@ -66,7 +66,7 @@ export class ChiTietLenhSanXuat implements IChiTietLenhSanXuat {
     public expirationDate?: string,
     public manufacturingDate?: string,
     public partClass?: string | null,
-    public sapCode?: number | null,
+    public sapCode?: string | null,
     public trangThai?: string | null,
     public checked?: number | null,
     public lenhSanXuat?: ILenhSanXuat | null

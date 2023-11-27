@@ -23,14 +23,14 @@ export class LenhSanXuatDetailComponent implements OnInit {
   ascending!: boolean;
   // khởi tạo biến lưu dữ liệu xuất file
   data: {
-    reelID?: number;
+    reelID?: string;
     partNumber?: string;
     vendor?: string;
     lot?: string;
     userData1?: string;
     userData2?: string;
     userData3?: string;
-    userData4?: number;
+    userData4?: string;
     userData5?: number;
     initialQuantity?: number;
     msdLevel?: string | null;
@@ -50,7 +50,7 @@ export class LenhSanXuatDetailComponent implements OnInit {
     expirationDate?: string;
     manufacturingDate?: string;
     partClass?: string | null;
-    sapCode?: number | null;
+    sapCode?: string | null;
   }[] = [];
   @ViewChild('dvData') dvData!: ElementRef;
   constructor(
@@ -75,14 +75,14 @@ export class LenhSanXuatDetailComponent implements OnInit {
   dataExport(list: IChiTietLenhSanXuat[]): void {
     for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
       const data1: {
-        reelID?: number;
+        reelID?: string;
         partNumber?: string;
         vendor?: string;
         lot?: string;
         userData1?: string;
         userData2?: string;
         userData3?: string;
-        userData4?: number;
+        userData4?: string;
         userData5?: number;
         initialQuantity?: number;
         msdLevel?: string | null;
@@ -102,7 +102,7 @@ export class LenhSanXuatDetailComponent implements OnInit {
         expirationDate?: string;
         manufacturingDate?: string;
         partClass?: string | null;
-        sapCode?: number | null;
+        sapCode?: string | null;
       } = {
         reelID: list[i].reelID,
         partNumber: list[i].partNumber,

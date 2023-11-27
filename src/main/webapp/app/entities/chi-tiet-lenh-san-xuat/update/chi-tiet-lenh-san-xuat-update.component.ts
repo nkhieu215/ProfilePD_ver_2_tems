@@ -50,14 +50,15 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   // tạo biến check sự tồn tại trong danh sách
   isExisted = false;
   scanValue: IChiTietLenhSanXuat = {
-    reelID: 0,
+    id: 0,
+    reelID: 'null',
     partNumber: 'null',
     vendor: 'null',
     lot: 'null',
     userData1: 'null',
     userData2: 'null',
     userData3: 'null',
-    userData4: 0,
+    userData4: 'null',
     userData5: 0,
     initialQuantity: 0,
     msdLevel: 'null',
@@ -77,7 +78,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     expirationDate: 'null',
     manufacturingDate: 'null',
     partClass: 'null',
-    sapCode: 0,
+    sapCode: 'null',
     trangThai: 'deactive',
     checked: 1,
   };
@@ -114,17 +115,17 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   ngOnInit(): void {
     // bắt sự kiện scan
     this.scanResult.valueChanges.subscribe(data => {
-      console.log('data: ', data.length);
+      // console.log('data: ', data.length);
     });
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
-      console.log('test: ', lenhSanXuat);
+      // console.log('test: ', lenhSanXuat);
       this.changeStatus.id = lenhSanXuat.id;
       this.changeStatus.totalQuantity = lenhSanXuat.totalQuantity;
-      console.log(this.changeStatus);
+      // console.log(this.changeStatus);
       this.http.get<any>(`${this.resourceUrl}/${lenhSanXuat.id as number}`).subscribe(res => {
         this.chiTietLenhSanXuats = res;
-        console.log('res', res);
-        console.log('lenhSanXuat', this.chiTietLenhSanXuats);
+        // console.log('res', res);
+        // console.log('lenhSanXuat', this.chiTietLenhSanXuats);
         //lấy danh sách chi tiết lsx ở trạng thái active
         this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active');
         // sắp xếp danh sách
@@ -136,11 +137,11 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         });
         //lấy danh sách chi tiết lsx không có trong danh sách
         this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'not list');
-        console.log('active list: ', this.chiTietLenhSanXuatActive);
-        console.log('not list list: ', this.chiTietLenhSanXuatNotList);
+        // console.log('active list: ', this.chiTietLenhSanXuatActive);
+        // console.log('not list list: ', this.chiTietLenhSanXuatNotList);
       });
       this.updateForm(lenhSanXuat);
-
+      console.log('id: ', this.editForm.get(['id'])!.value);
       // this.loadRelationshipsOptions();
     });
   }
@@ -244,9 +245,11 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     const lenhSanXuat = this.createFromForm();
     if (lenhSanXuat.id !== undefined) {
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
-      this.http.put<any>(`${this.resourceUrlUpdate}`, this.chiTietLenhSanXuats).subscribe(() => {
-        console.log(this.chiTietLenhSanXuats);
-      });
+      this.http
+        .put<any>(`${this.resourceUrlUpdate}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats)
+        .subscribe(() => {
+          console.log(this.chiTietLenhSanXuats);
+        });
     } else {
       this.subscribeToSaveResponse(this.lenhSanXuatService.create(lenhSanXuat));
     }
@@ -268,7 +271,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   }
 
   onSaveSuccess(): void {
-    this.previousState();
+    // this.previousState();
   }
 
   onSaveError(): void {
@@ -305,10 +308,11 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   }
   // bắt sự kiện scan
   catchScanEvent(): void {
+    this.scanValue = {};
     const test = this.scanResults.split('#');
     for (let i = 0; i < test.length; i++) {
       if (i === 0) {
-        this.scanValue.reelID = Number(test[i]);
+        this.scanValue.reelID = test[0];
       }
       if (i === 1) {
         this.scanValue.partNumber = test[i];
@@ -330,7 +334,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         this.scanValue.userData3 = test[i];
       }
       if (i === 7) {
-        this.scanValue.userData4 = Number(test[i]);
+        this.scanValue.userData4 = test[i];
       }
       if (i === 8) {
         this.scanValue.userData5 = Number(test[i]);
@@ -351,7 +355,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         this.scanValue.manufacturingDate = test[i];
       }
       if (i === 14) {
-        this.scanValue.sapCode = Number(test[i]);
+        this.scanValue.sapCode = test[i];
       }
     }
     // check trong danh sách
@@ -381,6 +385,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     if (this.isExisted === false) {
       // this.scanValue.comments = 'not list';
       const item: IChiTietLenhSanXuat = {
+        id: 0,
         reelID: this.scanValue.reelID,
         partNumber: this.scanValue.partNumber,
         vendor: this.scanValue.vendor,
@@ -427,7 +432,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     //cập nhật lại danh sách chi tiết lsx không có trong danh sách
     this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'not list');
     this.scanResults = '';
-    console.log(this.scanValue);
+    console.log(this.chiTietLenhSanXuats[0].lenhSanXuat);
   }
   createFromForm(): ILenhSanXuat {
     return {

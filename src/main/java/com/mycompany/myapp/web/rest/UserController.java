@@ -404,9 +404,9 @@ public class UserController {
         this.userServices.updateTrangThaiLenhSanXuat(id, request);
     }
 
-    @PutMapping("/chi-tiet-lenh-san-xuat/update")
-    public void updateChiTietLenhSanXuat(@RequestBody List<ChiTietLenhSanXuat> request) {
-        this.userServices.updateChiTietLenhSanXuat(request);
+    @PutMapping("/chi-tiet-lenh-san-xuat/update/{id}")
+    public void updateChiTietLenhSanXuat(@RequestBody List<ChiTietLenhSanXuat> request, @PathVariable Long id) {
+        this.userServices.updateChiTietLenhSanXuat(request, id);
     }
 
     //--------------------------------------------- * -----------------------------------------

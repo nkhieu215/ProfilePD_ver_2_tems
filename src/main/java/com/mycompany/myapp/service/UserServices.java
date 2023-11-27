@@ -583,7 +583,6 @@ public class UserServices {
                 sanXuatHangNgay = this.sanXuatHangNgayRepository.findAllByMaKichBan(request.getMaKichBan());
                 result1 = "maSanPham";
                 result = sanXuatHangNgay.getMaSanPham();
-                System.out.println("thanh cong !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
             ChiTietSanXuat entity = chiTietSanXuatRepository.findById(request.getId()).orElse(null);
             if (entity != null) {
@@ -610,7 +609,7 @@ public class UserServices {
                 //b3 gán giá trị của thông số
                 result += "|" + entity1.getMinValue() + "|" + entity1.getMaxValue();
                 chiTietSanXuatRepository.save(entity1);
-                chiTietSanXuatRepository.updateIdSanXuatHangNgay(request.getId(), entity1.getId());
+                chiTietSanXuatRepository.updateIdSanXuatHangNgay(sanXuatHangNgay.getId(), entity1.getId());
             }
         }
         sanXuatHangNgay.setParameterConvert(result1);
@@ -766,7 +765,7 @@ public class UserServices {
     }
 
     //☺ cập nhật chi tiết lệnh sản xuất
-    public void updateChiTietLenhSanXuat(List<ChiTietLenhSanXuat> request) {
+    public void updateChiTietLenhSanXuat(List<ChiTietLenhSanXuat> request, Long id) {
         for (ChiTietLenhSanXuat chiTietLenhSanXuat : request) {
             ChiTietLenhSanXuat entity = this.chiTietLenhSanXuatRepository.findById(chiTietLenhSanXuat.getId()).orElse(null);
             if (entity != null) {
@@ -776,6 +775,7 @@ public class UserServices {
                 this.chiTietLenhSanXuatRepository.save(entity);
             } else {
                 this.chiTietLenhSanXuatRepository.save(chiTietLenhSanXuat);
+                this.chiTietLenhSanXuatRepository.updateMaLenhSanXuatId(id, chiTietLenhSanXuat.getReelID());
             }
         }
     }
