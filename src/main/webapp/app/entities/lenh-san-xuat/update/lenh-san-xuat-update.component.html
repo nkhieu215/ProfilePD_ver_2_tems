@@ -109,7 +109,7 @@
             </tr>
           </thead>
 
-          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index; trackBy: trackId" class="editable-row">
+          <tr *ngFor="let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index; trackBy: trackId" class="editable-row">
             <td>
               <span>{{ i + 1 }}</span>
             </td>

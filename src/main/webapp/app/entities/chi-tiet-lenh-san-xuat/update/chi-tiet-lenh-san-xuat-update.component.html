@@ -150,7 +150,7 @@
               </tr>
             </thead>
 
-            <tr *ngFor="let data of chiTietLenhSanXuatActive; let i = index; trackBy: trackId" class="editable-row">
+            <tr *ngFor="let data of chiTietLenhSanXuatActive | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index; trackBy: trackId" class="editable-row">
               <td>
                 <span>{{ i + 1 }}</span>
               </td>
@@ -271,6 +271,17 @@
               </td>
             </tr>
           </table>
+          <div *ngIf="chiTietLenhSanXuatActive && chiTietLenhSanXuatActive.length > 0">
+            <div>
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+                <option value="all">All</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+              <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+            </div>
+          </div>
         </div>
 
         <!-- danh sách tem không nằm trong lệnh sản xuất -->
@@ -315,7 +326,7 @@
               </tr>
             </thead>
 
-            <tr *ngFor="let data of chiTietLenhSanXuatNotList; let i = index; trackBy: trackId" class="editable-row">
+            <tr *ngFor="let data of chiTietLenhSanXuatNotList | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index; trackBy: trackId" class="editable-row">
               <td>
                 <span>{{ i + 1 }}</span>
               </td>
@@ -439,6 +450,17 @@
               </td>
             </tr>
           </table>
+        </div>
+        <div *ngIf="chiTietLenhSanXuatNotList && chiTietLenhSanXuatNotList.length > 0">
+          <div>
+            <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+              <option value="all">All</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+            <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+          </div>
         </div>
       </div>
 

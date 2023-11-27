@@ -24,6 +24,9 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   @Input() selectedItems: { checked: string }[] = [];
   @Input() storageUnit = '';
 
+  @Input() itemPerPage = 10;
+  page?: number;
+
   showScanInput = false;
 
   sum = 0;

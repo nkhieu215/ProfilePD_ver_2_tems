@@ -21,6 +21,9 @@ export class LenhSanXuatUpdateComponent implements OnInit {
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
 
   @Input() storageUnit = '';
+  @Input() itemPerPage = 10;
+  page?: number;
+
   isSaving = false;
   predicate!: string;
   ascending!: boolean;

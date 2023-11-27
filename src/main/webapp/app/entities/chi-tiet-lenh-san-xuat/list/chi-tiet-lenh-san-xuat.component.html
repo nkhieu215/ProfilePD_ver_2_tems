@@ -22,8 +22,10 @@
 
   <jhi-alert-error></jhi-alert-error>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="lenhSanXuats?.length === 0">
-    <span>No chiTietLenhSanXuats found</span>
+  <div class="alert" id="no-result" *ngIf="lenhSanXuats?.length === 0">
+    <div class="loader">
+      <div class="justify-content-center jimu-primary-loading"></div>
+    </div>
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="lenhSanXuats && lenhSanXuats.length > 0">
@@ -52,7 +54,7 @@
               </datalist>
             </th>
 
-            <th scope="col" jhiSortBy="vendor">
+            <th scope="col" jhiSortBy="sapName">
               <span>Tên SAP</span>
               <input #searchInput type="text" formControlName="sapName" placeholder="search" list="sapName" />
               <datalist id="maLenhSanXuat">
@@ -60,7 +62,7 @@
               </datalist>
             </th>
 
-            <th scope="col" jhiSortBy="lot">
+            <th scope="col" jhiSortBy="workOrderCode">
               <span>Mã WO</span>
               <input #searchInput type="text" formControlName="workOrderCode" placeholder="search" list="workOrderCode" />
               <datalist id="maLenhSanXuat">
@@ -68,7 +70,7 @@
               </datalist>
             </th>
 
-            <th scope="col" jhiSortBy="userData1">
+            <th scope="col" jhiSortBy="version">
               <span>Version</span>
               <input #searchInput type="text" formControlName="version" placeholder="search" list="version" />
               <datalist id="maLenhSanXuat">
@@ -76,7 +78,7 @@
               </datalist>
             </th>
 
-            <th scope="col" jhiSortBy="userData2">
+            <th scope="col" jhiSortBy="storageCode">
               <span>Mã kho nhập</span>
               <input #searchInput type="text" formControlName="storageCode" placeholder="search" list="storageCode" />
               <datalist id="maLenhSanXuat">
@@ -84,17 +86,17 @@
               </datalist>
             </th>
 
-            <th scope="col" jhiSortBy="userData3">
+            <th scope="col" jhiSortBy="totalQuantity">
               <span>Tổng số lượng nhập</span>
               <input style="border: none; width: 9rem; background-color: #6c7ae0" />
             </th>
 
-            <th scope="col" jhiSortBy="userData4">
+            <th scope="col" jhiSortBy="createBy">
               <span>Cập nhật bởi</span>
               <input #searchInput type="text" formControlName="createBy" placeholder="search" list="createBy" />
             </th>
 
-            <th scope="col" jhiSortBy="userData5">
+            <th scope="col" jhiSortBy="entryTime">
               <span>Thời gian in tem</span>
               <input type="datetime-local" ngbDatepicker #d="ngbDatepicker" />
             </th>
@@ -102,14 +104,14 @@
             <th scope="col" jhiSortBy="trangThai">
               <span>Trạng thái</span>
               <select class="form-control form-select" formControlName="trangThai">
-                <option value="">Chờ duyệt</option>
-                <option value="">Đã phê duyệt</option>
-                <option value="">Từ chối</option>
-                <option value="">Kho huỷ</option>
+                <option value="Chờ duyệt">Chờ duyệt</option>
+                <option value="Đã phê duyệt">Đã phê duyệt</option>
+                <option value="Từ chối">Từ chối</option>
+                <option value="Kho huỷ">Kho huỷ</option>
               </select>
             </th>
 
-            <th scope="col" jhiSortBy="msdLevel">
+            <th scope="col" jhiSortBy="comment">
               <span>Lưu ý</span>
               <input style="border: none; width: 3rem; background-color: #6c7ae0" />
             </th>
@@ -121,7 +123,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let lenhSanXuat of lenhSanXuats; let i = index; trackBy: trackId" data-cy="entityTable">
+          <tr *ngFor="let lenhSanXuat of lenhSanXuats | paginate: {itemsPerPage: itemPerPage, currentPage: page}; let i = index; trackBy: trackId" data-cy="entityTable">
             <td>
               <a>{{ i + 1 }}</a>
             </td>

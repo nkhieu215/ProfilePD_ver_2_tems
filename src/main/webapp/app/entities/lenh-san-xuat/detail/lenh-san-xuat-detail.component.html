@@ -118,7 +118,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let data of chiTietLenhSanXuats; let i = index">
+            <tr *ngFor="let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index">
               <td>
                 <span>
                   {{ i + 1 }}
@@ -219,6 +219,7 @@
           </tbody>
         </table>
       </div>
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
     </div>
   </div>
 </div>

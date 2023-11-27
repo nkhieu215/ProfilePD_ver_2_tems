@@ -22,6 +22,9 @@ export class ChiTietLenhSanXuatDetailComponent implements OnInit {
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
   lenhSanXuats: ILenhSanXuat[] = [];
 
+  @Input() itemPerPage = 10;
+  page?: number;
+
   predicate!: string;
   ascending!: boolean;
 

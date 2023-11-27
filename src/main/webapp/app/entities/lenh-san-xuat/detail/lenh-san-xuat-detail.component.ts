@@ -21,6 +21,9 @@ export class LenhSanXuatDetailComponent implements OnInit {
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
   predicate!: string;
   ascending!: boolean;
+  @Input() itemPerPage = 10;
+  page?: number;
+
   // khởi tạo biến lưu dữ liệu xuất file
   data: {
     reelID?: string;
