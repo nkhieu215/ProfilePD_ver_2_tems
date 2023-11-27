@@ -6,7 +6,8 @@ table {
 }
 
 th {
-  background-color: #f2f2f2;
+  color: #fff;
+  background-color: #6c7ae0;
   text-align: left;
   padding: 8px;
   font-weight: bold;
@@ -168,4 +169,13 @@ select {
 
 .btn-replace fa-icon {
   margin-right: 5px;
+}
+
+.btn-info {
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-right: 10px;
+  cursor: pointer;
 }

@@ -19,6 +19,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
   resourceUrl = this.applicationConfigService.getEndpointFor('/api/chi-tiet-lenh-san-xuat');
   resourceUrl1 = this.applicationConfigService.getEndpointFor('/api/chi-tiet-lenh-san-xuat/update');
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
+
   @Input() storageUnit = '';
   isSaving = false;
   predicate!: string;

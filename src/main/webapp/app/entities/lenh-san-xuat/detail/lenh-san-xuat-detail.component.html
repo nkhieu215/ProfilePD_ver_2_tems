@@ -4,8 +4,8 @@
   </button>
   <div class="table-responsive" id="entities">
     <!-- <a href="#" class="export" (click)="exportCSV()">Export Data To Excel</a> -->
-    <button class="exportCSV" (click)="exportToExcel()">Export to excel</button>
-    <button class="exportCSV" (click)="exportCSV()">Export to csv</button>
+    <button class="export-btn export-excel" (click)="exportToExcel()">Export to excel</button>
+    <button class="export-btn exportCSV" (click)="exportCSV()">Export to csv</button>
     <div *ngIf="lenhSanXuat" id="dvData">
       <h2 data-cy="lenhSanXuatDetailsHeading"><span>Gửi yêu cầu phê duyệt</span></h2>
       <hr />
@@ -79,143 +79,146 @@
 
       <h2>Thông tin tem</h2>
       <hr />
-      <table class="table table-striped" id="table-data">
-        <thead>
-          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-            <th scope="col" jhiSortBy="STT">STT</th>
-            <th scope="col" jhiSortBy="reelID">Reel ID</th>
-            <th scope="col" jhiSortBy="partNumber">Part Number</th>
-            <th scope="col" jhiSortBy="vendor">Vendor</th>
-            <th scope="col" jhiSortBy="lot">IOT</th>
-            <th scope="col" jhiSortBy="userData1">User Data 1</th>
-            <th scope="col" jhiSortBy="userData2">User Data 2</th>
-            <th scope="col" jhiSortBy="userData3">User Data 3</th>
-            <th scope="col" jhiSortBy="userData4">User Data 4</th>
-            <th scope="col" jhiSortBy="userData5">User Data 5</th>
-            <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
-            <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
-            <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
-            <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
-            <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
-            <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
-            <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
-            <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
-            <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
-            <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
-            <th scope="col" jhiSortBy="comments">Comments</th>
-            <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
-            <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
-            <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
-            <th scope="col" jhiSortBy="locationOverride">Location Override</th>
-            <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
-            <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
-            <th scope="col" jhiSortBy="partClass">Part Class</th>
-            <th scope="col" jhiSortBy="sapCode">Sap Code</th>
-            <th scope="col" jhiSortBy="trangThai">Status</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index">
-            <td>
-              <span>
-                {{ i + 1 }}
-              </span>
-            </td>
+      <div style="overflow-x: auto">
+        <table class="table table-striped" id="table-data">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="STT">STT</th>
+              <th scope="col" jhiSortBy="reelID">Reel ID</th>
+              <th scope="col" jhiSortBy="partNumber">Part Number</th>
+              <th scope="col" jhiSortBy="vendor">Vendor</th>
+              <th scope="col" jhiSortBy="lot">IOT</th>
+              <th scope="col" jhiSortBy="userData1">User Data 1</th>
+              <th scope="col" jhiSortBy="userData2">User Data 2</th>
+              <th scope="col" jhiSortBy="userData3">User Data 3</th>
+              <th scope="col" jhiSortBy="userData4">User Data 4</th>
+              <th scope="col" jhiSortBy="userData5">User Data 5</th>
+              <th scope="col" jhiSortBy="initialQuantity">Initial Quantity</th>
+              <th scope="col" jhiSortBy="msdLevel">MSD Level</th>
+              <th scope="col" jhiSortBy="msdInitialFloorTime">MSD Initial Floor Time</th>
+              <th scope="col" jhiSortBy="msdBagSealDate">MSD Bag Seal Date</th>
+              <th scope="col" jhiSortBy="marketUsage">Market Usage</th>
+              <th scope="col" jhiSortBy="quantityOverride">Quantity Override</th>
+              <th scope="col" jhiSortBy="shelfTime">Shelf Time</th>
+              <th scope="col" jhiSortBy="spMaterialName">SP Material Name</th>
+              <th scope="col" jhiSortBy="warningLimit">Warning Limit</th>
+              <th scope="col" jhiSortBy="maximumLimit">Maximum Limit</th>
+              <th scope="col" jhiSortBy="comments">Comments</th>
+              <th scope="col" jhiSortBy="warmupTime">Warm Up Time</th>
+              <th scope="col" jhiSortBy="storageUnit">Storage Unit</th>
+              <th scope="col" jhiSortBy="subStorageUnit">Sub Storage Unit</th>
+              <th scope="col" jhiSortBy="locationOverride">Location Override</th>
+              <th scope="col" jhiSortBy="expirationDate">Expiration Date</th>
+              <th scope="col" jhiSortBy="manufacturingDate">ManuFacturing Date</th>
+              <th scope="col" jhiSortBy="partClass">Part Class</th>
+              <th scope="col" jhiSortBy="sapCode">Sap Code</th>
+              <th scope="col" jhiSortBy="trangThai">Status</th>
+            </tr>
+          </thead>
 
-            <td>
-              {{ data.reelID }}
-            </td>
+          <tbody>
+            <tr *ngFor="let data of chiTietLenhSanXuats; let i = index">
+              <td>
+                <span>
+                  {{ i + 1 }}
+                </span>
+              </td>
 
-            <td>
-              {{ data.partNumber }}
-            </td>
-            <td>
-              {{ data.vendor }}
-            </td>
-            <td>
-              {{ data.lot }}
-            </td>
-            <td>
-              {{ data.userData1 }}
-            </td>
-            <td>
-              {{ data.userData2 }}
-            </td>
-            <td>
-              {{ data.userData3 }}
-            </td>
-            <td>
-              {{ data.userData4 }}
-            </td>
-            <td>
-              {{ data.userData5 }}
-            </td>
-            <td>
-              {{ data.initialQuantity }}
-            </td>
-            <td>
-              {{ data.msdLevel }}
-            </td>
-            <td>
-              {{ data.msdInitialFloorTime }}
-            </td>
-            <td>
-              {{ data.msdBagSealDate }}
-            </td>
-            <td>
-              {{ data.marketUsage }}
-            </td>
-            <td>
-              {{ data.quantityOverride }}
-            </td>
-            <td>
-              {{ data.shelfTime }}
-            </td>
-            <td>
-              {{ data.spMaterialName }}
-            </td>
-            <td>
-              {{ data.warningLimit }}
-            </td>
-            <td>
-              {{ data.maximumLimit }}
-            </td>
-            <td>
-              {{ data.comments }}
-            </td>
-            <td>
-              {{ data.warmupTime }}
-            </td>
-            <td>
-              <span class="custom-width">
-                {{ data.storageUnit }}
-              </span>
-            </td>
-            <td>
-              {{ data.subStorageUnit }}
-            </td>
-            <td>
-              {{ data.locationOverride }}
-            </td>
-            <td>
-              {{ data.expirationDate }}
-            </td>
-            <td>
-              {{ data.manufacturingDate }}
-            </td>
-            <td>
-              {{ data.partClass }}
-            </td>
-            <td>
-              {{ data.sapCode }}
-            </td>
-            <td>
-              {{ data.trangThai }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td>
+                {{ data.reelID }}
+              </td>
+
+              <td>
+                {{ data.partNumber }}
+              </td>
+              <td>
+                {{ data.vendor }}
+              </td>
+              <td>
+                {{ data.lot }}
+              </td>
+              <td>
+                {{ data.userData1 }}
+              </td>
+              <td>
+                {{ data.userData2 }}
+              </td>
+              <td>
+                {{ data.userData3 }}
+              </td>
+              <td>
+                {{ data.userData4 }}
+              </td>
+              <td>
+                {{ data.userData5 }}
+              </td>
+              <td>
+                {{ data.initialQuantity }}
+              </td>
+              <td>
+                {{ data.msdLevel }}
+              </td>
+              <td>
+                {{ data.msdInitialFloorTime }}
+              </td>
+              <td>
+                {{ data.msdBagSealDate }}
+              </td>
+              <td>
+                {{ data.marketUsage }}
+              </td>
+              <td>
+                {{ data.quantityOverride }}
+              </td>
+              <td>
+                {{ data.shelfTime }}
+              </td>
+              <td>
+                {{ data.spMaterialName }}
+              </td>
+              <td>
+                {{ data.warningLimit }}
+              </td>
+              <td>
+                {{ data.maximumLimit }}
+              </td>
+              <td>
+                {{ data.comments }}
+              </td>
+              <td>
+                {{ data.warmupTime }}
+              </td>
+              <td>
+                <span class="custom-width">
+                  {{ data.storageUnit }}
+                </span>
+              </td>
+              <td>
+                {{ data.subStorageUnit }}
+              </td>
+              <td>
+                {{ data.locationOverride }}
+              </td>
+              <td>
+                {{ data.expirationDate }}
+              </td>
+              <td>
+                {{ data.manufacturingDate }}
+              </td>
+              <td>
+                {{ data.partClass }}
+              </td>
+              <td>
+                {{ data.sapCode }}
+              </td>
+              <td>
+                {{ data.trangThai }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

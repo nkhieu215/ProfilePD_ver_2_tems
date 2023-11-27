@@ -54,28 +54,29 @@ td {
   cursor: pointer;
 }
 
-.export-file {
-  float: right;
-  padding-bottom: 3rem;
-  padding-right: 1rem;
-}
-
-.export-file button {
-  background-color: #17bb17;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
+.export-btn {
+  padding: 5px 10px;
+  font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+  float: right;
 }
 
-.export-file button:hover {
-  background-color: #30a830;
+.export-excel {
+  background-color: #4caf50;
+  color: white;
 }
 
-.export-file button:focus {
-  outline: none;
-  box-shadow: 0 0 5px #17bb17;
+.exportCSV {
+  background-color: #008cba;
+  color: white;
+}
+
+.export-excel:hover {
+  background-color: #45a049;
 }
 
 a.export,

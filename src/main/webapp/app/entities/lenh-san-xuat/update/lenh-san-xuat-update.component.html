@@ -1,5 +1,5 @@
 <div>
-  <div class="table-responsive" id="entities">
+  <div>
     <form name="editForm" role="form" novalidate [formGroup]="editForm">
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin tem sản xuất</h2>
       <table>
@@ -64,167 +64,170 @@
 
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin chi tiết tem</h2>
 
-      <table class="table table-striped" aria-describedby="page-heading">
-        <thead>
-          <tr>
-            <th scope="col"><span>STT</span></th>
-            <th scope="col"><span class="custom-width">Reel ID</span></th>
-            <th scope="col"><span class="custom-width">Part Number</span></th>
-            <th scope="col"><span class="custom-width">Vendor</span></th>
-            <th scope="col"><span class="custom-width">LOT</span></th>
-            <th scope="col">User Data 1</th>
-            <th scope="col">User Data 2</th>
-            <th scope="col">User Data 3</th>
-            <th scope="col">User Data 4</th>
-            <th scope="col">User Data 5</th>
-            <th scope="col">Initial Quantity</th>
-            <th scope="col">MSD Level</th>
-            <th scope="col">MSD Initial Floor Time</th>
-            <th scope="col">MSD Bag Seal Date</th>
-            <th scope="col">Market Usage</th>
-            <th scope="col">Quantity Override</th>
-            <th scope="col">Shelf Time</th>
-            <th scope="col">SP Material Name</th>
-            <th scope="col">Warning Limit</th>
-            <th scope="col">Maximum Limit</th>
-            <th scope="col">Comments</th>
-            <th scope="col">Warm Up Time</th>
-            <th scope="col">
-              <span class="custom-width">Storage Unit</span>
-              <div class="custom-search">
-                <input class="inp-replace" type="text" [(ngModel)]="storageUnit" [ngModelOptions]="{ standalone: true }" />
-                <button class="btn-replace" (click)="changeAllStorageUnit()">
-                  <fa-icon icon="eye"></fa-icon>
-                </button>
-              </div>
-            </th>
-            <th scope="col">Sub Storage Unit</th>
-            <th scope="col">Location Override</th>
-            <th scope="col">Expiration Date</th>
-            <th scope="col">ManuFacturing Date</th>
-            <th scope="col">Part Class</th>
-            <th scope="col"><span class="custom-width">Sap Code</span></th>
-            <th scope="col"><span class="custom-width">Status</span></th>
+      <div style="overflow-x: auto">
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr>
+              <th scope="col"><span>STT</span></th>
+              <th scope="col"><span class="custom-width">Reel ID</span></th>
+              <th scope="col"><span class="custom-width">Part Number</span></th>
+              <th scope="col"><span class="custom-width">Vendor</span></th>
+              <th scope="col"><span class="custom-width">LOT</span></th>
+              <th scope="col">User Data 1</th>
+              <th scope="col">User Data 2</th>
+              <th scope="col">User Data 3</th>
+              <th scope="col">User Data 4</th>
+              <th scope="col">User Data 5</th>
+              <th scope="col">Initial Quantity</th>
+              <th scope="col">MSD Level</th>
+              <th scope="col">MSD Initial Floor Time</th>
+              <th scope="col">MSD Bag Seal Date</th>
+              <th scope="col">Market Usage</th>
+              <th scope="col">Quantity Override</th>
+              <th scope="col">Shelf Time</th>
+              <th scope="col">SP Material Name</th>
+              <th scope="col">Warning Limit</th>
+              <th scope="col">Maximum Limit</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Warm Up Time</th>
+              <th scope="col">
+                <div class="custom-search">
+                  <input class="inp-replace" type="text" [(ngModel)]="storageUnit" [ngModelOptions]="{ standalone: true }" />
+                  <button class="btn-replace" (click)="changeAllStorageUnit()">
+                    <fa-icon icon="eye"></fa-icon>
+                  </button>
+                </div>
+                <span class="custom-width">Storage Unit</span>
+              </th>
+              <th scope="col">Sub Storage Unit</th>
+              <th scope="col">Location Override</th>
+              <th scope="col">Expiration Date</th>
+              <th scope="col">ManuFacturing Date</th>
+              <th scope="col">Part Class</th>
+              <th scope="col"><span class="custom-width">Sap Code</span></th>
+              <th scope="col"><span class="custom-width">Status</span></th>
+            </tr>
+          </thead>
+
+          <tr *ngFor="let data of chiTietLenhSanXuats; let i = index; trackBy: trackId" class="editable-row">
+            <td>
+              <span>{{ i + 1 }}</span>
+            </td>
+
+            <td>
+              <span>{{ data.reelID }}</span>
+            </td>
+
+            <td>
+              <span>{{ data.partNumber }}</span>
+            </td>
+            <td>
+              <span>{{ data.vendor }}</span>
+            </td>
+            <td>
+              <span>{{ data.lot }}</span>
+            </td>
+            <td>
+              <span>{{ data.userData1 }}</span>
+            </td>
+            <td>
+              <span>{{ data.userData2 }}</span>
+            </td>
+            <td>
+              <span>{{ data.userData3 }}</span>
+            </td>
+            <td>
+              <span>{{ data.userData4 }}</span>
+            </td>
+            <td>
+              <span>{{ data.userData5 }}</span>
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="initialQuantity"
+                style="background-color: #fff"
+                [(ngModel)]="data.initialQuantity"
+                [ngModelOptions]="{ standalone: true }"
+                (change)="changeQuantity()"
+              />
+            </td>
+            <td>
+              <span>{{ data.msdLevel }}</span>
+            </td>
+            <td>
+              <span>{{ data.msdInitialFloorTime }}</span>
+            </td>
+            <td>
+              <span>{{ data.msdBagSealDate }}</span>
+            </td>
+            <td>
+              <span>{{ data.marketUsage }}</span>
+            </td>
+            <td>
+              <span>{{ data.quantityOverride }}</span>
+            </td>
+            <td>
+              <span>{{ data.shelfTime }}</span>
+            </td>
+            <td>
+              <span>{{ data.spMaterialName }}</span>
+            </td>
+            <td>
+              <span>{{ data.warningLimit }}</span>
+            </td>
+            <td>
+              <span>{{ data.maximumLimit }}</span>
+            </td>
+            <td>
+              <span>{{ data.comments }}</span>
+            </td>
+            <td>
+              <span>{{ data.warmupTime }}</span>
+            </td>
+            <td>
+              <input
+                class="input-table"
+                type="text"
+                list="storageUnit"
+                [(ngModel)]="data.storageUnit"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+            <td>
+              <span>{{ data.subStorageUnit }}</span>
+            </td>
+            <td>
+              <span>{{ data.locationOverride }}</span>
+            </td>
+            <td>
+              <span>{{ data.expirationDate }}</span>
+            </td>
+            <td>
+              <span>{{ data.manufacturingDate }}</span>
+            </td>
+            <td>
+              <span>{{ data.partClass }}</span>
+            </td>
+            <td>
+              <span>{{ data.sapCode }}</span>
+            </td>
+            <td>
+              <select
+                class="form-control form-select"
+                [(ngModel)]="data.trangThai"
+                [ngModelOptions]="{ standalone: true }"
+                (change)="changeQuantity()"
+              >
+                <option [ngValue]="" hidden>{{ data.trangThai }}</option>
+                <option value="active">active</option>
+                <option value="deactive">deactive</option>
+              </select>
+            </td>
           </tr>
-        </thead>
-
-        <tr *ngFor="let data of chiTietLenhSanXuats; let i = index; trackBy: trackId" class="editable-row">
-          <td>
-            <span>{{ i + 1 }}</span>
-          </td>
-
-          <td>
-            <span>{{ data.reelID }}</span>
-          </td>
-
-          <td>
-            <span>{{ data.partNumber }}</span>
-          </td>
-          <td>
-            <span>{{ data.vendor }}</span>
-          </td>
-          <td>
-            <span>{{ data.lot }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData1 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData2 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData3 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData4 }}</span>
-          </td>
-          <td>
-            <span>{{ data.userData5 }}</span>
-          </td>
-          <td>
-            <input
-              class="input-table"
-              type="text"
-              list="initialQuantity"
-              [(ngModel)]="data.initialQuantity"
-              [ngModelOptions]="{ standalone: true }"
-              (change)="changeQuantity()"
-            />
-          </td>
-          <td>
-            <span>{{ data.msdLevel }}</span>
-          </td>
-          <td>
-            <span>{{ data.msdInitialFloorTime }}</span>
-          </td>
-          <td>
-            <span>{{ data.msdBagSealDate }}</span>
-          </td>
-          <td>
-            <span>{{ data.marketUsage }}</span>
-          </td>
-          <td>
-            <span>{{ data.quantityOverride }}</span>
-          </td>
-          <td>
-            <span>{{ data.shelfTime }}</span>
-          </td>
-          <td>
-            <span>{{ data.spMaterialName }}</span>
-          </td>
-          <td>
-            <span>{{ data.warningLimit }}</span>
-          </td>
-          <td>
-            <span>{{ data.maximumLimit }}</span>
-          </td>
-          <td>
-            <span>{{ data.comments }}</span>
-          </td>
-          <td>
-            <span>{{ data.warmupTime }}</span>
-          </td>
-          <td>
-            <input
-              class="input-table"
-              type="text"
-              list="storageUnit"
-              [(ngModel)]="data.storageUnit"
-              [ngModelOptions]="{ standalone: true }"
-            />
-          </td>
-          <td>
-            <span>{{ data.subStorageUnit }}</span>
-          </td>
-          <td>
-            <span>{{ data.locationOverride }}</span>
-          </td>
-          <td>
-            <span>{{ data.expirationDate }}</span>
-          </td>
-          <td>
-            <span>{{ data.manufacturingDate }}</span>
-          </td>
-          <td>
-            <span>{{ data.partClass }}</span>
-          </td>
-          <td>
-            <span>{{ data.sapCode }}</span>
-          </td>
-          <td>
-            <select
-              class="form-control form-select"
-              [(ngModel)]="data.trangThai"
-              [ngModelOptions]="{ standalone: true }"
-              (change)="changeQuantity()"
-            >
-              <option [ngValue]="" hidden>{{ data.trangThai }}</option>
-              <option value="active">active</option>
-              <option value="deactive">deactive</option>
-            </select>
-          </td>
-        </tr>
-      </table>
+        </table>
+      </div>
 
       <button type="submit" id="save-entity" class="btn btn-primary" (click)="guiPheDuyet()">
         <fa-icon icon="check"></fa-icon>&nbsp;<span>Gửi phê duyệt</span>
@@ -245,7 +248,7 @@
         <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ</span>
       </button>
 
-      <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+      <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-info" (click)="previousState()">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
     </form>
