@@ -30,7 +30,14 @@
 
             <th scope="col" jhiSortBy="maLenhSanXuat">
               <span>Mã lệnh sản xuất</span>
-              <input #searchInput type="text" formControlName="maLenhSanXuat" placeholder="search" list="maThongSo" />
+              <input
+                #searchInput
+                type="text"
+                [(ngModel)]="maLenhSanXuat"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="search"
+                list="maThongSo"
+              />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.maLenhSanXuat }}</option>
               </datalist>
@@ -38,7 +45,14 @@
 
             <th scope="col" jhiSortBy="sapCode">
               <span>Mã SAP</span>
-              <input #searchInput type="text" formControlName="sapCode" placeholder="search" list="sapCode" />
+              <input
+                #searchInput
+                type="text"
+                [(ngModel)]="sapCode"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="search"
+                list="sapCode"
+              />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.sapCode }}</option>
               </datalist>
@@ -46,7 +60,14 @@
 
             <th scope="col" jhiSortBy="sapName">
               <span>Tên SAP</span>
-              <input #searchInput type="text" formControlName="sapName" placeholder="search" list="sapName" />
+              <input
+                #searchInput
+                type="text"
+                [(ngModel)]="sapName"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="search"
+                list="sapName"
+              />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.sapName }}</option>
               </datalist>
@@ -54,7 +75,14 @@
 
             <th scope="col" jhiSortBy="workOrderCode">
               <span>Mã WO</span>
-              <input #searchInput type="text" formControlName="workOrderCode" placeholder="search" list="workOrderCode" />
+              <input
+                #searchInput
+                type="text"
+                [(ngModel)]="workOrderCode"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="search"
+                list="workOrderCode"
+              />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.workOrderCode }}</option>
               </datalist>
@@ -62,7 +90,14 @@
 
             <th scope="col" jhiSortBy="version">
               <span>Version</span>
-              <input #searchInput type="text" formControlName="version" placeholder="search" list="version" />
+              <input
+                #searchInput
+                type="text"
+                [(ngModel)]="version"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="search"
+                list="version"
+              />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.version }}</option>
               </datalist>
@@ -70,7 +105,14 @@
 
             <th scope="col" jhiSortBy="storageCode">
               <span>Mã kho nhập</span>
-              <input #searchInput type="text" formControlName="storageCode" placeholder="search" list="storageCode" />
+              <input
+                #searchInput
+                type="text"
+                [(ngModel)]="storageCode"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="search"
+                list="storageCode"
+              />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.storageCode }}</option>
               </datalist>
@@ -83,17 +125,25 @@
 
             <th scope="col" jhiSortBy="createBy">
               <span>Cập nhật bởi</span>
-              <input #searchInput type="text" formControlName="createBy" placeholder="search" list="createBy" />
+              <input
+                #searchInput
+                type="text"
+                [(ngModel)]="createBy"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="search"
+                list="createBy"
+              />
             </th>
 
             <th scope="col" jhiSortBy="entryTime">
               <span>Thời gian in tem</span>
-              <input type="datetime-local" ngbDatepicker #d="ngbDatepicker" />
+              <input type="text" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="entryTime" [ngModelOptions]="{ standalone: true }" />
             </th>
 
             <th scope="col" jhiSortBy="trangThai">
               <span>Trạng thái</span>
-              <select class="form-control form-select" formControlName="trangThai">
+              <select class="form-control form-select" [(ngModel)]="trangThai" [ngModelOptions]="{ standalone: true }">
+                <option value=""></option>
                 <option value="Bản nháp">Bản nháp</option>
                 <option value="Chờ duyệt">Chờ duyệt</option>
                 <option value="Đã phê duyệt">Đã phê duyệt</option>
@@ -117,7 +167,17 @@
         <tbody>
           <tr
             *ngFor="
-              let lenhSanXuat of lenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+              let lenhSanXuat of lenhSanXuats
+                | filter: maLenhSanXuat
+                | filter: sapCode
+                | filter: sapName
+                | filter: workOrderCode
+                | filter: version
+                | filter: storageCode
+                | filter: createBy
+                | filter: entryTime
+                | filter: trangThai
+                | paginate: { itemsPerPage: itemPerPage, currentPage: page };
               let i = index;
               trackBy: trackId
             "

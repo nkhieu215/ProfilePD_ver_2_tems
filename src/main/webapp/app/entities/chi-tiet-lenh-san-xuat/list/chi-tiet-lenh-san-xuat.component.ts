@@ -34,6 +34,15 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   });
 
   @Input() itemPerPage = 10;
+  @Input() maLenhSanXuat = '';
+  @Input() sapCode = '';
+  @Input() sapName = '';
+  @Input() workOrderCode = '';
+  @Input() version = '';
+  @Input() storageCode = '';
+  @Input() createBy = '';
+  @Input() trangThai = '';
+  @Input() entryTime = '';
 
   lenhSanXuats?: ILenhSanXuat[];
 
@@ -113,15 +122,17 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
 
   timKiemTem(data: any, page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page ?? this.page ?? 1;
+    //this.lenhSanXuats = this.lenhSanXuats?.filter(a => a.maLenhSanXuat === this.formSearch.get(['maLenhSanXuat'])!.value)
+    console.log(this.formSearch.get(['maLenhSanXuat'])!.value);
+    console.log(this.lenhSanXuats);
+    // this.lenhSanXuats = [];
 
-    this.lenhSanXuats = [];
-
-    this.http.post<any>(this.searchUrlApprove, data).subscribe(res => {
-      this.lenhSanXuats = res;
-      console.log(res);
-      console.log(this.resourceUrlApprove);
-      this.onSuccess(res.lenhSanXuats, res.headers, pageToLoad, !dontNavigate);
-    });
+    // this.http.post<any>(this.searchUrlApprove, data).subscribe(res => {
+    //   this.lenhSanXuats = res;
+    //   console.log(res);
+    //   console.log(this.resourceUrlApprove);
+    //   this.onSuccess(res.lenhSanXuats, res.headers, pageToLoad, !dontNavigate);
+    // });
   }
 
   sort(): string[] {

@@ -27,6 +27,7 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 @NgModule({
   imports: [
     BrowserModule,
@@ -42,6 +43,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgxPaginationModule,
     NgSelectModule,
     NgMultiSelectDropDownModule,
+    Ng2SearchPipeModule,
   ],
   providers: [
     Title,

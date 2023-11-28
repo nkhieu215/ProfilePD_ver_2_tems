@@ -48,14 +48,14 @@ export class LenhSanXuatComponent implements OnInit {
   @Input() itemPerPage = 10;
 
   @Input() maLenhSanXuat = '';
-  @Input() SAPcode = '';
-  @Input() SAPname = '';
-  @Input() WOcode = '';
   @Input() version = '';
-  @Input() InventoryCode = '';
-  @Input() UpdateBy = '';
-  @Input() status = '';
-
+  @Input() sapCode = '';
+  @Input() sapName = '';
+  @Input() workOrderCode = '';
+  @Input() storageCode = '';
+  @Input() createBy = '';
+  @Input() trangThai = '';
+  @Input() entryTime = '';
   listLenhSanXuat: ILenhSanXuat[] = [];
 
   searchResult: ILenhSanXuat[] = [];

@@ -252,6 +252,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         .put<any>(`${this.resourceUrlUpdate}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats)
         .subscribe(() => {
           console.log(this.chiTietLenhSanXuats);
+          alert('cập nhật chi tiết lệnh sản xuất thành công!');
+          this.previousState();
         });
     } else {
       this.subscribeToSaveResponse(this.lenhSanXuatService.create(lenhSanXuat));

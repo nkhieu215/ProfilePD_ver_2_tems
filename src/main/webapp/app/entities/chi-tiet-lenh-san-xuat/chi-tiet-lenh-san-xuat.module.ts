@@ -6,9 +6,10 @@ import { ChiTietLenhSanXuatDetailComponent } from './detail/chi-tiet-lenh-san-xu
 import { ChiTietLenhSanXuatUpdateComponent } from './update/chi-tiet-lenh-san-xuat-update.component';
 import { ChiTietLenhSanXuatDeleteDialogComponent } from './delete/chi-tiet-lenh-san-xuat-delete-dialog.component';
 import { ChiTietLenhSanXuatRoutingModule } from './route/chi-tiet-lenh-san-xuat-routing.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
-  imports: [SharedModule, ChiTietLenhSanXuatRoutingModule, NgxPaginationModule],
+  imports: [SharedModule, ChiTietLenhSanXuatRoutingModule, NgxPaginationModule, Ng2SearchPipeModule],
   declarations: [
     ChiTietLenhSanXuatComponent,
     ChiTietLenhSanXuatDetailComponent,
