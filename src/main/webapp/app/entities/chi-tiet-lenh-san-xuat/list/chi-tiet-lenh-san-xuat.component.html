@@ -209,6 +209,7 @@
             <td class="text-end">
               <div class="btn-group">
                 <button
+                  *jhiHasAnyAuthority="'ROLE_USER_TEM'"
                   type="submit"
                   [routerLink]="['/chi-tiet-lenh-san-xuat', lenhSanXuat.id, 'view']"
                   class="btn btn-info btn-sm"
@@ -219,6 +220,7 @@
                 </button>
 
                 <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_TEM'"
                   type="submit"
                   [routerLink]="['/chi-tiet-lenh-san-xuat', lenhSanXuat.id, 'edit']"
                   class="btn btn-primary btn-sm"

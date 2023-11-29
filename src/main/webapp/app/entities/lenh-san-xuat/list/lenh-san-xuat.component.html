@@ -200,6 +200,7 @@
             <td class="text-end">
               <div class="btn-group">
                 <button
+                  *jhiHasAnyAuthority="'ROLE_USER_TEM'"
                   type="submit"
                   [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'view']"
                   class="btn btn-info btn-sm"
@@ -210,6 +211,7 @@
                 </button>
 
                 <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_TEM'"
                   type="submit"
                   [routerLink]="['/lenh-san-xuat', lenhSanXuat.id, 'edit']"
                   class="btn btn-primary btn-sm"
@@ -219,7 +221,13 @@
                   <!-- <span class="d-none d-md-inline">Edit</span> -->
                 </button>
 
-                <button type="submit" (click)="delete(lenhSanXuat)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <button
+                  *jhiHasAnyAuthority="'ROLE_ADMIN_TEM'"
+                  type="submit"
+                  (click)="delete(lenhSanXuat)"
+                  class="btn btn-danger btn-sm"
+                  data-cy="entityDeleteButton"
+                >
                   <fa-icon icon="times"></fa-icon>
                   <!-- <span class="d-none d-md-inline">Delete</span> -->
                 </button>

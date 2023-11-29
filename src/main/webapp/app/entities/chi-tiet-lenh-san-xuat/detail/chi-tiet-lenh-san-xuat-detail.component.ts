@@ -20,6 +20,7 @@ export class ChiTietLenhSanXuatDetailComponent implements OnInit {
   chiTietLenhSanXuat: IChiTietLenhSanXuat | null = null;
   lenhSanXuat: ILenhSanXuat | null = null;
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
+  chiTietLenhSanXuatExport: IChiTietLenhSanXuat[] = [];
   lenhSanXuats: ILenhSanXuat[] = [];
 
   @Input() itemPerPage = 10;
@@ -31,14 +32,14 @@ export class ChiTietLenhSanXuatDetailComponent implements OnInit {
   fileName = 'Chi-tiet-lenh-san-xuat';
 
   data: {
-    reelID?: number;
+    reelID?: string;
     partNumber?: string;
     vendor?: string;
     lot?: string;
     userData1?: string;
     userData2?: string;
     userData3?: string;
-    userData4?: number;
+    userData4?: string;
     userData5?: number;
     initialQuantity?: number;
     msdLevel?: string | null;
@@ -51,14 +52,14 @@ export class ChiTietLenhSanXuatDetailComponent implements OnInit {
     warningLimit?: string | null;
     maximumLimit?: string | null;
     comments?: string | null;
-    warmupTime?: dayjs.Dayjs | null;
+    warmupTime?: string | null;
     storageUnit?: string;
     subStorageUnit?: string | null;
     locationOverride?: string | null;
     expirationDate?: string;
     manufacturingDate?: string;
     partClass?: string | null;
-    sapCode?: number | null;
+    sapCode?: string | null;
   }[] = [];
 
   @ViewChild('dvData') dvData!: ElementRef;
@@ -78,15 +79,80 @@ export class ChiTietLenhSanXuatDetailComponent implements OnInit {
         this.chiTietLenhSanXuats = res;
         console.log('res', res);
         console.log('lenhSanXuat', this.chiTietLenhSanXuats);
-        // this.dataExport(this.chiTietLenhSanXuats);
+        this.chiTietLenhSanXuatExport = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active');
+        this.dataExport(this.chiTietLenhSanXuatExport);
       });
     }
   }
-
+  dataExport(list: IChiTietLenhSanXuat[]): void {
+    for (let i = 0; i < this.chiTietLenhSanXuatExport.length; i++) {
+      const data1: {
+        reelID?: string;
+        partNumber?: string;
+        vendor?: string;
+        lot?: string;
+        userData1?: string;
+        userData2?: string;
+        userData3?: string;
+        userData4?: string;
+        userData5?: number;
+        initialQuantity?: number;
+        msdLevel?: string | null;
+        msdInitialFloorTime?: string | null;
+        msdBagSealDate?: string | null;
+        marketUsage?: string | null;
+        quantityOverride?: number;
+        shelfTime?: string | null;
+        spMaterialName?: string | null;
+        warningLimit?: string | null;
+        maximumLimit?: string | null;
+        comments?: string | null;
+        warmupTime?: string | null;
+        storageUnit?: string;
+        subStorageUnit?: string | null;
+        locationOverride?: string | null;
+        expirationDate?: string;
+        manufacturingDate?: string;
+        partClass?: string | null;
+        sapCode?: string | null;
+      } = {
+        reelID: list[i].reelID,
+        partNumber: list[i].partNumber,
+        vendor: list[i].vendor,
+        lot: list[i].lot,
+        userData1: list[i].userData1,
+        userData2: list[i].userData2,
+        userData3: list[i].userData3,
+        userData4: list[i].userData4,
+        userData5: list[i].userData5,
+        initialQuantity: list[i].initialQuantity,
+        msdLevel: list[i].msdLevel,
+        msdInitialFloorTime: list[i].msdInitialFloorTime,
+        msdBagSealDate: list[i].msdBagSealDate,
+        marketUsage: list[i].marketUsage,
+        quantityOverride: list[i].quantityOverride,
+        shelfTime: list[i].shelfTime,
+        spMaterialName: list[i].spMaterialName,
+        warningLimit: list[i].warningLimit,
+        maximumLimit: list[i].maximumLimit,
+        comments: list[i].comments,
+        warmupTime: list[i].warmupTime,
+        storageUnit: list[i].storageUnit,
+        subStorageUnit: list[i].subStorageUnit,
+        locationOverride: list[i].locationOverride,
+        expirationDate: list[i].expirationDate,
+        manufacturingDate: list[i].manufacturingDate,
+        partClass: list[i].partClass,
+        sapCode: list[i].sapCode,
+      };
+      this.data.push(data1);
+    }
+    console.log(this.data);
+  }
   exportCSV(): void {
     const options = {
       fieldSeparator: ',',
-      quoteStrings: '"',
+      quoteStrings: '',
       decimalseparator: '.',
       showLabels: true,
       showTitle: false,

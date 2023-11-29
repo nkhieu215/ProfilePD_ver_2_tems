@@ -19,6 +19,7 @@ export class LenhSanXuatDetailComponent implements OnInit {
   lenhSanXuat: ILenhSanXuat | null = null;
   fileName = 'Chi-tiet-lenh-san-xuat';
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
+  chiTietLenhSanXuatExport: IChiTietLenhSanXuat[] = [];
   predicate!: string;
   ascending!: boolean;
   @Input() itemPerPage = 10;
@@ -71,12 +72,13 @@ export class LenhSanXuatDetailComponent implements OnInit {
         this.chiTietLenhSanXuats = res;
         console.log('res', res);
         console.log('lenhSanXuat', this.chiTietLenhSanXuats);
-        this.dataExport(this.chiTietLenhSanXuats);
+        this.chiTietLenhSanXuatExport = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active');
+        this.dataExport(this.chiTietLenhSanXuatExport);
       });
     }
   }
   dataExport(list: IChiTietLenhSanXuat[]): void {
-    for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
+    for (let i = 0; i < this.chiTietLenhSanXuatExport.length; i++) {
       const data1: {
         reelID?: string;
         partNumber?: string;
@@ -143,7 +145,7 @@ export class LenhSanXuatDetailComponent implements OnInit {
   exportCSV(): void {
     const options = {
       fieldSeparator: ',',
-      quoteStrings: '"',
+      quoteStrings: '',
       decimalseparator: '.',
       showLabels: true,
       showTitle: false,
