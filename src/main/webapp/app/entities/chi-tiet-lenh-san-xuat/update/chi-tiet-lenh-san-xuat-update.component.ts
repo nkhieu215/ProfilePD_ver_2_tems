@@ -64,23 +64,23 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     userData4: 'null',
     userData5: 0,
     initialQuantity: 0,
-    msdLevel: 'null',
-    msdInitialFloorTime: 'null',
-    msdBagSealDate: 'null',
-    marketUsage: 'null',
+    msdLevel: '',
+    msdInitialFloorTime: '',
+    msdBagSealDate: '',
+    marketUsage: '',
     quantityOverride: 0,
-    shelfTime: 'null',
-    spMaterialName: 'null',
-    warningLimit: 'null',
-    maximumLimit: 'null',
-    comments: 'null',
-    warmupTime: 'null',
+    shelfTime: '',
+    spMaterialName: '',
+    warningLimit: '',
+    maximumLimit: '',
+    comments: '',
+    warmupTime: '',
     storageUnit: 'null',
-    subStorageUnit: 'null',
-    locationOverride: 'null',
+    subStorageUnit: '',
+    locationOverride: '',
     expirationDate: 'null',
     manufacturingDate: 'null',
-    partClass: 'null',
+    partClass: '',
     sapCode: 'null',
     trangThai: 'deactive',
     checked: 1,
@@ -89,6 +89,11 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   scanResult = this.fb.group({
     result: [],
   });
+
+  countScan = 0;
+  tienDoScan = 0;
+  resultScanPerCent = '';
+
   editForm = this.fb.group({
     id: [],
     maLenhSanXuat: [null, [Validators.required]],
@@ -118,8 +123,9 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   ngOnInit(): void {
     // bắt sự kiện scan
     this.scanResult.valueChanges.subscribe(data => {
-      // console.log('data: ', data.length);
+      console.log('data: ', data.length);
     });
+
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
       // console.log('test: ', lenhSanXuat);
       this.changeStatus.id = lenhSanXuat.id;
@@ -127,8 +133,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       // console.log(this.changeStatus);
       this.http.get<any>(`${this.resourceUrl}/${lenhSanXuat.id as number}`).subscribe(res => {
         this.chiTietLenhSanXuats = res;
-        // console.log('res', res);
-        // console.log('lenhSanXuat', this.chiTietLenhSanXuats);
+        console.log('res', res);
+        console.log('lenhSanXuat', this.chiTietLenhSanXuats);
         //lấy danh sách chi tiết lsx ở trạng thái active
         this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active');
         // sắp xếp danh sách
@@ -140,8 +146,9 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         });
         //lấy danh sách chi tiết lsx không có trong danh sách
         this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'not list');
-        // console.log('active list: ', this.chiTietLenhSanXuatActive);
-        // console.log('not list list: ', this.chiTietLenhSanXuatNotList);
+        console.log('active list: ', this.chiTietLenhSanXuatActive);
+        console.log('not list list: ', this.chiTietLenhSanXuatNotList);
+        console.log('so luong tem active', this.chiTietLenhSanXuatActive.length);
       });
       this.updateForm(lenhSanXuat);
       console.log('id: ', this.editForm.get(['id'])!.value);
@@ -224,6 +231,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
       console.log('Thành công');
+      alert('Phê duyệt thành công');
+      this.previousState();
     });
   }
 
@@ -232,6 +241,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
       console.log('Thành công');
+      alert('Huỷ thành công');
+      this.previousState();
     });
   }
 
@@ -240,6 +251,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
       console.log('Thành công');
+      alert('Từ chối thành công');
+      this.previousState();
     });
   }
 
@@ -369,6 +382,10 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'active') {
         this.isExisted = true;
         this.chiTietLenhSanXuats[i].checked = 1;
+        this.countScan++;
+
+        this.tienDoScan = (this.countScan / this.chiTietLenhSanXuatActive.length) * 100;
+        this.resultScanPerCent = this.tienDoScan.toFixed(0);
         alert('đã tìm thấy tem trong danh sách');
         break;
       }
@@ -401,23 +418,23 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         userData4: this.scanValue.userData4,
         userData5: this.scanValue.userData5,
         initialQuantity: this.scanValue.initialQuantity,
-        msdLevel: 'null',
-        msdInitialFloorTime: 'null',
-        msdBagSealDate: 'null',
-        marketUsage: 'null',
+        msdLevel: '',
+        msdInitialFloorTime: '',
+        msdBagSealDate: '',
+        marketUsage: '',
         quantityOverride: this.scanValue.quantityOverride,
-        shelfTime: 'null',
-        spMaterialName: 'null',
-        warningLimit: 'null',
-        maximumLimit: 'null',
-        comments: 'null',
-        warmupTime: 'null',
+        shelfTime: '',
+        spMaterialName: '',
+        warningLimit: '',
+        maximumLimit: '',
+        comments: '',
+        warmupTime: '',
         storageUnit: this.scanValue.storageUnit,
-        subStorageUnit: 'null',
-        locationOverride: 'null',
+        subStorageUnit: '',
+        locationOverride: '',
         expirationDate: this.scanValue.expirationDate,
         manufacturingDate: this.scanValue.manufacturingDate,
-        partClass: 'null',
+        partClass: '',
         sapCode: this.scanValue.sapCode,
         trangThai: 'not list',
         checked: 1,

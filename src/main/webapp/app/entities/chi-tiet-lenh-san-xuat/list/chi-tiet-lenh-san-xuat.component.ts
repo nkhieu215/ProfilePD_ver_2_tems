@@ -47,6 +47,9 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   lenhSanXuats?: ILenhSanXuat[];
 
   chiTietLenhSanXuats?: IChiTietLenhSanXuat[];
+
+  chiTietLenhSanXuatSort?: IChiTietLenhSanXuat[] = [];
+
   isLoading = false;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -99,9 +102,16 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   getLenhSanXuatList(): void {
     this.http.get<any>(this.resourceUrlApprove).subscribe(res => {
       this.lenhSanXuats = res;
-      // this.lenhSanXuats?.sort((a,b)=> a - b)
-      console.log(this.resourceUrlApprove);
-      console.log(res);
+      console.log('bbb', res);
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats.sort((a, b) => {
+          if (a.trangThai !== undefined && a.trangThai !== null && b.trangThai !== undefined && b.trangThai !== null) {
+            // console.log("aaa",this.lenhSanXuats)
+            return b.trangThai.localeCompare(a.trangThai);
+          }
+          return 0;
+        });
+      }
     });
   }
 

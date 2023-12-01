@@ -85,11 +85,13 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     // Cần có body : trạng thái, tổng số lượng nếu có sự thay đổi
     // Xác định đối tượng thay đổi
     // gán giá trị tương ứng
-    this.changeStatus.trangThai = 'Chờ phê duyệt';
+    this.changeStatus.trangThai = 'Chờ duyệt';
     console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
       console.log('Thành công');
+      alert('Gửi phê duyệt thành công');
     });
+    this.previousState();
   }
 
   boPhanSanXuatHuy(): void {
@@ -97,6 +99,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
       console.log('Thành công');
+      alert('Huỷ thành công');
     });
   }
 
@@ -107,6 +110,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
       this.http.put<any>(`${this.resourceUrl1}`, this.chiTietLenhSanXuats).subscribe(() => {
         console.log(this.chiTietLenhSanXuats);
+        alert('Lưu thành công');
       });
     } else {
       this.subscribeToSaveResponse(this.lenhSanXuatService.create(lenhSanXuat));

@@ -7,8 +7,6 @@ import * as XLSX from 'xlsx';
 import { ILenhSanXuat } from '../lenh-san-xuat.model';
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 
-import dayjs from 'dayjs';
-
 @Component({
   selector: 'jhi-lenh-san-xuat-detail',
   templateUrl: './lenh-san-xuat-detail.component.html',

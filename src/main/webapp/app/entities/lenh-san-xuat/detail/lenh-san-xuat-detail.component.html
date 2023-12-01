@@ -3,7 +3,6 @@
     <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
   </button>
   <div class="table-responsive" id="entities">
-    <!-- <a href="#" class="export" (click)="exportCSV()">Export Data To Excel</a> -->
     <button class="export-btn export-excel" (click)="exportToExcel()">Export to excel</button>
     <button class="export-btn exportCSV" (click)="exportCSV()">Export to csv</button>
     <div *ngIf="lenhSanXuat" id="dvData">
@@ -118,7 +117,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index">
+            <tr *ngFor="let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page }; let i = index">
               <td>
                 <span>
                   {{ i + 1 }}

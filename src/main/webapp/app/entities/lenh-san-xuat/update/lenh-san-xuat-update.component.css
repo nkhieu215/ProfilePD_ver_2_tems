@@ -179,3 +179,8 @@ select {
   margin-right: 10px;
   cursor: pointer;
 }
+
+.form-select {
+  width: 4vw;
+  margin-top: 2vh;
+}

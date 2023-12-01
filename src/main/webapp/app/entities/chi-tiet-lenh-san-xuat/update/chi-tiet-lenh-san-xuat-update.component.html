@@ -93,6 +93,12 @@
           />
           <button class="btn-scan" *ngIf="scanResults !== ''" (click)="catchScanEvent()">Kiểm tra</button>
         </form>
+
+        <div>
+          <span>Tổng số lượng đã scan: {{ countScan }}/{{ chiTietLenhSanXuatActive.length }}</span>
+          <span>Tiến độ scan: {{ resultScanPerCent }}%</span>
+        </div>
+
         <!-- danh sách tems có trong lệnh sản xuất -->
         <h3 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Danh sách tem có trong lệnh</h3>
 
@@ -150,7 +156,14 @@
               </tr>
             </thead>
 
-            <tr *ngFor="let data of chiTietLenhSanXuatActive | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index; trackBy: trackId" class="editable-row">
+            <tr
+              *ngFor="
+                let data of chiTietLenhSanXuatActive | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+                let i = index;
+                trackBy: trackId
+              "
+              class="editable-row"
+            >
               <td>
                 <span>{{ i + 1 }}</span>
               </td>
@@ -271,19 +284,22 @@
               </td>
             </tr>
           </table>
-          <div *ngIf="chiTietLenhSanXuatActive && chiTietLenhSanXuatActive.length > 0">
-            <div>
-              <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
-                <option value="all">All</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-              </select>
-              <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
-            </div>
+        </div>
+        <div *ngIf="chiTietLenhSanXuatActive && chiTietLenhSanXuatActive.length > 0">
+          <div>
+            <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+              <option value="all">All</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+            <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
           </div>
         </div>
 
+        <br />
+        <br />
+        <br />
         <!-- danh sách tem không nằm trong lệnh sản xuất -->
         <h3>Danh sách tem không có trong lệnh</h3>
 
@@ -326,7 +342,14 @@
               </tr>
             </thead>
 
-            <tr *ngFor="let data of chiTietLenhSanXuatNotList | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index; trackBy: trackId" class="editable-row">
+            <tr
+              *ngFor="
+                let data of chiTietLenhSanXuatNotList | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+                let i = index;
+                trackBy: trackId
+              "
+              class="editable-row"
+            >
               <td>
                 <span>{{ i + 1 }}</span>
               </td>
@@ -433,17 +456,6 @@
                 <span>
                   {{ data.trangThai }}
                 </span>
-
-                <!-- <select
-                  class="form-control form-select"
-                  [(ngModel)]="data.trangThai"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="changeQuantity()"
-                >
-                  <option [ngValue]="" hidden>{{ data.trangThai }}</option>
-                  <option value="active">active</option>
-                  <option value="deactive">deactive</option>
-                </select> -->
               </td>
               <td>
                 <input type="checkbox" [(ngModel)]="data.checked" [ngModelOptions]="{ standalone: true }" />

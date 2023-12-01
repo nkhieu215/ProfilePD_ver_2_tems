@@ -109,7 +109,14 @@
             </tr>
           </thead>
 
-          <tr *ngFor="let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index; trackBy: trackId" class="editable-row">
+          <tr
+            *ngFor="
+              let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+              let i = index;
+              trackBy: trackId
+            "
+            class="editable-row"
+          >
             <td>
               <span>{{ i + 1 }}</span>
             </td>
@@ -227,6 +234,17 @@
             </td>
           </tr>
         </table>
+      </div>
+      <div *ngIf="chiTietLenhSanXuats && chiTietLenhSanXuats.length > 0">
+        <div>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+            <option value="all">All</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+          <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+        </div>
       </div>
 
       <button type="submit" id="save-entity" class="btn btn-primary" (click)="guiPheDuyet()">
