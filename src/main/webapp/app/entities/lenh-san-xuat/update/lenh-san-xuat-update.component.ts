@@ -108,7 +108,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     const lenhSanXuat = this.createFromForm();
     if (lenhSanXuat.id !== undefined) {
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
-      this.http.put<any>(`${this.resourceUrl1}`, this.chiTietLenhSanXuats).subscribe(() => {
+      this.http.put<any>(`${this.resourceUrl1}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats).subscribe(() => {
         console.log(this.chiTietLenhSanXuats);
         alert('Lưu thành công');
       });

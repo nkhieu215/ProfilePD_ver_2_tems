@@ -104,6 +104,14 @@ export class LenhSanXuatComponent implements OnInit {
   getLenhSanXuatList(): void {
     this.http.get<any>(this.resourceUrl).subscribe(res => {
       this.lenhSanXuats = res;
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats.sort((a, b) => {
+          if (a.entryTime !== undefined && a.entryTime !== null && b.entryTime !== undefined && b.entryTime !== null) {
+            return b.entryTime.localeCompare(a.entryTime);
+          }
+          return 0;
+        });
+      }
       console.log(this.resourceUrl);
       console.log(res);
     });

@@ -105,9 +105,9 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
       console.log('bbb', res);
       if (this.lenhSanXuats) {
         this.lenhSanXuats.sort((a, b) => {
-          if (a.trangThai !== undefined && a.trangThai !== null && b.trangThai !== undefined && b.trangThai !== null) {
+          if (a.entryTime !== undefined && a.entryTime !== null && b.entryTime !== undefined && b.entryTime !== null) {
             // console.log("aaa",this.lenhSanXuats)
-            return b.trangThai.localeCompare(a.trangThai);
+            return b.entryTime.localeCompare(a.entryTime);
           }
           return 0;
         });

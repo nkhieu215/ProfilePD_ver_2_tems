@@ -23,7 +23,7 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
-            <th scope="col"></th>
+            <!-- <th scope="col"></th> -->
             <th scope="col" jhiSortBy="id">
               <span>STT</span>
               <input type="text" style="width: 10px; border: none; background-color: #6c7ae0" />
@@ -182,7 +182,7 @@
             "
             data-cy="entityTable"
           >
-            <td><input type="checkbox" /></td>
+            <!-- <td><input type="checkbox" /></td> -->
             <td>
               <a>{{ i + 1 }}</a>
             </td>
