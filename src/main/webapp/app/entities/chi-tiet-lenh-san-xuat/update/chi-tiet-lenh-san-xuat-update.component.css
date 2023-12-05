@@ -241,3 +241,11 @@ select {
   width: 4vw;
   margin-top: 2vh;
 }
+
+.search-all {
+  padding-top: 3rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}

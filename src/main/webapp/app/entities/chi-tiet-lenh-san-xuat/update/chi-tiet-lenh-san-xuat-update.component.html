@@ -94,13 +94,24 @@
           <button class="btn-scan" *ngIf="scanResults !== ''" (click)="catchScanEvent()">Kiểm tra</button>
         </form>
 
-        <div>
+        <!-- <div>
           <span>Tổng số lượng đã scan: {{ countScan }}/{{ chiTietLenhSanXuatActive.length }}</span>
           <span>Tiến độ scan: {{ resultScanPerCent }}%</span>
-        </div>
+        </div> -->
 
-        <!-- danh sách tems có trong lệnh sản xuất -->
-        <h3 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Danh sách tem có trong lệnh</h3>
+        <div class="search-all">
+          <!-- danh sách tems có trong lệnh sản xuất -->
+          <h3 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Danh sách tem có trong lệnh</h3>
+          <input
+            #searchInput
+            type="text"
+            [(ngModel)]="reelID"
+            [ngModelOptions]="{ standalone: true }"
+            placeholder="Tìm kiếm"
+            list="reelID"
+            style="width: 15rem"
+          />
+        </div>
 
         <div style="overflow-x: auto">
           <table class="table table-striped" aria-describedby="page-heading">
@@ -158,7 +169,7 @@
 
             <tr
               *ngFor="
-                let data of chiTietLenhSanXuatActive | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+                let data of chiTietLenhSanXuatActive | filter: reelID | paginate: { itemsPerPage: itemPerPage, currentPage: page };
                 let i = index;
                 trackBy: trackId
               "
@@ -274,8 +285,8 @@
                   (change)="changeQuantity()"
                 >
                   <option [ngValue]="" hidden>{{ data.trangThai }}</option>
-                  <option value="active">active</option>
-                  <option value="deactive">deactive</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
                   <option value="not list">not list</option>
                 </select>
               </td>
@@ -287,7 +298,12 @@
         </div>
         <div *ngIf="chiTietLenhSanXuatActive && chiTietLenhSanXuatActive.length > 0">
           <div>
-            <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              [(ngModel)]="itemPerPage"
+              [ngModelOptions]="{ standalone: true }"
+            >
               <option value="all">All</option>
               <option value="10">10</option>
               <option value="15">15</option>

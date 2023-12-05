@@ -35,6 +35,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   predicate!: string;
   ascending!: boolean;
 
+  @Input() reelID = '';
+
   selectedStatus = '';
 
   changeStatus: {
@@ -82,7 +84,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     manufacturingDate: 'null',
     partClass: '',
     sapCode: 'null',
-    trangThai: 'deactive',
+    trangThai: 'Inactive',
     checked: 1,
   };
   lenhSanXuatsSharedCollection: ILenhSanXuat[] = [];
@@ -136,7 +138,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         console.log('res', res);
         console.log('lenhSanXuat', this.chiTietLenhSanXuats);
         //lấy danh sách chi tiết lsx ở trạng thái active
-        this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active');
+        this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'Active');
+        this.itemPerPage = this.chiTietLenhSanXuatActive.length;
         // sắp xếp danh sách
         this.chiTietLenhSanXuatActive.sort(function (a, b) {
           if (a.checked !== undefined && a.checked !== null && b.checked !== undefined && b.checked !== null) {
@@ -166,7 +169,11 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     if (this.selectedAllResult === true) {
       this.selectedAll = 1;
       for (let i = 0; i < this.chiTietLenhSanXuatActive.length; i++) {
-        this.chiTietLenhSanXuatActive[i].checked = this.selectedAll;
+        if (this.chiTietLenhSanXuatActive[i].trangThai === 'Active') {
+          this.chiTietLenhSanXuatActive[i].checked = this.selectedAll;
+        } else {
+          this.chiTietLenhSanXuatActive[i].checked = 0;
+        }
       }
     } else {
       this.selectedAll = 0;
@@ -214,7 +221,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   changeQuantity(): void {
     this.sum = 0;
     for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
-      if (this.chiTietLenhSanXuats[i].trangThai === 'active') {
+      if (this.chiTietLenhSanXuats[i].trangThai === 'Active') {
         const result = this.chiTietLenhSanXuats[i].initialQuantity;
         if (result) {
           this.sum += Number(result);
@@ -381,7 +388,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       // check trong danh sách
       for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
         // có trong danh sách
-        if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'active') {
+        if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'Active') {
           this.isExisted = true;
           this.chiTietLenhSanXuats[i].checked = 1;
           this.countScan++;
@@ -392,10 +399,10 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
           break;
         }
         // có trong danh sách nhưng ở trạng thái deactive
-        if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'deactive') {
+        if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'Inactive') {
           this.isExisted = true;
           this.chiTietLenhSanXuats[i].checked = 1;
-          alert('Tem đang ở trạng thái deactive');
+          alert('Tem đang ở trạng thái Inactive');
           break;
         }
         if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'not list') {
@@ -445,7 +452,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         alert('tem không nằm trong danh sách');
       }
       //cập nhật lại danh sách chi tiết lsx ở trạng thái active
-      this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active');
+      this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'Active');
       // sắp xếp danh sách
       this.chiTietLenhSanXuatActive.sort(function (a, b) {
         if (a.checked !== undefined && a.checked !== null && b.checked !== undefined && b.checked !== null) {

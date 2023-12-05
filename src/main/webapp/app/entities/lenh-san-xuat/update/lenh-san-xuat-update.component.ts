@@ -49,12 +49,15 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     comment: [],
   });
 
+  @Input() reelID = '';
+
   constructor(
     protected lenhSanXuatService: LenhSanXuatService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
     protected applicationConfigService: ApplicationConfigService,
-    protected http: HttpClient
+    protected http: HttpClient,
+    protected formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +69,8 @@ export class LenhSanXuatUpdateComponent implements OnInit {
       console.log(this.changeStatus);
       this.http.get<any>(`${this.resourceUrl}/${lenhSanXuat.id as number}`).subscribe(res => {
         this.chiTietLenhSanXuats = res;
+        // this.itemPerPage = this.chiTietLenhSanXuats.length;
+        this.itemPerPage = this.chiTietLenhSanXuats.length;
         console.log('res', res);
         console.log('lenhSanXuat', this.chiTietLenhSanXuats);
       });
@@ -140,7 +145,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     // cộng lại số lượng tổng
     this.tongSoLuong = 0;
     for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
-      if (this.chiTietLenhSanXuats[i].trangThai === 'active') {
+      if (this.chiTietLenhSanXuats[i].trangThai === 'Active') {
         const result = this.chiTietLenhSanXuats[i].initialQuantity;
         if (result) {
           this.tongSoLuong += Number(result);

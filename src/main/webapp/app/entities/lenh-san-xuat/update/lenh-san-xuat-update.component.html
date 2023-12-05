@@ -50,7 +50,27 @@
               <input class="form-control" id="version" list="version" formControlName="version" />
             </td>
             <td>
-              <input class="form-control" id="storageCode" list="storageCode" formControlName="storageCode" />
+              <!-- <input class="form-control" id="storageCode" list="storageCode" formControlName="storageCode" /> -->
+              <select class="form-control form-select" formControlName="storageCode">
+                <option value="01">01 - Kho linh kiện điện tử</option>
+                <option value="02">02 - Kho vật tư LED</option>
+                <option value="03">03 - Kho vật tư TBCS</option>
+                <option value="04">04 - Kho vật tư CLC</option>
+                <option value="05">05 - Kho ngành ĐTTĐ</option>
+                <option value="06">06 - Kho ngành LRSP LED 1</option>
+                <option value="07">07 - Kho ngành SMART</option>
+                <option value="08">08 - Kho ngành LED2</option>
+                <option value="10">10 - Kho cơ khí xưởng</option>
+                <option value="11">11 - Kho ngành CNPT</option>
+                <option value="12">12 - Kho vật tư Smart</option>
+                <option value="13">13 - Kho ngành CNPT 2</option>
+                <option value="14">14 - Kho chị Hòa 2</option>
+                <option value="15">15 - Kho Pilot TTRD</option>
+                <option value="17">17 - Kho vật tư SKD</option>
+                <option value="18">18 - Kho trung tâm RD</option>
+                <option value="19">19 - Kho LKDT thủ công</option>
+                <option value="20">20 - Kho xuất khẩu</option>
+              </select>
             </td>
             <td>
               <input class="form-control" id="totalQuantity" list="totalQuantity" formControlName="totalQuantity" />
@@ -62,6 +82,9 @@
         </tbody>
       </table>
 
+      <div class="search-all">
+        <input #searchInput type="text" [(ngModel)]="reelID" [ngModelOptions]="{ standalone: true }" placeholder="Tìm kiếm" list="reelID" />
+      </div>
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Thông tin chi tiết tem</h2>
 
       <div style="overflow-x: auto">
@@ -69,7 +92,9 @@
           <thead>
             <tr>
               <th scope="col"><span>STT</span></th>
-              <th scope="col"><span class="custom-width">Reel ID</span></th>
+              <th scope="col">
+                <span class="custom-width">Reel ID</span>
+              </th>
               <th scope="col"><span class="custom-width">Part Number</span></th>
               <th scope="col"><span class="custom-width">Vendor</span></th>
               <th scope="col"><span class="custom-width">LOT</span></th>
@@ -111,7 +136,7 @@
 
           <tr
             *ngFor="
-              let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+              let data of chiTietLenhSanXuats | filter: reelID | paginate: { itemsPerPage: itemPerPage, currentPage: page };
               let i = index;
               trackBy: trackId
             "
@@ -228,8 +253,8 @@
                 (change)="changeQuantity()"
               >
                 <option [ngValue]="" hidden>{{ data.trangThai }}</option>
-                <option value="active">active</option>
-                <option value="deactive">deactive</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
               </select>
             </td>
           </tr>
@@ -237,7 +262,7 @@
       </div>
       <div *ngIf="chiTietLenhSanXuats && chiTietLenhSanXuats.length > 0">
         <div>
-          <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage" [ngModelOptions]="{ standalone: true }">
             <option value="all">All</option>
             <option value="10">10</option>
             <option value="15">15</option>

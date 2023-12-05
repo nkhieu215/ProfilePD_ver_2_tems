@@ -184,3 +184,9 @@ select {
   width: 4vw;
   margin-top: 2vh;
 }
+
+.search-all {
+  display: flex;
+  width: 15rem;
+  float: right;
+}
