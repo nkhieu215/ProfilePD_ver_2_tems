@@ -181,8 +181,7 @@ select {
 }
 
 .form-select {
-  width: 4vw;
-  margin-top: 2vh;
+  width: 10vw;
 }
 
 .search-all {

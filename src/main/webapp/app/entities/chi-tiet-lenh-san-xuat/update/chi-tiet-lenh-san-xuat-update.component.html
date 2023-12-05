@@ -60,7 +60,26 @@
                 <input class="form-control" id="version" list="version" formControlName="version" />
               </td>
               <td>
-                <input class="form-control" id="storageCode" list="storageCode" formControlName="storageCode" />
+                <select class="form-control form-select" formControlName="storageCode">
+                  <option value="01">01 - Kho linh kiện điện tử</option>
+                  <option value="02">02 - Kho vật tư LED</option>
+                  <option value="03">03 - Kho vật tư TBCS</option>
+                  <option value="04">04 - Kho vật tư CLC</option>
+                  <option value="05">05 - Kho ngành ĐTTĐ</option>
+                  <option value="06">06 - Kho ngành LRSP LED 1</option>
+                  <option value="07">07 - Kho ngành SMART</option>
+                  <option value="08">08 - Kho ngành LED2</option>
+                  <option value="10">10 - Kho cơ khí xưởng</option>
+                  <option value="11">11 - Kho ngành CNPT</option>
+                  <option value="12">12 - Kho vật tư Smart</option>
+                  <option value="13">13 - Kho ngành CNPT 2</option>
+                  <option value="14">14 - Kho chị Hòa 2</option>
+                  <option value="15">15 - Kho Pilot TTRD</option>
+                  <option value="17">17 - Kho vật tư SKD</option>
+                  <option value="18">18 - Kho trung tâm RD</option>
+                  <option value="19">19 - Kho LKDT thủ công</option>
+                  <option value="20">20 - Kho xuất khẩu</option>
+                </select>
               </td>
               <td>
                 <input class="form-control" id="totalQuantity" list="totalQuantity" formControlName="totalQuantity" />
@@ -283,6 +302,7 @@
                   [(ngModel)]="data.trangThai"
                   [ngModelOptions]="{ standalone: true }"
                   (change)="changeQuantity()"
+                  style="width: 6rem"
                 >
                   <option [ngValue]="" hidden>{{ data.trangThai }}</option>
                   <option value="Active">Active</option>
@@ -303,6 +323,7 @@
               aria-label="Default select example"
               [(ngModel)]="itemPerPage"
               [ngModelOptions]="{ standalone: true }"
+              style="width: 5rem; margin-top: 1rem"
             >
               <option value="all">All</option>
               <option value="10">10</option>

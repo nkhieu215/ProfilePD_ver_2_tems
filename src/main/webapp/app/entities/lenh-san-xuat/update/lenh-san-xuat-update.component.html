@@ -251,6 +251,7 @@
                 [(ngModel)]="data.trangThai"
                 [ngModelOptions]="{ standalone: true }"
                 (change)="changeQuantity()"
+                style="width: 6rem"
               >
                 <option [ngValue]="" hidden>{{ data.trangThai }}</option>
                 <option value="Active">Active</option>
@@ -262,7 +263,13 @@
       </div>
       <div *ngIf="chiTietLenhSanXuats && chiTietLenhSanXuats.length > 0">
         <div>
-          <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage" [ngModelOptions]="{ standalone: true }">
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            [(ngModel)]="itemPerPage"
+            [ngModelOptions]="{ standalone: true }"
+            style="width: 5rem; margin-top: 1rem"
+          >
             <option value="all">All</option>
             <option value="10">10</option>
             <option value="15">15</option>
