@@ -13,7 +13,7 @@
                 <span>Mã SAP</span>
               </th>
               <th scope="col">
-                <span>Tên SAP</span>
+                <span>Tên hàng hoá</span>
               </th>
               <th scope="col">
                 <span>Mã WO</span>
@@ -325,7 +325,7 @@
               [ngModelOptions]="{ standalone: true }"
               style="width: 5rem; margin-top: 1rem"
             >
-              <option value="all">All</option>
+              <option value="{{ chiTietLenhSanXuatActive.length }}">All</option>
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
@@ -381,7 +381,7 @@
 
             <tr
               *ngFor="
-                let data of chiTietLenhSanXuatNotList | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+                let data of chiTietLenhSanXuatNotList | paginate: { itemsPerPage: itemPerPage2, currentPage: page2 };
                 let i = index;
                 trackBy: trackId
               "
@@ -502,13 +502,18 @@
         </div>
         <div *ngIf="chiTietLenhSanXuatNotList && chiTietLenhSanXuatNotList.length > 0">
           <div>
-            <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
-              <option value="all">All</option>
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              [(ngModel)]="itemPerPage"
+              [ngModelOptions]="{ standalone: true }"
+            >
+              <option value="{{ chiTietLenhSanXuatNotList.length }}">All</option>
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
             </select>
-            <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+            <pagination-controls (pageChange)="page2 = $event" style="float: right"></pagination-controls>
           </div>
         </div>
       </div>

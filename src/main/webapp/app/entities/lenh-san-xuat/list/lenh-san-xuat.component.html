@@ -20,12 +20,12 @@
 
   <div class="table-responsive" id="entities" *ngIf="lenhSanXuats && lenhSanXuats.length > 0">
     <form [formGroup]="formSearch">
-      <table class="table table-striped" aria-describedby="page-heading">
+      <table class="table" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
             <th scope="col" jhiSortBy="STT">
               <span>STT</span>
-              <input type="text" style="width: 10px; border: none; background-color: #6c7ae0" />
+              <input type="text" style="width: 10px; border: none; background-color: #006699" />
             </th>
 
             <th scope="col" jhiSortBy="maLenhSanXuat">
@@ -37,6 +37,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="maThongSo"
+                style="width: 8rem"
               />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.maLenhSanXuat }}</option>
@@ -52,6 +53,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="sapCode"
+                style="width: 5rem"
               />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.sapCode }}</option>
@@ -59,7 +61,7 @@
             </th>
 
             <th scope="col" jhiSortBy="sapName">
-              <span>Tên SAP</span>
+              <span>Tên hàng hoá</span>
               <input
                 #searchInput
                 type="text"
@@ -82,6 +84,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="workOrderCode"
+                style="width: 5rem"
               />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.workOrderCode }}</option>
@@ -97,6 +100,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="version"
+                style="width: 5rem"
               />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.version }}</option>
@@ -112,6 +116,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="storageCode"
+                style="width: 6rem"
               />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of lenhSanXuats">{{ data.storageCode }}</option>
@@ -120,7 +125,7 @@
 
             <th scope="col" jhiSortBy="totalQuantity">
               <span>Tổng số lượng nhập</span>
-              <input style="border: none; width: 9rem; background-color: #6c7ae0" />
+              <input style="border: none; width: 10rem; background-color: #006699" />
             </th>
 
             <th scope="col" jhiSortBy="createBy">
@@ -132,6 +137,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="createBy"
+                style="width: 6rem"
               />
             </th>
 
@@ -155,12 +161,12 @@
 
             <th scope="col" jhiSortBy="comment">
               <span>Lưu ý</span>
-              <input style="border: none; width: 3rem; background-color: #6c7ae0" />
+              <input style="border: none; width: 10rem; background-color: #006699" />
             </th>
 
             <th scope="col">
               <span>Options</span>
-              <input style="border: none; width: 70%; background-color: #6c7ae0" />
+              <input style="border: none; width: 70%; background-color: #006699" />
             </th>
           </tr>
         </thead>
@@ -241,11 +247,11 @@
 
   <div *ngIf="lenhSanXuats && lenhSanXuats.length > 0">
     <div>
-      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage" style="margin-top: 2vh">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
-        <option value="all">All</option>
+        <option value="{{ lenhSanXuats.length }}">All</option>
       </select>
 
       <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>

@@ -54,6 +54,7 @@ export class LenhSanXuatDetailComponent implements OnInit {
     partClass?: string | null;
     sapCode?: string | null;
   }[] = [];
+
   @ViewChild('dvData') dvData!: ElementRef;
   constructor(
     protected activatedRoute: ActivatedRoute,

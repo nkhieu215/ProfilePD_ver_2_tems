@@ -196,10 +196,4 @@ export class LenhSanXuatUpdateComponent implements OnInit {
       comment: this.editForm.get(['comment'])!.value,
     };
   }
-
-  addRowThongSoTemIn(): void {
-    const newRow = {
-      id: 0,
-    };
-  }
 }

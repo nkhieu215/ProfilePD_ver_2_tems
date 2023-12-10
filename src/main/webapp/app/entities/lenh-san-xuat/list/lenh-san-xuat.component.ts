@@ -90,6 +90,7 @@ export class LenhSanXuatComponent implements OnInit {
           this.onError();
         },
       });
+    console.log(this.itemPerPage);
   }
 
   ngOnInit(): void {

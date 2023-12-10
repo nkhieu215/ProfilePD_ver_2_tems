@@ -12,7 +12,7 @@
               <span>Mã SAP</span>
             </th>
             <th scope="col">
-              <span>Tên SAP</span>
+              <span>Tên hàng hoá</span>
             </th>
             <th scope="col">
               <span>Mã WO</span>
@@ -52,7 +52,7 @@
             <td>
               <!-- <input class="form-control" id="storageCode" list="storageCode" formControlName="storageCode" /> -->
               <select class="form-control form-select" formControlName="storageCode">
-                <option value="01">01 - Kho linh kiện điện tử</option>
+                <option value="RD01">01 - Kho linh kiện điện tử</option>
                 <option value="02">02 - Kho vật tư LED</option>
                 <option value="03">03 - Kho vật tư TBCS</option>
                 <option value="04">04 - Kho vật tư CLC</option>
@@ -270,7 +270,7 @@
             [ngModelOptions]="{ standalone: true }"
             style="width: 5rem; margin-top: 1rem"
           >
-            <option value="all">All</option>
+            <option value="{{ chiTietLenhSanXuats.length }}">All</option>
             <option value="10">10</option>
             <option value="15">15</option>
             <option value="20">20</option>

@@ -2,19 +2,19 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 th {
   color: #fff;
-  background-color: #6c7ae0;
+  background-color: #006699;
   text-align: left;
   padding: 8px;
   font-weight: bold;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #d2e7f1;
 }
 
 tr:nth-child(odd) {

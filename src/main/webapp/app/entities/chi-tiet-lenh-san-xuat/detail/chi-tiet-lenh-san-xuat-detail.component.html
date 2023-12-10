@@ -16,7 +16,7 @@
           <tr>
             <th scope="col"><span>Mã lệnh sản xuất</span></th>
             <th scope="col"><span>Mã SAP</span></th>
-            <th scope="col"><span>Tên SAP</span></th>
+            <th scope="col"><span>Tên hàng hoá</span></th>
             <th scope="col"><span>Mã WO</span></th>
             <th scope="col"><span>Version</span></th>
             <th scope="col"><span>Mã kho nhập</span></th>
@@ -106,7 +106,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page}; let i = index">
+            <tr *ngFor="let data of chiTietLenhSanXuats | paginate: { itemsPerPage: itemPerPage, currentPage: page }; let i = index">
               <td>
                 <span>
                   {{ i + 1 }}

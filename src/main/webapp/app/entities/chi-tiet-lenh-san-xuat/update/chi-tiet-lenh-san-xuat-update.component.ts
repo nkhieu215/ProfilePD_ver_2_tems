@@ -25,7 +25,10 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   @Input() storageUnit = '';
 
   @Input() itemPerPage = 10;
+  @Input() itemPerPage2 = 10;
+
   page?: number;
+  page2?: number;
 
   showScanInput = false;
 
