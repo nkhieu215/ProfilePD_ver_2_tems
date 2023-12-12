@@ -22,7 +22,8 @@
             <th scope="col"><span>Mã kho nhập</span></th>
             <th scope="col"><span>Tổng số lượng nhập</span></th>
             <th scope="col"><span>Cập nhật bởi</span></th>
-            <th scope="col"><span>Thời gian in tem</span></th>
+            <th scope="col"><span>Thời gian tạo tem</span></th>
+            <th scope="col"><span>Thời gian cập nhật</span></th>
             <th scope="col"><span>Trạng thái</span></th>
             <th scope="col"><span>Lưu ý</span></th>
           </tr>
@@ -55,7 +56,10 @@
               <span>{{ lenhSanXuat.createBy }}</span>
             </td>
             <td>
-              <span>{{ lenhSanXuat.entryTime }}</span>
+              <span>{{ lenhSanXuat.entryTime | formatMediumDatetime }}</span>
+            </td>
+            <td>
+              <span>{{ lenhSanXuat.timeUpdate | formatMediumDatetime }}</span>
             </td>
             <td>
               <span>{{ lenhSanXuat.trangThai }}</span>

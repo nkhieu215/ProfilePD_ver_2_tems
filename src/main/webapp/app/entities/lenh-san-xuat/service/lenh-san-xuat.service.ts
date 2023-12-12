@@ -1,6 +1,7 @@
+import dayjs from 'dayjs/esm';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -17,28 +18,41 @@ export class LenhSanXuatService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(lenhSanXuat: ILenhSanXuat): Observable<EntityResponseType> {
-    return this.http.post<ILenhSanXuat>(this.resourceUrl, lenhSanXuat, { observe: 'response' });
+    const copy = this.convertDateFromClient(lenhSanXuat);
+    return this.http
+      .post<ILenhSanXuat>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   update(lenhSanXuat: ILenhSanXuat): Observable<EntityResponseType> {
-    return this.http.put<ILenhSanXuat>(`${this.resourceUrl}/${getLenhSanXuatIdentifier(lenhSanXuat) as number}`, lenhSanXuat, {
-      observe: 'response',
-    });
+    const copy = this.convertDateFromClient(lenhSanXuat);
+    return this.http
+      .put<ILenhSanXuat>(`${this.resourceUrl}/${getLenhSanXuatIdentifier(lenhSanXuat) as number}`, copy, {
+        observe: 'response',
+      })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   partialUpdate(lenhSanXuat: ILenhSanXuat): Observable<EntityResponseType> {
-    return this.http.patch<ILenhSanXuat>(`${this.resourceUrl}/${getLenhSanXuatIdentifier(lenhSanXuat) as number}`, lenhSanXuat, {
-      observe: 'response',
-    });
+    const copy = this.convertDateFromClient(lenhSanXuat);
+    return this.http
+      .patch<ILenhSanXuat>(`${this.resourceUrl}/${getLenhSanXuatIdentifier(lenhSanXuat) as number}`, copy, {
+        observe: 'response',
+      })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http.get<ILenhSanXuat>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http
+      .get<ILenhSanXuat>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<ILenhSanXuat[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http
+      .get<ILenhSanXuat[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -63,5 +77,28 @@ export class LenhSanXuatService {
       return [...lenhSanXuatsToAdd, ...lenhSanXuatCollection];
     }
     return lenhSanXuatCollection;
+  }
+  convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+    if (res.body) {
+      res.body.forEach((lenhSanXuat: ILenhSanXuat) => {
+        lenhSanXuat.entryTime = lenhSanXuat.entryTime ? dayjs(lenhSanXuat.entryTime) : undefined;
+        lenhSanXuat.timeUpdate = lenhSanXuat.timeUpdate ? dayjs(lenhSanXuat.timeUpdate) : undefined;
+      });
+    }
+    return res;
+  }
+  protected convertDateFromClient(lenhSanXuat: ILenhSanXuat): ILenhSanXuat {
+    return Object.assign({}, lenhSanXuat, {
+      ngayTao: lenhSanXuat.entryTime?.isValid() ? lenhSanXuat.entryTime.toJSON() : undefined,
+      ngayUpdate: lenhSanXuat.timeUpdate?.isValid() ? lenhSanXuat.timeUpdate.toJSON() : undefined,
+    });
+  }
+
+  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+    if (res.body) {
+      res.body.entryTime = res.body.entryTime ? dayjs(res.body.entryTime) : undefined;
+      res.body.timeUpdate = res.body.timeUpdate ? dayjs(res.body.timeUpdate) : undefined;
+    }
+    return res;
   }
 }

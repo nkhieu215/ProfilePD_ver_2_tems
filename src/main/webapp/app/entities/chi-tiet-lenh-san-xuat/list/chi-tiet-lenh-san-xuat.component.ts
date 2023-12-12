@@ -43,6 +43,7 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   @Input() createBy = '';
   @Input() trangThai = '';
   @Input() entryTime = '';
+  @Input() timeUpdate = '';
 
   lenhSanXuats?: ILenhSanXuat[];
 
@@ -107,7 +108,7 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
         this.lenhSanXuats.sort((a, b) => {
           if (a.entryTime !== undefined && a.entryTime !== null && b.entryTime !== undefined && b.entryTime !== null) {
             // console.log("aaa",this.lenhSanXuats)
-            return b.entryTime.localeCompare(a.entryTime);
+            // return b.entryTime.localeCompare(a.entryTime);
           }
           return 0;
         });

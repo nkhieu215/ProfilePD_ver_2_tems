@@ -143,8 +143,25 @@
             </th>
 
             <th scope="col" jhiSortBy="entryTime">
-              <span>Thời gian in tem</span>
-              <input type="text" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="entryTime" [ngModelOptions]="{ standalone: true }" />
+              <span>Thời gian tạo tem</span>
+              <input
+                type="datetime-local"
+                ngbDatepicker
+                #d="ngbDatepicker"
+                [(ngModel)]="entryTime"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </th>
+
+            <th scope="col" jhiSortBy="timeUpdate">
+              <span>Thời gian cập nhật</span>
+              <input
+                type="datetime-local"
+                ngbDatepicker
+                #d="ngbDatepicker"
+                [(ngModel)]="timeUpdate"
+                [ngModelOptions]="{ standalone: true }"
+              />
             </th>
 
             <th scope="col" jhiSortBy="trangThai">
@@ -181,6 +198,7 @@
                 | filter: storageCode
                 | filter: createBy
                 | filter: entryTime
+                | filter: timeUpdate
                 | filter: trangThai
                 | paginate: { itemsPerPage: itemPerPage, currentPage: page };
               let i = index;
@@ -200,7 +218,8 @@
             <td>{{ lenhSanXuat.storageCode }}</td>
             <td>{{ lenhSanXuat.totalQuantity }}</td>
             <td>{{ lenhSanXuat.createBy }}</td>
-            <td>{{ lenhSanXuat.entryTime }}</td>
+            <td>{{ lenhSanXuat.entryTime | formatMediumDatetime }}</td>
+            <td>{{ lenhSanXuat.timeUpdate | formatMediumDatetime }}</td>
             <td>{{ lenhSanXuat.trangThai }}</td>
             <td>{{ lenhSanXuat.comment }}</td>
 

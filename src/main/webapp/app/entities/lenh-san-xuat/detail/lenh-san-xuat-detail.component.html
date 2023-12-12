@@ -20,7 +20,8 @@
             <th scope="col" jhiSortBy="InventoryCode"><span>Mã kho nhập</span></th>
             <th scope="col" jhiSortBy="totalQuantity"><span>Tổng số lượng nhập</span></th>
             <th scope="col" jhiSortBy="UpdateBy"><span>Cập nhật bởi</span></th>
-            <th scope="col" jhiSortBy="entryTime"><span>Thời gian in tem</span></th>
+            <th scope="col" jhiSortBy="entryTime"><span>Thời gian tạo tem</span></th>
+            <th scope="col" jhiSortBy="timeUpdate"><span>Thời gian cập nhật</span></th>
             <th scope="col" jhiSortBy="status"><span>Trạng thái</span></th>
             <th scope="col" jhiSortBy="comment"><span>Lưu ý</span></th>
           </tr>
@@ -59,7 +60,11 @@
           </td>
 
           <td>
-            <span>{{ lenhSanXuat.entryTime }}</span>
+            <span>{{ lenhSanXuat.entryTime | formatMediumDatetime }}</span>
+          </td>
+
+          <td>
+            <span>{{ lenhSanXuat.timeUpdate | formatMediumDatetime }}</span>
           </td>
 
           <td>

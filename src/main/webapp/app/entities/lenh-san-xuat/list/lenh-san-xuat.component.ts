@@ -1,3 +1,6 @@
+import { DATE_FORMAT, DATE_TIME_FORMAT } from './../../../config/input.constants';
+import { FormatMediumDatePipe } from './../../../shared/date/format-medium-date.pipe';
+import { AuthServerProvider } from 'app/core/auth/auth-session.service';
 import { FormBuilder } from '@angular/forms';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -11,6 +14,8 @@ import { ILenhSanXuat } from '../lenh-san-xuat.model';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
 import { LenhSanXuatService } from '../service/lenh-san-xuat.service';
 import { LenhSanXuatDeleteDialogComponent } from '../delete/lenh-san-xuat-delete-dialog.component';
+import { format } from 'prettier';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'jhi-lenh-san-xuat',
@@ -56,6 +61,7 @@ export class LenhSanXuatComponent implements OnInit {
   @Input() createBy = '';
   @Input() trangThai = '';
   @Input() entryTime = '';
+  @Input() timeUpdate = '';
   listLenhSanXuat: ILenhSanXuat[] = [];
 
   searchResult: ILenhSanXuat[] = [];
@@ -105,14 +111,21 @@ export class LenhSanXuatComponent implements OnInit {
   getLenhSanXuatList(): void {
     this.http.get<any>(this.resourceUrl).subscribe(res => {
       this.lenhSanXuats = res;
+      // convert res này kiểu gì ?
       if (this.lenhSanXuats) {
+        // for (let i = 0; i < this.lenhSanXuats.length; i++){
+        //   this.lenhSanXuats[i].entryTime = dayjs(this.lenhSanXuats[i].entryTime).format('D/MM/YYYY HH:mm');
+        // }
         this.lenhSanXuats.sort((a, b) => {
           if (a.entryTime !== undefined && a.entryTime !== null && b.entryTime !== undefined && b.entryTime !== null) {
-            return b.entryTime.localeCompare(a.entryTime);
+            //   return b.entryTime.localeCompare(a.entryTime);
+            console.log('success');
+            return <any>b.entryTime - <any>a.entryTime;
           }
           return 0;
         });
       }
+      console.log(this.entryTime);
       console.log(this.resourceUrl);
       console.log(res);
     });

@@ -1,3 +1,5 @@
+import dayjs from 'dayjs/esm';
+import { DATE_TIME_FORMAT } from './../../../config/input.constants';
 import { IChiTietLenhSanXuat } from './../../chi-tiet-lenh-san-xuat/chi-tiet-lenh-san-xuat.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -173,7 +175,8 @@ export class LenhSanXuatUpdateComponent implements OnInit {
       storageCode: lenhSanXuat.storageCode,
       totalQuantity: lenhSanXuat.totalQuantity,
       createBy: lenhSanXuat.createBy,
-      entryTime: lenhSanXuat.entryTime,
+      entryTime: lenhSanXuat.entryTime ? lenhSanXuat.entryTime.format(DATE_TIME_FORMAT) : null,
+      timeUpdate: lenhSanXuat.timeUpdate ? lenhSanXuat.timeUpdate.format(DATE_TIME_FORMAT) : null,
       trangThai: lenhSanXuat.trangThai,
       comment: lenhSanXuat.comment,
     });
@@ -191,7 +194,8 @@ export class LenhSanXuatUpdateComponent implements OnInit {
       storageCode: this.editForm.get(['storageCode'])!.value,
       totalQuantity: this.editForm.get(['totalQuantity'])!.value,
       createBy: this.editForm.get(['createBy'])!.value,
-      entryTime: this.editForm.get(['entryTime'])!.value,
+      entryTime: this.editForm.get(['entryTime'])!.value ? dayjs(this.editForm.get(['entryTime'])!.value, DATE_TIME_FORMAT) : undefined,
+      timeUpdate: this.editForm.get(['timeUpdate'])!.value ? dayjs(this.editForm.get(['timeUpdate'])!.value, DATE_TIME_FORMAT) : undefined,
       trangThai: this.editForm.get(['trangThai'])!.value,
       comment: this.editForm.get(['comment'])!.value,
     };
