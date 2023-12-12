@@ -2,6 +2,8 @@ package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -47,7 +49,10 @@ public class LenhSanXuat implements Serializable {
     private String createBy;
 
     @Column(name = "entry_time")
-    private String entryTime;
+    private ZonedDateTime entryTime;
+
+    @Column(name = "time_update")
+    private ZonedDateTime timeUpdate;
 
     @Column(name = "trang_thai")
     private String trangThai;
@@ -68,6 +73,19 @@ public class LenhSanXuat implements Serializable {
     public LenhSanXuat id(Long id) {
         this.setId(id);
         return this;
+    }
+
+    public ZonedDateTime getTimeUpdate() {
+        return timeUpdate;
+    }
+
+    public LenhSanXuat timeUpdate(ZonedDateTime timeUpdate) {
+        this.setTimeUpdate(timeUpdate);
+        return this;
+    }
+
+    public void setTimeUpdate(ZonedDateTime timeUpdate) {
+        this.timeUpdate = timeUpdate;
     }
 
     public void setId(Long id) {
@@ -178,16 +196,16 @@ public class LenhSanXuat implements Serializable {
         this.createBy = createBy;
     }
 
-    public String getEntryTime() {
+    public ZonedDateTime getEntryTime() {
         return this.entryTime;
     }
 
-    public LenhSanXuat entryTime(String entryTime) {
+    public LenhSanXuat entryTime(ZonedDateTime entryTime) {
         this.setEntryTime(entryTime);
         return this;
     }
 
-    public void setEntryTime(String entryTime) {
+    public void setEntryTime(ZonedDateTime entryTime) {
         this.entryTime = entryTime;
     }
 
@@ -267,22 +285,49 @@ public class LenhSanXuat implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "LenhSanXuat{" +
-            "id=" + getId() +
-            ", maLenhSanXuat=" + getMaLenhSanXuat() +
-            ", sapCode='" + getSapCode() + "'" +
-            ", sapName='" + getSapName() + "'" +
-            ", workOrderCode='" + getWorkOrderCode() + "'" +
-            ", version='" + getVersion() + "'" +
-            ", storageCode='" + getStorageCode() + "'" +
-            ", totalQuantity='" + getTotalQuantity() + "'" +
-            ", createBy='" + getCreateBy() + "'" +
-            ", entryTime='" + getEntryTime() + "'" +
-            ", trangThai='" + getTrangThai() + "'" +
-            ", comment='" + getComment() + "'" +
-            "}";
+        return (
+            "LenhSanXuat{" +
+            "id=" +
+            id +
+            ", maLenhSanXuat='" +
+            maLenhSanXuat +
+            '\'' +
+            ", sapCode='" +
+            sapCode +
+            '\'' +
+            ", sapName='" +
+            sapName +
+            '\'' +
+            ", workOrderCode='" +
+            workOrderCode +
+            '\'' +
+            ", version='" +
+            version +
+            '\'' +
+            ", storageCode='" +
+            storageCode +
+            '\'' +
+            ", totalQuantity='" +
+            totalQuantity +
+            '\'' +
+            ", createBy='" +
+            createBy +
+            '\'' +
+            ", entryTime=" +
+            entryTime +
+            ", timeUpdate=" +
+            timeUpdate +
+            ", trangThai='" +
+            trangThai +
+            '\'' +
+            ", comment='" +
+            comment +
+            '\'' +
+            ", chiTietLenhSanXuats=" +
+            chiTietLenhSanXuats +
+            '}'
+        );
     }
 }

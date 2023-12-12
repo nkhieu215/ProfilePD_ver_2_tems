@@ -759,6 +759,7 @@ public class UserServices {
     public void updateTrangThaiLenhSanXuat(Long id, LenhSanXuat request) {
         LenhSanXuat lenhSanXuat = this.lenhSanXuatRepository.findById(id).orElse(null);
         if (lenhSanXuat != null) {
+            lenhSanXuat.setTimeUpdate(request.getTimeUpdate());
             lenhSanXuat.setTrangThai(request.getTrangThai());
             lenhSanXuatRepository.save(lenhSanXuat);
         }
