@@ -109,8 +109,7 @@ export class LenhSanXuatComponent implements OnInit {
   getLenhSanXuatList(): void {
     this.http.get<any>(this.resourceUrl).subscribe(res => {
       this.lenhSanXuats = res;
-      // convert res này kiểu gì ?
-
+      sessionStorage.setItem('Lenhsanxuat1', JSON.stringify(res));
       if (this.lenhSanXuats) {
         this.lenhSanXuats.sort((a, b) => {
           if (a.entryTime !== undefined && a.entryTime !== null && b.entryTime !== undefined && b.entryTime !== null) {
@@ -155,25 +154,33 @@ export class LenhSanXuatComponent implements OnInit {
 
   // tim kiem theo ngay
   formatNgbDate(): void {
-    // this.resultSearchDateTime = [];
-    if (this.lenhSanXuats !== undefined) {
-      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
-        console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
-        return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
-      });
+    const result = sessionStorage.getItem('Lenhsanxuat1');
+    // console.log(result)
+    if (result) {
+      this.lenhSanXuats = JSON.parse(result);
+      // this.resultSearchDateTime = [];
+      if (this.lenhSanXuats !== undefined) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
+          return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
+        });
+      }
     }
   }
-
   formatNgbDateUpdate(): void {
-    // this.resultSearchDateTime = [];
-    if (this.lenhSanXuats !== undefined) {
-      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
-        console.log('aaa', dayjs(a.timeUpdate).format('DD/MM/YYYY'));
-        return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY');
-      });
+    const result = sessionStorage.getItem('Lenhsanxuat1');
+    // console.log(result)
+    if (result) {
+      this.lenhSanXuats = JSON.parse(result);
+      // this.resultSearchDateTime = [];
+      if (this.lenhSanXuats !== undefined) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          console.log('aaa', dayjs(a.timeUpdate).format('DD/MM/YYYY'));
+          return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY');
+        });
+      }
     }
   }
-
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
     if (this.predicate !== 'id') {

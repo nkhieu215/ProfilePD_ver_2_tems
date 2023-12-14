@@ -104,6 +104,7 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   getLenhSanXuatList(): void {
     this.http.get<any>(this.resourceUrlApprove).subscribe(res => {
       this.lenhSanXuats = res;
+      sessionStorage.setItem('Lenhsanxuat', JSON.stringify(res));
       console.log('bbb', res);
       if (this.lenhSanXuats) {
         this.lenhSanXuats.sort((a, b) => {
@@ -133,20 +134,30 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   }
 
   searchEntryTime(): void {
-    if (this.lenhSanXuats !== undefined) {
-      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
-        console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
-        return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
-      });
+    const result = sessionStorage.getItem('Lenhsanxuat');
+    // console.log(result)
+    if (result) {
+      this.lenhSanXuats = JSON.parse(result);
+      if (this.lenhSanXuats !== undefined) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
+          return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
+        });
+      }
     }
   }
 
   searchTimeUpdate(): void {
-    if (this.lenhSanXuats !== undefined) {
-      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
-        console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
-        return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
-      });
+    const result = sessionStorage.getItem('Lenhsanxuat');
+    // console.log(result)
+    if (result) {
+      this.lenhSanXuats = JSON.parse(result);
+      if (this.lenhSanXuats !== undefined) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          console.log('bbb', dayjs(a.timeUpdate).format('DD/MM/YYYY'));
+          return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY');
+        });
+      }
     }
   }
 
