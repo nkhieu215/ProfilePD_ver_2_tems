@@ -1,3 +1,5 @@
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import dayjs from 'dayjs/esm';
 import { ApplicationConfigService } from './../../../core/config/application-config.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse, HttpClient } from '@angular/common/http';
@@ -45,8 +47,9 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   changeStatus: {
     id: number;
     totalQuantity: string;
+    timeUpdate: dayjs.Dayjs;
     trangThai: string;
-  } = { id: 0, totalQuantity: '', trangThai: '' };
+  } = { id: 0, totalQuantity: '', timeUpdate: dayjs().startOf('second'), trangThai: '' };
 
   chiTietLenhSanXuats: IChiTietLenhSanXuat[] = [];
   //tạo danh sách lệnh sản xuất ở trạng thái active
@@ -110,6 +113,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     totalQuantity: [],
     createBy: [],
     entryTime: [],
+    timeUpdate: [],
     trangThai: [],
     comment: [],
   });
@@ -133,6 +137,10 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
 
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
       // console.log('test: ', lenhSanXuat);
+
+      const today = dayjs().startOf('second');
+      lenhSanXuat.timeUpdate = today;
+
       this.changeStatus.id = lenhSanXuat.id;
       this.changeStatus.totalQuantity = lenhSanXuat.totalQuantity;
       // console.log(this.changeStatus);
@@ -270,6 +278,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     this.isSaving = true;
     const lenhSanXuat = this.createFromForm();
     if (lenhSanXuat.id !== undefined) {
+      console.log('result', lenhSanXuat);
+
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
       this.http
         .put<any>(`${this.resourceUrlUpdate}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats)
@@ -321,7 +331,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       storageCode: lenhSanXuat.storageCode,
       totalQuantity: lenhSanXuat.totalQuantity,
       createBy: lenhSanXuat.createBy,
-      entryTime: lenhSanXuat.entryTime,
+      entryTime: lenhSanXuat.entryTime ? lenhSanXuat.entryTime.format(DATE_TIME_FORMAT) : null,
+      timeUpdate: lenhSanXuat.timeUpdate ? lenhSanXuat.timeUpdate.format(DATE_TIME_FORMAT) : null,
       trangThai: lenhSanXuat.trangThai,
       comment: lenhSanXuat.comment,
     });
@@ -499,7 +510,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       storageCode: this.editForm.get(['storageCode'])!.value,
       totalQuantity: this.editForm.get(['totalQuantity'])!.value,
       createBy: this.editForm.get(['createBy'])!.value,
-      entryTime: this.editForm.get(['entryTime'])!.value,
+      entryTime: this.editForm.get(['entryTime'])!.value ? dayjs(this.editForm.get(['entryTime'])!.value, DATE_TIME_FORMAT) : undefined,
+      timeUpdate: this.editForm.get(['timeUpdate'])!.value ? dayjs(this.editForm.get(['timeUpdate'])!.value, DATE_TIME_FORMAT) : undefined,
       trangThai: this.editForm.get(['trangThai'])!.value,
       comment: this.editForm.get(['comment'])!.value,
     };

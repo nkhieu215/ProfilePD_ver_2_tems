@@ -1,3 +1,4 @@
+import dayjs from 'dayjs/esm';
 import { ILenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
 import { FormBuilder } from '@angular/forms';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -129,6 +130,24 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
         this.loadPage();
       }
     });
+  }
+
+  searchEntryTime(): void {
+    if (this.lenhSanXuats !== undefined) {
+      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
+        return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
+      });
+    }
+  }
+
+  searchTimeUpdate(): void {
+    if (this.lenhSanXuats !== undefined) {
+      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
+        return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
+      });
+    }
   }
 
   // timKiemTem(data: any, page?: number, dontNavigate?: boolean): void {

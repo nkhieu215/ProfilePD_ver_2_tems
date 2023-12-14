@@ -33,8 +33,9 @@ export class LenhSanXuatUpdateComponent implements OnInit {
   changeStatus: {
     id: number;
     totalQuantity: string;
+    timeUpdate: dayjs.Dayjs;
     trangThai: string;
-  } = { id: 0, totalQuantity: '', trangThai: '' };
+  } = { id: 0, totalQuantity: '', timeUpdate: dayjs().startOf('second'), trangThai: '' };
 
   editForm = this.fb.group({
     id: [],
@@ -47,6 +48,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     totalQuantity: [],
     createBy: [],
     entryTime: [],
+    timeUpdate: [],
     trangThai: [],
     comment: [],
   });
@@ -65,6 +67,11 @@ export class LenhSanXuatUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
       console.log('test:', lenhSanXuat);
+      const today = dayjs().startOf('second');
+      // this.editForm.patchValue({ timeUpdate: today });
+      // set timeupdate
+      lenhSanXuat.timeUpdate = today;
+      // console.log('hello', this.editForm.get(['timeUpdate'])!.value);
       // gán thông tin xác định vào changeStatus
       this.changeStatus.id = lenhSanXuat.id;
       this.changeStatus.totalQuantity = lenhSanXuat.totalQuantity;
@@ -114,6 +121,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     this.isSaving = true;
     const lenhSanXuat = this.createFromForm();
     if (lenhSanXuat.id !== undefined) {
+      console.log('result', lenhSanXuat);
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
       this.http.put<any>(`${this.resourceUrl1}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats).subscribe(() => {
         console.log(this.chiTietLenhSanXuats);

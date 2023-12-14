@@ -145,22 +145,24 @@
             <th scope="col" jhiSortBy="entryTime">
               <span>Thời gian tạo tem</span>
               <input
-                type="datetime-local"
+                type="date"
                 ngbDatepicker
                 #d="ngbDatepicker"
                 [(ngModel)]="entryTime"
                 [ngModelOptions]="{ standalone: true }"
+                (change)="searchEntryTime()"
               />
             </th>
 
             <th scope="col" jhiSortBy="timeUpdate">
               <span>Thời gian cập nhật</span>
               <input
-                type="datetime-local"
+                type="date"
                 ngbDatepicker
                 #d="ngbDatepicker"
                 [(ngModel)]="timeUpdate"
                 [ngModelOptions]="{ standalone: true }"
+                (change)="searchTimeUpdate()"
               />
             </th>
 
@@ -224,7 +226,7 @@
             <td>{{ lenhSanXuat.comment }}</td>
 
             <td class="text-end">
-              <div class="btn-group">
+              <div class="btn-group" *jhiHasAnyAuthority="'ROLE_ADMIN_TEM'">
                 <button
                   *jhiHasAnyAuthority="'ROLE_USER_TEM'"
                   type="submit"
@@ -237,7 +239,7 @@
                 </button>
 
                 <button
-                  *jhiHasAnyAuthority="'ROLE_ADMIN_TEM'"
+                  *ngIf="lenhSanXuat.trangThai === 'Chờ duyệt'"
                   type="submit"
                   [routerLink]="['/chi-tiet-lenh-san-xuat', lenhSanXuat.id, 'edit']"
                   class="btn btn-primary btn-sm"

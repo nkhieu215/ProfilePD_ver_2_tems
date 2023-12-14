@@ -143,12 +143,27 @@
 
             <th scope="col" jhiSortBy="entryTime">
               <span>Thời gian tạo tem</span>
-              <input type="date" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="entryTime" [ngModelOptions]="{ standalone: true }" />
+              <input
+                type="date"
+                ngbDatepicker
+                #d1="ngbDatepicker"
+                [(ngModel)]="entryTime"
+                [ngModelOptions]="{ standalone: true }"
+                (change)="formatNgbDate()"
+              />
+              <!-- <button (onclick)="timKiemTem">search</button> -->
             </th>
 
             <th scope="col" jhiSortBy="timeUpdate">
               <span>Thời gian cập nhật</span>
-              <input type="date" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="timeUpdate" [ngModelOptions]="{ standalone: true }" />
+              <input
+                type="date"
+                ngbDatepicker
+                #d2="ngbDatepicker"
+                [(ngModel)]="timeUpdate"
+                [ngModelOptions]="{ standalone: true }"
+                (change)="formatNgbDateUpdate()"
+              />
             </th>
 
             <th scope="col" jhiSortBy="trangThai">
@@ -186,8 +201,6 @@
                 | filter: version
                 | filter: storageCode
                 | filter: createBy
-                | filter: entryTime
-                | filter: timeUpdate
                 | filter: trangThai
                 | paginate: { itemsPerPage: itemPerPage, currentPage: page };
               let i = index;

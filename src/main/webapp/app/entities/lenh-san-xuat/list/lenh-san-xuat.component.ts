@@ -1,21 +1,17 @@
-import { DATE_FORMAT, DATE_TIME_FORMAT } from './../../../config/input.constants';
-import { FormatMediumDatePipe } from './../../../shared/date/format-medium-date.pipe';
-import { AuthServerProvider } from 'app/core/auth/auth-session.service';
+import dayjs from 'dayjs/esm';
 import { FormBuilder } from '@angular/forms';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse, HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 import { ILenhSanXuat } from '../lenh-san-xuat.model';
 
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
 import { LenhSanXuatService } from '../service/lenh-san-xuat.service';
 import { LenhSanXuatDeleteDialogComponent } from '../delete/lenh-san-xuat-delete-dialog.component';
-import { format } from 'prettier';
-import dayjs from 'dayjs';
 
 @Component({
   selector: 'jhi-lenh-san-xuat',
@@ -62,9 +58,11 @@ export class LenhSanXuatComponent implements OnInit {
   @Input() trangThai = '';
   @Input() entryTime = '';
   @Input() timeUpdate = '';
-  listLenhSanXuat: ILenhSanXuat[] = [];
 
+  listLenhSanXuat: ILenhSanXuat[] = [];
   searchResult: ILenhSanXuat[] = [];
+
+  resultSearchDateTime = [];
 
   constructor(
     protected lenhSanXuatService: LenhSanXuatService,
@@ -112,10 +110,8 @@ export class LenhSanXuatComponent implements OnInit {
     this.http.get<any>(this.resourceUrl).subscribe(res => {
       this.lenhSanXuats = res;
       // convert res này kiểu gì ?
+
       if (this.lenhSanXuats) {
-        // for (let i = 0; i < this.lenhSanXuats.length; i++){
-        //   this.lenhSanXuats[i].entryTime = dayjs(this.lenhSanXuats[i].entryTime).format('D/MM/YYYY HH:mm');
-        // }
         this.lenhSanXuats.sort((a, b) => {
           if (a.entryTime !== undefined && a.entryTime !== null && b.entryTime !== undefined && b.entryTime !== null) {
             //   return b.entryTime.localeCompare(a.entryTime);
@@ -148,15 +144,34 @@ export class LenhSanXuatComponent implements OnInit {
 
   timKiemTem(data: any, page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page ?? this.page ?? 1;
-
     this.lenhSanXuats = [];
-
     this.http.post<any>(this.resourceUrl, data).subscribe(res => {
       this.lenhSanXuats = res;
       console.log(res);
       console.log(this.resourceUrl);
       this.onSuccess(res.lenhSanXuats, res.headers, pageToLoad, !dontNavigate);
     });
+  }
+
+  // tim kiem theo ngay
+  formatNgbDate(): void {
+    // this.resultSearchDateTime = [];
+    if (this.lenhSanXuats !== undefined) {
+      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
+        return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
+      });
+    }
+  }
+
+  formatNgbDateUpdate(): void {
+    // this.resultSearchDateTime = [];
+    if (this.lenhSanXuats !== undefined) {
+      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        console.log('aaa', dayjs(a.timeUpdate).format('DD/MM/YYYY'));
+        return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY');
+      });
+    }
   }
 
   sort(): string[] {
