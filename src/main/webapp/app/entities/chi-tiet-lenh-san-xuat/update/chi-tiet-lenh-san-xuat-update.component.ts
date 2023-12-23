@@ -11,6 +11,8 @@ import { IChiTietLenhSanXuat } from '../chi-tiet-lenh-san-xuat.model';
 import { ChiTietLenhSanXuatService } from '../service/chi-tiet-lenh-san-xuat.service';
 import { ILenhSanXuat, LenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
 import { LenhSanXuatService } from 'app/entities/lenh-san-xuat/service/lenh-san-xuat.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-chi-tiet-lenh-san-xuat-update',
@@ -119,17 +121,21 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   });
 
   initialQuantity: any;
-
+  account: Account | null = null;
   constructor(
     protected chiTietLenhSanXuatService: ChiTietLenhSanXuatService,
     protected lenhSanXuatService: LenhSanXuatService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
     protected applicationConfigService: ApplicationConfigService,
-    protected http: HttpClient
+    protected http: HttpClient,
+    protected accountService: AccountService
   ) {}
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      this.account = account;
+    });
     // bắt sự kiện scan
     this.scanResult.valueChanges.subscribe(data => {
       console.log('data: ', data.length);
@@ -146,8 +152,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       // console.log(this.changeStatus);
       this.http.get<any>(`${this.resourceUrl}/${lenhSanXuat.id as number}`).subscribe(res => {
         this.chiTietLenhSanXuats = res;
-        console.log('res', res);
-        console.log('lenhSanXuat', this.chiTietLenhSanXuats);
+        console.log('chi tiet: ', this.chiTietLenhSanXuats);
         //lấy danh sách chi tiết lsx ở trạng thái active
         this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'Active');
         this.itemPerPage = this.chiTietLenhSanXuatActive.length;
@@ -160,12 +165,8 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         });
         //lấy danh sách chi tiết lsx không có trong danh sách
         this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'not list');
-        console.log('active list: ', this.chiTietLenhSanXuatActive);
-        console.log('not list list: ', this.chiTietLenhSanXuatNotList);
-        console.log('so luong tem active', this.chiTietLenhSanXuatActive.length);
       });
       this.updateForm(lenhSanXuat);
-      console.log('id: ', this.editForm.get(['id'])!.value);
       // this.loadRelationshipsOptions();
     });
   }
@@ -198,7 +199,6 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     // }
     // sau khi cap nhat checkedList goi ham getCheckItemList
     // this.getCheckItemList();
-    console.log('chon', this.selectedAll);
   }
 
   onSelected(): void {
@@ -206,7 +206,6 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     const numberOfSelectedItems: number = this.chiTietLenhSanXuatActive.reduce(function (accumulator: number, item: any) {
       return accumulator + (item.checked ? 1 : 0);
     }, 0);
-    console.log('number', numberOfSelectedItems);
     // ktra ptu duoc chon
     // this.selectedAll = numberOfSelectedItems === this.chiTietLenhSanXuatActive.length ? 1 : 0;
 
@@ -222,7 +221,6 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         this.checkedList.push(this.chiTietLenhSanXuatActive[i]);
       }
     }
-    console.log('checked', this.checkedList);
   }
 
   previousState(): void {
@@ -246,9 +244,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
 
   pheDuyetTem(): void {
     this.changeStatus.trangThai = 'Đã phê duyệt';
-    console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
-      console.log('Thành công');
       alert('Phê duyệt thành công');
       this.previousState();
     });
@@ -256,19 +252,14 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
 
   khoHuyStatus(): void {
     this.changeStatus.trangThai = 'Kho huỷ';
-    console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
-      console.log('Thành công');
-      alert('Huỷ thành công');
       this.previousState();
     });
   }
 
   khoTuChoiStatus(): void {
     this.changeStatus.trangThai = 'Từ chối';
-    console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
-      console.log('Thành công');
       alert('Từ chối thành công');
       this.previousState();
     });
@@ -278,13 +269,10 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
     this.isSaving = true;
     const lenhSanXuat = this.createFromForm();
     if (lenhSanXuat.id !== undefined) {
-      console.log('result', lenhSanXuat);
-
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
       this.http
         .put<any>(`${this.resourceUrlUpdate}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats)
         .subscribe(() => {
-          console.log(this.chiTietLenhSanXuats);
           alert('cập nhật chi tiết lệnh sản xuất thành công!');
           this.previousState();
         });
@@ -398,97 +386,100 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       }
     }
     // check ma lenh san xuat
-    if (this.scanValue.userData5 === this.editForm.get(['maLenhSanXuat'])!.value) {
-      // check trong danh sách
-      for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
-        // có trong danh sách
-        if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'Active') {
-          this.isExisted = true;
-          this.chiTietLenhSanXuats[i].checked = 1;
-          this.countScan++;
+    // if (String(this.scanValue.userData5) === this.editForm.get(['maLenhSanXuat'])!.value) {
+    // check trong danh sách
+    for (let i = 0; i < this.chiTietLenhSanXuats.length; i++) {
+      // có trong danh sách
+      if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'Active') {
+        this.isExisted = true;
+        this.chiTietLenhSanXuats[i].checked = 1;
+        this.countScan++;
 
-          this.tienDoScan = (this.countScan / this.chiTietLenhSanXuatActive.length) * 100;
-          this.resultScanPerCent = this.tienDoScan.toFixed(0);
-          alert('đã tìm thấy tem trong danh sách');
-          break;
-        }
-        // có trong danh sách nhưng ở trạng thái deactive
-        if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'Inactive') {
-          this.isExisted = true;
-          this.chiTietLenhSanXuats[i].checked = 1;
-          alert('Tem đang ở trạng thái Inactive');
-          break;
-        }
-        if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'not list') {
-          this.isExisted = true;
-          this.chiTietLenhSanXuats[i].checked = 1;
-          alert('Tem đang ở trạng thái not list');
-          break;
-        }
+        this.tienDoScan = (this.countScan / this.chiTietLenhSanXuatActive.length) * 100;
+        this.resultScanPerCent = this.tienDoScan.toFixed(0);
+        this.alertTimeout('Đã tìm thấy tem trong danh sách lệnh', 2000);
+        // alert('đã tìm thấy tem trong danh sách');
+        break;
       }
-      //không nằm trong danh sách
-      if (this.isExisted === false) {
-        // this.scanValue.comments = 'not list';
-        const item: IChiTietLenhSanXuat = {
-          id: 0,
-          reelID: this.scanValue.reelID,
-          partNumber: this.scanValue.partNumber,
-          vendor: this.scanValue.vendor,
-          lot: this.scanValue.lot,
-          userData1: this.scanValue.userData1,
-          userData2: this.scanValue.userData2,
-          userData3: this.scanValue.userData3,
-          userData4: this.scanValue.userData4,
-          userData5: this.scanValue.userData5,
-          initialQuantity: this.scanValue.initialQuantity,
-          msdLevel: '',
-          msdInitialFloorTime: '',
-          msdBagSealDate: '',
-          marketUsage: '',
-          quantityOverride: this.scanValue.quantityOverride,
-          shelfTime: '',
-          spMaterialName: '',
-          warningLimit: '',
-          maximumLimit: '',
-          comments: '',
-          warmupTime: '',
-          storageUnit: this.scanValue.storageUnit,
-          subStorageUnit: '',
-          locationOverride: '',
-          expirationDate: this.scanValue.expirationDate,
-          manufacturingDate: this.scanValue.manufacturingDate,
-          partClass: '',
-          sapCode: this.scanValue.sapCode,
-          trangThai: 'not list',
-          checked: 1,
-        };
-        this.chiTietLenhSanXuats.push(item);
-        alert('tem không nằm trong danh sách');
+      // có trong danh sách nhưng ở trạng thái deactive
+      if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'Inactive') {
+        this.isExisted = true;
+        this.chiTietLenhSanXuats[i].checked = 1;
+        this.alertTimeout('Tem đang ở trạng thái Inactive', 2000);
+        // alert('Tem đang ở trạng thái Inactive');
+        break;
       }
-      //cập nhật lại danh sách chi tiết lsx ở trạng thái active
-      this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'Active');
-      // sắp xếp danh sách
-      this.chiTietLenhSanXuatActive.sort(function (a, b) {
-        if (a.checked !== undefined && a.checked !== null && b.checked !== undefined && b.checked !== null) {
-          return a.checked - b.checked;
-        }
-        return 0;
-      });
-      //cập nhật lại danh sách chi tiết lsx không có trong danh sách
-      this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'not list');
-      this.scanResults = '';
-      console.log(this.chiTietLenhSanXuats[0].lenhSanXuat);
-    } else {
-      this.alertTimeout('Tem không nằm trong mã lệnh sản xuất', 5000);
-      this.scanResults = '';
-      // alert('Tem không nằm trong mã lệnh sản xuất');
+      if (this.scanValue.reelID === this.chiTietLenhSanXuats[i].reelID && this.chiTietLenhSanXuats[i].trangThai === 'not list') {
+        this.isExisted = true;
+        this.chiTietLenhSanXuats[i].checked = 1;
+        this.alertTimeout('Tem đang ở trạng thái not list', 2000);
+        // alert('Tem đang ở trạng thái not list');
+        break;
+      }
     }
+    //không nằm trong danh sách
+    if (this.isExisted === false) {
+      // this.scanValue.comments = 'not list';
+      const item: IChiTietLenhSanXuat = {
+        id: 0,
+        reelID: this.scanValue.reelID,
+        partNumber: this.scanValue.partNumber,
+        vendor: this.scanValue.vendor,
+        lot: this.scanValue.lot,
+        userData1: this.scanValue.userData1,
+        userData2: this.scanValue.userData2,
+        userData3: this.scanValue.userData3,
+        userData4: this.scanValue.userData4,
+        userData5: this.scanValue.userData5,
+        initialQuantity: this.scanValue.initialQuantity,
+        msdLevel: '',
+        msdInitialFloorTime: '',
+        msdBagSealDate: '',
+        marketUsage: '',
+        quantityOverride: this.scanValue.quantityOverride,
+        shelfTime: '',
+        spMaterialName: '',
+        warningLimit: '',
+        maximumLimit: '',
+        comments: '',
+        warmupTime: '',
+        storageUnit: this.scanValue.storageUnit,
+        subStorageUnit: '',
+        locationOverride: '',
+        expirationDate: this.scanValue.expirationDate,
+        manufacturingDate: this.scanValue.manufacturingDate,
+        partClass: '',
+        sapCode: this.scanValue.sapCode,
+        trangThai: 'not list',
+        checked: 1,
+        lenhSanXuat: this.createFromForm(),
+      };
+      this.chiTietLenhSanXuats.push(item);
+      this.alertTimeout('Tem không nằm trong danh sách', 2000);
+    }
+    //cập nhật lại danh sách chi tiết lsx ở trạng thái active
+    this.chiTietLenhSanXuatActive = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'Active');
+    // sắp xếp danh sách
+    this.chiTietLenhSanXuatActive.sort(function (a, b) {
+      if (a.checked !== undefined && a.checked !== null && b.checked !== undefined && b.checked !== null) {
+        return a.checked - b.checked;
+      }
+      return 0;
+    });
+    //cập nhật lại danh sách chi tiết lsx không có trong danh sách
+    this.chiTietLenhSanXuatNotList = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'not list');
+    this.scanResults = '';
+    // } else {
+    //   this.alertTimeout('Tem không nằm trong mã lệnh sản xuất', 2000);
+    //   this.scanResults = '';
+    //   // alert('Tem không nằm trong mã lệnh sản xuất');
+    // }
   }
   alertTimeout(mymsg: string, mymsecs: number): void {
     const myelement = document.createElement('div');
     myelement.setAttribute(
       'style',
-      'background-color: #6c7ae0;color:white; width: 300px;height: 100px;position: absolute;top:0;bottom:0;left:0;right:0;margin:auto;border: 1px solid black;font-family:arial;font-size:14px;display: flex; align-items: center; justify-content: center; text-align: center;border-radius:20px'
+      'background-color:white;color:Black; width: 300px;height: 70px;position: absolute;top:0;bottom:0;left:0;right:0;margin:auto;border: 1px solid black;font-family:arial;font-size:14px;display: flex; align-items: center; justify-content: center; text-align: center;border-radius:10px'
     );
     myelement.innerHTML = mymsg;
     setTimeout(function () {
@@ -509,7 +500,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
       version: this.editForm.get(['version'])!.value,
       storageCode: this.editForm.get(['storageCode'])!.value,
       totalQuantity: this.editForm.get(['totalQuantity'])!.value,
-      createBy: this.editForm.get(['createBy'])!.value,
+      createBy: this.account?.login,
       entryTime: this.editForm.get(['entryTime'])!.value ? dayjs(this.editForm.get(['entryTime'])!.value, DATE_TIME_FORMAT) : undefined,
       timeUpdate: this.editForm.get(['timeUpdate'])!.value ? dayjs(this.editForm.get(['timeUpdate'])!.value, DATE_TIME_FORMAT) : undefined,
       trangThai: this.editForm.get(['trangThai'])!.value,

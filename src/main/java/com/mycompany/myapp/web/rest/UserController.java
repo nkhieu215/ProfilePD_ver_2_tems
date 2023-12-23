@@ -409,6 +409,32 @@ public class UserController {
         this.userServices.updateChiTietLenhSanXuat(request, id);
     }
 
+    //☺API tìm kiếm
+    @GetMapping("/lenhsx/ma-lenh-san-xuat")
+    public List<String> getListMaLenhSanXuat() {
+        return this.userServices.getListMaLenhSanXuat();
+    }
+
+    @GetMapping("/lenhsx/sap-code")
+    public List<String> getListSapCode() {
+        return this.userServices.getListSapCode();
+    }
+
+    @GetMapping("/lenhsx/sap-name")
+    public List<String> getListSapName() {
+        return this.userServices.getListSapName();
+    }
+
+    @GetMapping("/lenhsx/work-order-code")
+    public List<String> getListWorkOrderCode() {
+        return this.userServices.getListWorkOrderCode();
+    }
+
+    @GetMapping("/lenhsx/version")
+    public List<String> getListVersion() {
+        return this.userServices.getListVersion();
+    }
+
     //--------------------------------------------- * -----------------------------------------
     //-------------------------------- Nhom san pham ---------------------------
     @GetMapping("/nhom-san-pham")

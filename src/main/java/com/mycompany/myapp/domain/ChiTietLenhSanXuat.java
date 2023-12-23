@@ -21,7 +21,7 @@ public class ChiTietLenhSanXuat implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "reel_id", nullable = false, unique = true)
+    @Column(name = "reel_id", nullable = false)
     private String reelID;
 
     @NotNull

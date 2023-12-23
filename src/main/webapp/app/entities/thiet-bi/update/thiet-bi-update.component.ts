@@ -129,7 +129,6 @@ export class ThietBiUpdateComponent implements OnInit {
         thietBi.ngayTao = today;
         thietBi.timeUpdate = today;
       } else {
-        console.log(thietBi);
         this.idThietBi = thietBi.id;
         this.maThietBi = thietBi.maThietBi;
         this.dayChuyen = thietBi.dayChuyen;
@@ -247,21 +246,18 @@ export class ThietBiUpdateComponent implements OnInit {
     } else {
       this.showSuccessPopupService = false;
       this.subscribeToCreateResponse(this.thietBiService.create(thietBi));
-      console.log('error in here!!!!');
     }
   }
 
   saveThongSoThietBi(): void {
     if (this.editForm.get(['id'])!.value === undefined) {
       // --------------------- thêm mới ---------------------------
-      console.log('list thiet bi: ', this.listOfThietBi);
       if (this.listOfThietBi[0].idThietBi === undefined) {
         // alert('Thiết bị chưa được khởi tạo');
         this.showSuccessPopup = false;
       } else {
         this.http.post<any>(this.resourceUrlAdd, this.listOfThietBi).subscribe(() => {
           this.showSuccessPopup = true;
-          console.log('xac nhan');
           // alert('Thêm mới thông số thiết bị thành công !');
           this.previousState();
         });
@@ -391,13 +387,11 @@ export class ThietBiUpdateComponent implements OnInit {
       loaiThietBi: this.editForm.get(['loaiThietBi'])!.value,
     };
     this.listOfThietBi = [...this.listOfThietBi, newRow];
-    console.log('add row', this.listOfThietBi);
   }
 
   // sua lai xoa theo stt va ma thong so (id )
   deleteRow(thongSo: string | null, id: number | null | undefined): void {
     const thietBi = this.createFromForm();
-    console.log('thiet bi id: ', thietBi.id);
     if (thietBi.id !== undefined) {
       if (confirm('Bạn chắc chắn muốn xóa thông số này?') === true) {
         this.http.delete(`${this.delThongSoMayUrl}/${id as number}`).subscribe(() => {
@@ -407,7 +401,6 @@ export class ThietBiUpdateComponent implements OnInit {
       }
     } else {
       this.listOfThietBi = this.listOfThietBi.filter(d => d.thongSo !== thongSo);
-      // console.log('del', this.listOfThietBi )
     }
   }
 }

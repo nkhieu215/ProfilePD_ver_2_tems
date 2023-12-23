@@ -3,7 +3,7 @@
     <span>Danh sách thông tin tem theo lệnh sản xuất</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+      <button class="btn btn-info me-2" (click)="reloadPage()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh List</span>
       </button>
@@ -36,11 +36,12 @@
                 [(ngModel)]="maLenhSanXuat"
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
-                list="maThongSo"
+                list="maLenhSanXuat"
                 style="width: 8rem"
+                (change)="search()"
               />
               <datalist id="maLenhSanXuat">
-                <option *ngFor="let data of lenhSanXuats">{{ data.maLenhSanXuat }}</option>
+                <option *ngFor="let data of listOfMaLenhSanXuat">{{ data }}</option>
               </datalist>
             </th>
 
@@ -54,9 +55,10 @@
                 placeholder="search"
                 list="sapCode"
                 style="width: 5rem"
+                (change)="search()"
               />
-              <datalist id="maLenhSanXuat">
-                <option *ngFor="let data of lenhSanXuats">{{ data.sapCode }}</option>
+              <datalist id="sapCode">
+                <option *ngFor="let data of listOfSapCode">{{ data }}</option>
               </datalist>
             </th>
 
@@ -69,9 +71,10 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="sapName"
+                (change)="search()"
               />
-              <datalist id="maLenhSanXuat">
-                <option *ngFor="let data of lenhSanXuats">{{ data.sapName }}</option>
+              <datalist id="sapName">
+                <option *ngFor="let data of listOfSapName">{{ data }}</option>
               </datalist>
             </th>
 
@@ -85,9 +88,10 @@
                 placeholder="search"
                 list="workOrderCode"
                 style="width: 5rem"
+                (change)="search()"
               />
-              <datalist id="maLenhSanXuat">
-                <option *ngFor="let data of lenhSanXuats">{{ data.workOrderCode }}</option>
+              <datalist id="workOrderCode">
+                <option *ngFor="let data of listOfWorkOrderCode">{{ data }}</option>
               </datalist>
             </th>
 
@@ -101,9 +105,10 @@
                 placeholder="search"
                 list="version"
                 style="width: 5rem"
+                (change)="search()"
               />
-              <datalist id="maLenhSanXuat">
-                <option *ngFor="let data of lenhSanXuats">{{ data.version }}</option>
+              <datalist id="version">
+                <option *ngFor="let data of listOfVersion">{{ data }}</option>
               </datalist>
             </th>
 
@@ -117,9 +122,27 @@
                 placeholder="search"
                 list="storageCode"
                 style="width: 6rem"
+                (change)="search()"
               />
-              <datalist id="maLenhSanXuat">
-                <option *ngFor="let data of lenhSanXuats">{{ data.storageCode }}</option>
+              <datalist id="storageCode">
+                <option value="01">Kho linh kiện điện tử</option>
+                <option value="02">Kho vật tư LED</option>
+                <option value="03">Kho vật tư TBCS</option>
+                <option value="04">Kho vật tư CLC</option>
+                <option value="05">Kho ngành ĐTTĐ</option>
+                <option value="06">Kho ngành LRSP LED 1</option>
+                <option value="07">Kho ngành SMART</option>
+                <option value="08">Kho ngành LED2</option>
+                <option value="10">Kho cơ khí xưởng</option>
+                <option value="11">Kho ngành CNPT</option>
+                <option value="12">Kho vật tư Smart</option>
+                <option value="13">Kho ngành CNPT 2</option>
+                <option value="14">Kho chị Hòa 2</option>
+                <option value="15">Kho Pilot TTRD</option>
+                <option value="17">Kho vật tư SKD</option>
+                <option value="18">Kho trung tâm RD</option>
+                <option value="19">Kho LKDT thủ công</option>
+                <option value="20">Kho xuất khẩu</option>
               </datalist>
             </th>
 
@@ -138,6 +161,7 @@
                 placeholder="search"
                 list="createBy"
                 style="width: 6rem"
+                (change)="search()"
               />
             </th>
 
@@ -149,9 +173,8 @@
                 #d1="ngbDatepicker"
                 [(ngModel)]="entryTime"
                 [ngModelOptions]="{ standalone: true }"
-                (change)="formatNgbDate()"
+                (change)="search()"
               />
-              <!-- <button (onclick)="timKiemTem">search</button> -->
             </th>
 
             <th scope="col" jhiSortBy="timeUpdate">
@@ -162,7 +185,7 @@
                 #d2="ngbDatepicker"
                 [(ngModel)]="timeUpdate"
                 [ngModelOptions]="{ standalone: true }"
-                (change)="formatNgbDateUpdate()"
+                (change)="search()"
               />
             </th>
 
@@ -175,7 +198,7 @@
                 <option value="Đã phê duyệt">Đã phê duyệt</option>
                 <option value="Từ chối">Từ chối</option>
                 <option value="Kho huỷ">Kho huỷ</option>
-                <option value="Bộ phận sản xuất huỷ">Bộ phận sản xuất huỷ</option>
+                <option value="Sản xuất hủy">Sản xuất hủy</option>
               </select>
             </th>
 
@@ -193,16 +216,7 @@
         <tbody>
           <tr
             *ngFor="
-              let lenhSanXuat of lenhSanXuats
-                | filter: maLenhSanXuat
-                | filter: sapCode
-                | filter: sapName
-                | filter: workOrderCode
-                | filter: version
-                | filter: storageCode
-                | filter: createBy
-                | filter: trangThai
-                | paginate: { itemsPerPage: itemPerPage, currentPage: page };
+              let lenhSanXuat of lenhSanXuats | filter: trangThai | paginate: { itemsPerPage: itemPerPage, currentPage: page };
               let i = index;
               trackBy: trackId
             "

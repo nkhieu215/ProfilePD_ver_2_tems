@@ -56,7 +56,7 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'chi-tiet-lenh-san-xuat',
-        data: { page: 'Chi tiết lệnh sản xuất' },
+        data: { pageTitle: 'Chi tiết lệnh sản xuất' },
         loadChildren: () => import('./chi-tiet-lenh-san-xuat/chi-tiet-lenh-san-xuat.module').then(m => m.ChiTietLenhSanXuatModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */

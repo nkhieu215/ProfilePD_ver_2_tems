@@ -37,4 +37,19 @@ public interface LenhSanXuatRepository extends JpaRepository<LenhSanXuat, Long> 
         nativeQuery = true
     )
     public List<LenhSanXuat> timKiemQuanLyPheDuyet();
+
+    @Query(value = "select DISTINCT ma_lenh_san_xuat from lenh_san_xuat LenhSanXuat ", nativeQuery = true)
+    public List<String> getListMaLenhSanXuat();
+
+    @Query(value = "select DISTINCT sap_code from lenh_san_xuat LenhSanXuat ", nativeQuery = true)
+    public List<String> getListSapCode();
+
+    @Query(value = "select DISTINCT sap_name from lenh_san_xuat LenhSanXuat ", nativeQuery = true)
+    public List<String> getListSapName();
+
+    @Query(value = "select DISTINCT work_order_code from lenh_san_xuat LenhSanXuat ", nativeQuery = true)
+    public List<String> getListWorkOrderCode();
+
+    @Query(value = "select DISTINCT version from lenh_san_xuat LenhSanXuat ", nativeQuery = true)
+    public List<String> getListVersion();
 }

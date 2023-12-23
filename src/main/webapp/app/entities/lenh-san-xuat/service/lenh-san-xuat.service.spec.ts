@@ -4,12 +4,14 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ILenhSanXuat, LenhSanXuat } from '../lenh-san-xuat.model';
 
 import { LenhSanXuatService } from './lenh-san-xuat.service';
+import dayjs from 'dayjs';
 
 describe('LenhSanXuat Service', () => {
   let service: LenhSanXuatService;
   let httpMock: HttpTestingController;
   let elemDefault: ILenhSanXuat;
   let expectedResult: ILenhSanXuat | ILenhSanXuat[] | boolean | null;
+  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,6 +20,7 @@ describe('LenhSanXuat Service', () => {
     expectedResult = null;
     service = TestBed.inject(LenhSanXuatService);
     httpMock = TestBed.inject(HttpTestingController);
+    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
@@ -29,7 +32,7 @@ describe('LenhSanXuat Service', () => {
       storageCode: 'AAAAAAA',
       totalQuantity: 'AAAAAAA',
       createBy: 'AAAAAAA',
-      entryTime: 'AAAAAAA',
+      entryTime: currentDate,
       trangThai: 'AAAAAAA',
       comment: 'AAAAAAA',
     };

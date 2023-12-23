@@ -217,10 +217,6 @@ export class ThietBiComponent implements OnInit {
       //luu du lieu tra ve de hien thi len front-end
       this.thietBis = res;
       this.dropdownList1 = res;
-      console.log(this.thietBis);
-      console.log(this.dropdownList1);
-
-      // console.log('res', res);
       this.onSuccess(res.thietBis, res.headers, pageToLoad, !dontNavigate);
     });
   }

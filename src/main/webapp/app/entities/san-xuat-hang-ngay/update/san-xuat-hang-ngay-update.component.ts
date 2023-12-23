@@ -177,14 +177,11 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
           //Lấy danh sách thông số thiết bị theo id
           this.http.get<any>(`${this.getChiTietSanXuatUrl}/${sanXuatHangNgay.id as number}`).subscribe(res => {
             this.listOfChiTietKichBan = res;
-            console.log('res: ', res);
             //gán idThietBi cho list
             for (let i = 0; i < this.listOfChiTietKichBan.length; i++) {
               this.listOfChiTietKichBan[i].idSanXuatHangNgay = sanXuatHangNgay.id;
             }
             sessionStorage.setItem('kich ban goc', JSON.stringify(this.listOfChiTietKichBan));
-            // console.log("san xuat hang ngay:", this.originListOfChiTietKichBan)
-            console.log('id kich ban:', this.idSanXuatHangNgay);
           });
           this.getMaThietBi(sanXuatHangNgay.loaiThietBi, sanXuatHangNgay.maThietBi);
         }
@@ -207,16 +204,12 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
     for (let i = 0; i < this.selectedItems.length; i++) {
       this.onSelectItemRequest.push(this.selectedItems[i].maThietBi);
     }
-    console.log('selectitem', this.selectedItems);
-    console.log('request', this.onSelectItemRequest);
-    console.log('item', item);
   }
   public onDeSelect(item: any): void {
     this.onSelectItemRequest = [];
     for (let i = 0; i < this.selectedItems.length; i++) {
       this.onSelectItemRequest.push(this.selectedItems[i].maThietBi);
     }
-    console.log(this.onSelectItemRequest);
   }
   onSelectAll(items: any): void {
     this.onSelectItemRequest = [];
@@ -224,60 +217,48 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
     for (let i = 0; i < this.selectedItems.length; i++) {
       this.onSelectItemRequest.push(this.selectedItems[i].maThietBi);
     }
-    console.log('selectitemAll', this.selectedItems);
-    console.log('requestAll', this.onSelectItemRequest);
-    console.log(items);
   }
 
   //==================================================== Lấy danh sách =================================================
   getAllThongSo(): void {
     this.http.get<IQuanLyThongSo>(this.listThongSoUrl).subscribe(res => {
       this.listOfThongSo = res as any;
-      console.log('danh sach thong so: ', this.listOfThongSo);
     });
   }
   getAllThietBi(): void {
     this.http.get<IThietBi>(this.listThietBiUrl).subscribe(res => {
       this.listOfThietBi = res as any;
-      console.log('danh sach thiet bi: ', this.listOfThietBi);
     });
   }
   getAllNhomThietBi(): void {
     this.http.get<any>(this.listNhomThietBiUrl).subscribe(res => {
       this.listNhomThietBi = res;
-      console.log('nhom thiet bi:', this.listNhomThietBi);
     });
   }
   getAllDonVi(): void {
     this.http.get<any>(this.donViUrl).subscribe(res => {
       this.listDonVi = res;
-      console.log('don vi:', this.listDonVi);
     });
   }
   getAllKichBan(): void {
     this.http.get<any>(this.getKichBanUrl).subscribe(res => {
       this.listKichBan = res;
-      console.log('kich ban:', this.listKichBan);
     });
   }
   getAllDayChuyen(): void {
     this.http.get<any>(this.listDayChuyenUrl).subscribe(res => {
       this.listDayChuyen = res;
-      console.log('day chuyen: ', this.listDayChuyen);
     });
   }
 
   getMaThietBi(loaiTB: string | undefined | null, maTB: string | undefined | null): void {
     this.listMaThietBi = [];
-    console.log('ma thiet bi:', this.listNhomThietBi);
-    console.log('loai thiet bi', loaiTB);
     for (let i = 0; i < this.listNhomThietBi.length; i++) {
       if (loaiTB === this.listNhomThietBi[i].loaiThietBi) {
         const items = { maThietBi: this.listNhomThietBi[i].maThietBi };
         this.listMaThietBi.push(items);
       }
     }
-    console.log(this.listMaThietBi);
     // gán vào selectItem
     if (maTB) {
       this.onSelectItemRequest = maTB.split(',');
@@ -288,7 +269,6 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
           }
         }
       }
-      console.log('item log', this.selectedItems);
     }
   }
 
@@ -343,7 +323,6 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
         sessionStorage.setItem('kich ban goc', JSON.stringify(this.listOfChiTietKichBan));
       }
       //bật chức năng lắng nghe sự thay đổi giá trị chi tiết kịch bản sản xuất
-      console.log('select item: ', { all: this.listMaThietBi, selected: this.selectedItems });
     });
     return this.selectedItems;
   }
@@ -351,7 +330,6 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
   getNhomSanPham(): void {
     this.http.get<any>(this.nhomSanPhamUrl).subscribe(data => {
       this.listNhomSanPham = data;
-      console.log('nhom san pham', this.listNhomSanPham);
     });
   }
 
@@ -360,10 +338,8 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
     for (let i = 0; i < this.listNhomThietBi.length; i++) {
       if (this.maThietBi === this.listNhomThietBi[i].maThietBi) {
         this.dayChuyen = this.listNhomThietBi[i].dayChuyen;
-        console.log('day chuyen: ', this.dayChuyen);
       }
     }
-    //  console.log("day chuyen: ", this.dayChuyen)
   }
   trackId(_index: number, item: IChiTietKichBan): number {
     return item.id!;
@@ -388,7 +364,6 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
     } else {
       this.showSuccessPopupService = false;
       this.subscribeToCreateResponse(this.sanXuatHangNgayService.create(sanXuatHangNgay));
-      console.log('sxhn', sanXuatHangNgay);
     }
   }
 
@@ -403,18 +378,15 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
       for (let i = 0; i < this.listOfChiTietKichBan.length; i++) {
         this.listOfChiTietKichBan[i].idSanXuatHangNgay = this.idSanXuatHangNgay;
       }
-      console.log('gan: ', this.listOfChiTietKichBan);
       //------------ cập nhật kich_ban_id trong table chi tiết sản xuất -------------
       if (this.listOfChiTietKichBan[0].idSanXuatHangNgay === undefined) {
         // alert('Kịch bản chưa được khởi tạo');
       } else {
         this.previousState();
       }
-      console.log(this.listOfChiTietKichBan);
     } else {
       //------------ cập nhật kich_ban_id trong table chi tiết sản xuất -------------
       this.previousState();
-      // console.log(this.listOfChiTietKichBan);
     }
   }
 
@@ -436,12 +408,8 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
     const result = sessionStorage.getItem('ma thiet bi goc');
     if (result) {
       if (this.onSelectItemRequest.toString() !== result.toString()) {
-        console.log('bắt được sự kiện thay đổi');
-        console.log('ma thiet bi goc: ', result.toString());
-        console.log('ma thiet bi thay doi: ', this.onSelectItemRequest.toString());
         const change = { signal: 2 };
         this.http.put<any>(`${this.changeSignalUrl}/${this.idSanXuatHangNgay as number}`, change).subscribe(() => {
-          console.log('thanh cong');
           this.isSignalChange = true;
         });
       } else {
@@ -453,8 +421,7 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
     const result = sessionStorage.getItem('kich ban goc');
     if (result) {
       this.originListOfChiTietKichBan = JSON.parse(result);
-      console.log('kich ban thay doi', this.listOfChiTietKichBan);
-      console.log('kich ban goc', this.originListOfChiTietKichBan);
+
       for (let i = 0; i < this.listOfChiTietKichBan.length; i++) {
         if (
           this.listOfChiTietKichBan[i].thongSo !== this.originListOfChiTietKichBan[i].thongSo ||
@@ -463,7 +430,6 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
           this.listOfChiTietKichBan[i].trungbinh !== this.originListOfChiTietKichBan[i].trungbinh ||
           this.listOfChiTietKichBan[i].donVi !== this.originListOfChiTietKichBan[i].donVi
         ) {
-          console.log('bắt được sự kiện thay đổi');
           // thay đổi signal khi có sự thay đổi
           const change = { signal: 2 };
           this.http.put<any>(`${this.changeSignalUrl}/${this.idSanXuatHangNgay as number}`, change).subscribe(() => {
@@ -596,7 +562,6 @@ export class SanXuatHangNgayUpdateComponent implements OnInit {
       trangThai: 'active',
     };
     this.originListOfChiTietKichBan.push(newRow1);
-    console.log('add row', this.listOfChiTietKichBan);
   }
 
   // sua lai xoa theo stt va ma thong so (id )

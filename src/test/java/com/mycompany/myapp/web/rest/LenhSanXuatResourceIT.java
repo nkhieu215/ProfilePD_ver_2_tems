@@ -9,6 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.LenhSanXuat;
 import com.mycompany.myapp.repository.LenhSanXuatRepository;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -54,8 +58,8 @@ class LenhSanXuatResourceIT {
     private static final String DEFAULT_CREATE_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATE_BY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ENTRY_TIME = "AAAAAAAAAA";
-    private static final String UPDATED_ENTRY_TIME = "BBBBBBBBBB";
+    private static final ZonedDateTime DEFAULT_ENTRY_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_ENTRY_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     private static final String DEFAULT_TRANG_THAI = "AAAAAAAAAA";
     private static final String UPDATED_TRANG_THAI = "BBBBBBBBBB";
@@ -272,7 +276,8 @@ class LenhSanXuatResourceIT {
 
         // Update the lenhSanXuat
         LenhSanXuat updatedLenhSanXuat = lenhSanXuatRepository.findById(lenhSanXuat.getId()).get();
-        // Disconnect from session so that the updates on updatedLenhSanXuat are not directly saved in db
+        // Disconnect from session so that the updates on updatedLenhSanXuat are not
+        // directly saved in db
         em.detach(updatedLenhSanXuat);
         updatedLenhSanXuat
             .maLenhSanXuat(UPDATED_MA_LENH_SAN_XUAT)

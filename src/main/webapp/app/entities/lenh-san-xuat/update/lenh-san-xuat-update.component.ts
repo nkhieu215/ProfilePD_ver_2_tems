@@ -11,6 +11,8 @@ import { finalize } from 'rxjs/operators';
 import { ILenhSanXuat, LenhSanXuat } from '../lenh-san-xuat.model';
 import { LenhSanXuatService } from '../service/lenh-san-xuat.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-lenh-san-xuat-update',
@@ -54,34 +56,33 @@ export class LenhSanXuatUpdateComponent implements OnInit {
   });
 
   @Input() reelID = '';
-
+  account: Account | null = null;
   constructor(
     protected lenhSanXuatService: LenhSanXuatService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
     protected applicationConfigService: ApplicationConfigService,
     protected http: HttpClient,
-    protected formBuilder: FormBuilder
+    protected formBuilder: FormBuilder,
+    protected accountService: AccountService
   ) {}
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      this.account = account;
+    });
     this.activatedRoute.data.subscribe(({ lenhSanXuat }) => {
-      console.log('test:', lenhSanXuat);
       const today = dayjs().startOf('second');
       // this.editForm.patchValue({ timeUpdate: today });
       // set timeupdate
       lenhSanXuat.timeUpdate = today;
-      // console.log('hello', this.editForm.get(['timeUpdate'])!.value);
       // gán thông tin xác định vào changeStatus
       this.changeStatus.id = lenhSanXuat.id;
       this.changeStatus.totalQuantity = lenhSanXuat.totalQuantity;
-      console.log(this.changeStatus);
       this.http.get<any>(`${this.resourceUrl}/${lenhSanXuat.id as number}`).subscribe(res => {
         this.chiTietLenhSanXuats = res;
         // this.itemPerPage = this.chiTietLenhSanXuats.length;
         this.itemPerPage = this.chiTietLenhSanXuats.length;
-        console.log('res', res);
-        console.log('lenhSanXuat', this.chiTietLenhSanXuats);
       });
       this.updateForm(lenhSanXuat);
     });
@@ -100,20 +101,17 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     // Xác định đối tượng thay đổi
     // gán giá trị tương ứng
     this.changeStatus.trangThai = 'Chờ duyệt';
-    console.log(this.changeStatus);
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
-      console.log('Thành công');
       alert('Gửi phê duyệt thành công');
     });
     this.previousState();
   }
 
   boPhanSanXuatHuy(): void {
-    this.changeStatus.trangThai = 'Bộ phận sản xuất huỷ';
-    console.log(this.changeStatus);
+    this.changeStatus.trangThai = 'Sản xuất hủy';
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
-      console.log('Thành công');
       alert('Huỷ thành công');
+      this.previousState();
     });
   }
 
@@ -121,10 +119,8 @@ export class LenhSanXuatUpdateComponent implements OnInit {
     this.isSaving = true;
     const lenhSanXuat = this.createFromForm();
     if (lenhSanXuat.id !== undefined) {
-      console.log('result', lenhSanXuat);
       this.subscribeToSaveResponse(this.lenhSanXuatService.update(lenhSanXuat));
       this.http.put<any>(`${this.resourceUrl1}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats).subscribe(() => {
-        console.log(this.chiTietLenhSanXuats);
         alert('Lưu thành công');
       });
     } else {
@@ -201,7 +197,7 @@ export class LenhSanXuatUpdateComponent implements OnInit {
       version: this.editForm.get(['version'])!.value,
       storageCode: this.editForm.get(['storageCode'])!.value,
       totalQuantity: this.editForm.get(['totalQuantity'])!.value,
-      createBy: this.editForm.get(['createBy'])!.value,
+      createBy: this.account?.login,
       entryTime: this.editForm.get(['entryTime'])!.value ? dayjs(this.editForm.get(['entryTime'])!.value, DATE_TIME_FORMAT) : undefined,
       timeUpdate: this.editForm.get(['timeUpdate'])!.value ? dayjs(this.editForm.get(['timeUpdate'])!.value, DATE_TIME_FORMAT) : undefined,
       trangThai: this.editForm.get(['trangThai'])!.value,

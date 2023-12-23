@@ -3,102 +3,104 @@
     <form name="editForm" role="form" novalidate [formGroup]="editForm">
       <h2 id="jhi-lenh-san-xuat-heading" data-cy="LenhSanXuatCreateUpdateHeading">Duyệt yêu cầu</h2>
       <div>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">
-                <span>Mã lệnh sản xuất</span>
-              </th>
-              <th scope="col">
-                <span>Mã SAP</span>
-              </th>
-              <th scope="col">
-                <span>Tên hàng hoá</span>
-              </th>
-              <th scope="col">
-                <span>Mã WO</span>
-              </th>
-              <th scope="col">
-                <span>Version</span>
-              </th>
-              <th scope="col">
-                <span>Mã kho nhập</span>
-              </th>
-              <th scope="col">
-                <span>Tổng số lượng nhập</span>
-              </th>
-              <th scope="col">
-                <span>Cập nhật bởi</span>
-              </th>
-              <th scope="col">
-                <span>Thời gian in tem</span>
-              </th>
-              <th scope="col">
-                <span>Trạng thái</span>
-              </th>
-              <th scope="col">
-                <span>Lưu ý</span>
-              </th>
-            </tr>
-          </thead>
+        <div class="table-scroll">
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+              <tr>
+                <th scope="col">
+                  <span>Mã lệnh sản xuất</span>
+                </th>
+                <th scope="col">
+                  <span>Mã SAP</span>
+                </th>
+                <th scope="col">
+                  <span>Tên hàng hoá</span>
+                </th>
+                <th scope="col">
+                  <span>Mã WO</span>
+                </th>
+                <th scope="col">
+                  <span>Version</span>
+                </th>
+                <th scope="col">
+                  <span>Mã kho nhập</span>
+                </th>
+                <th scope="col">
+                  <span>Tổng số lượng nhập</span>
+                </th>
+                <th scope="col">
+                  <span>Cập nhật bởi</span>
+                </th>
+                <th scope="col">
+                  <span>Thời gian in tem</span>
+                </th>
+                <th scope="col">
+                  <span>Trạng thái</span>
+                </th>
+                <th scope="col">
+                  <span>Lưu ý</span>
+                </th>
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr data-cy="entityTable">
-              <td>
-                <input class="form-control" id="maLenhSanXuat" list="maLenhSanXuat" formControlName="maLenhSanXuat" />
-              </td>
-              <td>
-                <input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" />
-              </td>
-              <td>
-                <input class="form-control" id="sapName" list="sapName" formControlName="sapName" />
-              </td>
-              <td>
-                <input class="form-control" id="workOrderCode" list="workOrderCode" formControlName="workOrderCode" />
-              </td>
-              <td>
-                <input class="form-control" id="version" list="version" formControlName="version" />
-              </td>
-              <td>
-                <select class="form-control form-select" formControlName="storageCode">
-                  <option value="01">01 - Kho linh kiện điện tử</option>
-                  <option value="02">02 - Kho vật tư LED</option>
-                  <option value="03">03 - Kho vật tư TBCS</option>
-                  <option value="04">04 - Kho vật tư CLC</option>
-                  <option value="05">05 - Kho ngành ĐTTĐ</option>
-                  <option value="06">06 - Kho ngành LRSP LED 1</option>
-                  <option value="07">07 - Kho ngành SMART</option>
-                  <option value="08">08 - Kho ngành LED2</option>
-                  <option value="10">10 - Kho cơ khí xưởng</option>
-                  <option value="11">11 - Kho ngành CNPT</option>
-                  <option value="12">12 - Kho vật tư Smart</option>
-                  <option value="13">13 - Kho ngành CNPT 2</option>
-                  <option value="14">14 - Kho chị Hòa 2</option>
-                  <option value="15">15 - Kho Pilot TTRD</option>
-                  <option value="17">17 - Kho vật tư SKD</option>
-                  <option value="18">18 - Kho trung tâm RD</option>
-                  <option value="19">19 - Kho LKDT thủ công</option>
-                  <option value="20">20 - Kho xuất khẩu</option>
-                </select>
-              </td>
-              <td>
-                <input class="form-control" id="totalQuantity" list="totalQuantity" formControlName="totalQuantity" />
-              </td>
-              <td>
-                <input class="form-control" id="createBy" list="createBy" formControlName="createBy" />
-              </td>
-              <td>
-                <input class="form-control" id="entryTime" list="entryTime" formControlName="entryTime" />
-              </td>
-              <td>
-                <input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" />
-              </td>
-              <td>
-                <input class="form-control" id="comment" list="comment" formControlName="comment" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            <tbody>
+              <tr data-cy="entityTable">
+                <td>
+                  <input class="form-control" id="maLenhSanXuat" list="maLenhSanXuat" formControlName="maLenhSanXuat" />
+                </td>
+                <td>
+                  <input class="form-control" id="sapCode" list="sapCode" formControlName="sapCode" />
+                </td>
+                <td>
+                  <input class="form-control" id="sapName" list="sapName" formControlName="sapName" />
+                </td>
+                <td>
+                  <input class="form-control" id="workOrderCode" list="workOrderCode" formControlName="workOrderCode" />
+                </td>
+                <td>
+                  <input class="form-control" id="version" list="version" formControlName="version" />
+                </td>
+                <td>
+                  <select class="form-control form-select" formControlName="storageCode">
+                    <option value="01">01 - Kho linh kiện điện tử</option>
+                    <option value="02">02 - Kho vật tư LED</option>
+                    <option value="03">03 - Kho vật tư TBCS</option>
+                    <option value="04">04 - Kho vật tư CLC</option>
+                    <option value="05">05 - Kho ngành ĐTTĐ</option>
+                    <option value="06">06 - Kho ngành LRSP LED 1</option>
+                    <option value="07">07 - Kho ngành SMART</option>
+                    <option value="08">08 - Kho ngành LED2</option>
+                    <option value="10">10 - Kho cơ khí xưởng</option>
+                    <option value="11">11 - Kho ngành CNPT</option>
+                    <option value="12">12 - Kho vật tư Smart</option>
+                    <option value="13">13 - Kho ngành CNPT 2</option>
+                    <option value="14">14 - Kho chị Hòa 2</option>
+                    <option value="15">15 - Kho Pilot TTRD</option>
+                    <option value="17">17 - Kho vật tư SKD</option>
+                    <option value="18">18 - Kho trung tâm RD</option>
+                    <option value="19">19 - Kho LKDT thủ công</option>
+                    <option value="20">20 - Kho xuất khẩu</option>
+                  </select>
+                </td>
+                <td>
+                  <input class="form-control" id="totalQuantity" list="totalQuantity" formControlName="totalQuantity" />
+                </td>
+                <td>
+                  <input class="form-control" id="createBy" list="createBy" formControlName="createBy" />
+                </td>
+                <td>
+                  <input class="form-control" id="entryTime" list="entryTime" formControlName="entryTime" />
+                </td>
+                <td>
+                  <input class="form-control" id="trangThai" list="trangThai" formControlName="trangThai" />
+                </td>
+                <td>
+                  <input class="form-control" id="comment" list="comment" formControlName="comment" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <form [formGroup]="scanResult" [ngClass]="{ 'show-input-scan': showScanInput }">
           <button class="btn-scan" role="button" (click)="setInputValue()">Scan tem</button>
           <input
@@ -132,7 +134,7 @@
           />
         </div>
 
-        <div style="overflow-x: auto">
+        <div class="table-scroll height-table">
           <table class="table table-striped" aria-describedby="page-heading">
             <thead>
               <tr>

@@ -15,6 +15,12 @@ public interface ChiTietLenhSanXuatRepository extends JpaRepository<ChiTietLenhS
     public List<ChiTietLenhSanXuat> getAllByMaLenhSanXuatId(Long maLenhSanXuatId);
 
     @Modifying
-    @Query(value = "update chi_tiet_lenh_san_xuat set ma_lenh_san_xuat_id = ?1 where reel_id = ?2", nativeQuery = true)
-    public void updateMaLenhSanXuatId(Long id, String reelId);
+    @Query(value = "update chi_tiet_lenh_san_xuat set ma_lenh_san_xuat_id = ?1 where id = ?2", nativeQuery = true)
+    public void updateMaLenhSanXuatId(Long id, Long reelId);
+
+    @Query(
+        value = "select * from chi_tiet_lenh_san_xuat ChiTietLenhSanXuat where reel_id = ?1 and ma_lenh_san_xuat_id  IS NULL",
+        nativeQuery = true
+    )
+    public ChiTietLenhSanXuat getChiTietLenhSanXuatItem(String reelID);
 }

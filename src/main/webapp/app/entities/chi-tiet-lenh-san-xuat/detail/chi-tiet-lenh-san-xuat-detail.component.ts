@@ -77,8 +77,6 @@ export class ChiTietLenhSanXuatDetailComponent implements OnInit {
     if (this.lenhSanXuat?.id) {
       this.http.get<any>(`${this.resourceUrl}/${this.lenhSanXuat.id}`).subscribe(res => {
         this.chiTietLenhSanXuats = res;
-        console.log('res', res);
-        console.log('lenhSanXuat', this.chiTietLenhSanXuats);
         this.chiTietLenhSanXuatExport = this.chiTietLenhSanXuats.filter(a => a.trangThai === 'active');
         this.dataExport(this.chiTietLenhSanXuatExport);
       });
@@ -147,7 +145,6 @@ export class ChiTietLenhSanXuatDetailComponent implements OnInit {
       };
       this.data.push(data1);
     }
-    console.log(this.data);
   }
   exportCSV(): void {
     const options = {

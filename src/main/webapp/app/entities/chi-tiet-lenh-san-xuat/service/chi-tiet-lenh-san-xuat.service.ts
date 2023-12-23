@@ -22,14 +22,12 @@ export class ChiTietLenhSanXuatService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
-    console.log('thanh cong 1');
     const copy = chiTietLenhSanXuat;
     return this.http.post<IChiTietLenhSanXuat>(this.resourceUrl, copy, { observe: 'response' });
   }
 
   update(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
     const copy = chiTietLenhSanXuat;
-    console.log('thanh cong 2');
     return this.http.put<IChiTietLenhSanXuat>(
       `${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`,
       copy,
@@ -41,7 +39,6 @@ export class ChiTietLenhSanXuatService {
 
   partialUpdate(chiTietLenhSanXuat: IChiTietLenhSanXuat): Observable<EntityResponseType> {
     const copy = chiTietLenhSanXuat;
-    console.log('thanh cong 3');
     return this.http.patch<IChiTietLenhSanXuat>(
       `${this.resourceUrl}/${getChiTietLenhSanXuatIdentifier(chiTietLenhSanXuat) as number}`,
       copy,
@@ -52,17 +49,14 @@ export class ChiTietLenhSanXuatService {
   }
 
   find(id: number): Observable<EntityResponseType> {
-    console.log('thanh cong 4s');
     return this.http.get<IChiTietLenhSanXuat>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
   // lay thong tin lenh san xuat
   find1(id: number): Observable<EntityResponseType1> {
-    console.log('thanh cong 4');
     return this.http.get<ILenhSanXuat>(`${this.resourceUrl1}/${id}`, { observe: 'response' });
   }
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    console.log('thanh cong 5');
     return this.http.get<IChiTietLenhSanXuat[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 

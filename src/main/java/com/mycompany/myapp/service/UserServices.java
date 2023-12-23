@@ -776,9 +776,32 @@ public class UserServices {
                 this.chiTietLenhSanXuatRepository.save(entity);
             } else {
                 this.chiTietLenhSanXuatRepository.save(chiTietLenhSanXuat);
-                this.chiTietLenhSanXuatRepository.updateMaLenhSanXuatId(id, chiTietLenhSanXuat.getReelID());
+                ChiTietLenhSanXuat chiTietLenhSanXuat1 =
+                    this.chiTietLenhSanXuatRepository.getChiTietLenhSanXuatItem(chiTietLenhSanXuat.getReelID());
+                this.chiTietLenhSanXuatRepository.updateMaLenhSanXuatId(id, chiTietLenhSanXuat1.getId());
             }
         }
+    }
+
+    //lay danh sach ma lenh san xuat
+    public List<String> getListMaLenhSanXuat() {
+        return this.lenhSanXuatRepository.getListMaLenhSanXuat();
+    }
+
+    public List<String> getListSapCode() {
+        return this.lenhSanXuatRepository.getListSapCode();
+    }
+
+    public List<String> getListSapName() {
+        return this.lenhSanXuatRepository.getListSapName();
+    }
+
+    public List<String> getListWorkOrderCode() {
+        return this.lenhSanXuatRepository.getListWorkOrderCode();
+    }
+
+    public List<String> getListVersion() {
+        return this.lenhSanXuatRepository.getListVersion();
     }
 
     //---------------------------------------- * ----------------------------------------------------------------------

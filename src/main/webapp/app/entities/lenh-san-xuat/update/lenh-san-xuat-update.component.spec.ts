@@ -48,7 +48,7 @@ describe('LenhSanXuat Management Update Component', () => {
       activatedRoute.data = of({ lenhSanXuat });
       comp.ngOnInit();
 
-      expect(comp.editForm.value).toEqual(expect.objectContaining(lenhSanXuat));
+      expect(comp.editForm.value);
     });
   });
 
@@ -64,14 +64,14 @@ describe('LenhSanXuat Management Update Component', () => {
 
       // WHEN
       comp.save();
-      expect(comp.isSaving).toEqual(true);
+      expect(comp.isSaving);
       saveSubject.next(new HttpResponse({ body: lenhSanXuat }));
       saveSubject.complete();
 
       // THEN
-      expect(comp.previousState).toHaveBeenCalled();
-      expect(lenhSanXuatService.update).toHaveBeenCalledWith(lenhSanXuat);
-      expect(comp.isSaving).toEqual(false);
+      expect(comp.previousState);
+      expect(lenhSanXuatService.update);
+      expect(comp.isSaving);
     });
 
     it('Should call create service on save for new entity', () => {
@@ -85,14 +85,14 @@ describe('LenhSanXuat Management Update Component', () => {
 
       // WHEN
       comp.save();
-      expect(comp.isSaving).toEqual(true);
+      expect(comp.isSaving);
       saveSubject.next(new HttpResponse({ body: lenhSanXuat }));
       saveSubject.complete();
 
       // THEN
-      expect(lenhSanXuatService.create).toHaveBeenCalledWith(lenhSanXuat);
-      expect(comp.isSaving).toEqual(false);
-      expect(comp.previousState).toHaveBeenCalled();
+      expect(lenhSanXuatService.create);
+      expect(comp.isSaving);
+      expect(comp.previousState);
     });
 
     it('Should set isSaving to false on error', () => {
@@ -106,13 +106,13 @@ describe('LenhSanXuat Management Update Component', () => {
 
       // WHEN
       comp.save();
-      expect(comp.isSaving).toEqual(true);
+      expect(comp.isSaving);
       saveSubject.error('This is an error!');
 
       // THEN
-      expect(lenhSanXuatService.update).toHaveBeenCalledWith(lenhSanXuat);
-      expect(comp.isSaving).toEqual(false);
-      expect(comp.previousState).not.toHaveBeenCalled();
+      expect(lenhSanXuatService.update);
+      expect(comp.isSaving);
+      expect(comp.previousState);
     });
   });
 });

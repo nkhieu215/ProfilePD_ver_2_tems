@@ -156,7 +156,6 @@ export class KichBanUpdateComponent implements OnInit {
       // lay danh sach nhom thiet bi
       this.http.get<any>(this.listNhomThietBiUrl).subscribe(res1 => {
         this.listNhomThietBi = res1;
-        console.log('nhom thiet bi: ', this.listNhomThietBi);
         if (kichBan.id === undefined) {
           const today = dayjs().startOf('day');
           kichBan.ngayTao = today;
@@ -203,9 +202,6 @@ export class KichBanUpdateComponent implements OnInit {
     for (let i = 0; i < this.selectedItems.length; i++) {
       this.onSelectItemRequest.push(this.selectedItems[i].maThietBi);
     }
-
-    console.log(this.selectedItems);
-    console.log(this.onSelectItemRequest);
   }
 
   public onDeSelect(item: any): void {
@@ -216,15 +212,11 @@ export class KichBanUpdateComponent implements OnInit {
   }
 
   onSelectAll(items: any): void {
-    console.log(items);
     this.selectedItems = items;
     this.onSelectItemRequest = [];
     for (let i = 0; i < this.selectedItems.length; i++) {
       this.onSelectItemRequest.push(this.selectedItems[i].maThietBi);
     }
-
-    console.log(this.selectedItems);
-    console.log(this.onSelectItemRequest);
   }
 
   //==================================================== Lấy danh sách =================================================
@@ -279,14 +271,12 @@ export class KichBanUpdateComponent implements OnInit {
     //---------------------------------- Set thông tin tương ứng theo Nhóm thiết bị-----------------------------
     this.listMaThietBi = [];
     // console.log('ma thiet bi:',this.listNhomThietBi)
-    console.log('loai thiet bi', loaiTB);
     for (let i = 0; i < this.listNhomThietBi.length; i++) {
       if (loaiTB === this.listNhomThietBi[i].loaiThietBi) {
         const items = { maThietBi: this.listNhomThietBi[i].maThietBi };
         this.listMaThietBi.push(items);
       }
     }
-    console.log(this.listMaThietBi);
     // gán vào selectItem
     if (maTB) {
       this.onSelectItemRequest = maTB.split(',');
@@ -297,7 +287,6 @@ export class KichBanUpdateComponent implements OnInit {
           }
         }
       }
-      console.log('item log', this.selectedItems);
     }
   }
 
@@ -311,7 +300,6 @@ export class KichBanUpdateComponent implements OnInit {
       }
     }
     this.getThietBi();
-    console.log('ma thiet bi:', this.listMaThietBi);
   }
   getAllDayChuyen(): void {
     this.http.get<any>(this.listDayChuyenUrl).subscribe(res => {
@@ -359,8 +347,6 @@ export class KichBanUpdateComponent implements OnInit {
         };
         this.listOfChiTietKichBan.push(newRows);
       }
-      console.log('thiet bi: ', this.listOfChiTietKichBan);
-      console.log('tim kiem: ', timKiem);
     });
     //set dây chuyền tương ứng theo mã thiết bị
     for (let i = 0; i < this.listNhomThietBi.length; i++) {
@@ -368,15 +354,12 @@ export class KichBanUpdateComponent implements OnInit {
         this.dayChuyen = this.listNhomThietBi[i].dayChuyen;
       }
     }
-    // console.log('thiet bi: ', res;
-    // console.log('tim kiem: ', timKiem);
   }
   //---------------------------------- ------------------------ -----------------------------
 
   getNhomSanPham(): void {
     this.http.get<any>(this.nhomSanPhamUrl).subscribe(data => {
       this.listNhomSanPham = data;
-      console.log('nhom san pham', this.listNhomSanPham);
     });
   }
 
@@ -411,11 +394,8 @@ export class KichBanUpdateComponent implements OnInit {
         // alert('Tạo mới kịch bản thành công');
         this.showSuccessPopupService = false;
         this.subscribeToCreateResponse(this.kichBanService.create(kichBan));
-        console.log('kb', kichBan);
       }
     }
-    console.log('id kich ban', kichBan.id);
-    console.log('chi tiet kich ban:', this.listOfChiTietKichBan);
   }
 
   //---------------------------- luu thong so kich ban chi tiet ---------------------------
@@ -424,19 +404,15 @@ export class KichBanUpdateComponent implements OnInit {
       // ------------ cập nhật kich_ban_id trong table chi tiết kịch bản -------------
       this.previousState();
     } else {
-      console.log('cap nhat', this.listOfChiTietKichBan);
       this.previousState();
     }
   }
   // lấy id kịch bản
   subscribeToCreateResponse(result: Observable<HttpResponse<IKichBan>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(res => {
-      console.log(res.body);
       // gán id kịch bản, mã kịch bản vào list chi tiết kịch bản request
       this.idKichBan = res.body?.id as any;
       this.maKichBan = res.body?.maKichBan as any;
-      console.log('gan id kich ban: ', this.idKichBan);
-      console.log('gan ma kich ban: ', this.maKichBan);
     });
   }
   subscribeToSaveResponse(result: Observable<HttpResponse<IKichBan>>): void {
@@ -459,7 +435,6 @@ export class KichBanUpdateComponent implements OnInit {
   }
   // pop tạo mới kịch bản
   openSuccessPopupService(): void {
-    console.log('aaa', this.editForm.get(['id'])!.value);
     if (this.editForm.get(['id'])!.value !== undefined) {
       this.result = 'Cập nhật kịch bản thành công';
       this.showSuccessPopupService = true;
@@ -501,7 +476,6 @@ export class KichBanUpdateComponent implements OnInit {
         this.resultThongSo = 'Cập nhật chi tiết kịch bản thành công';
       });
     }
-    console.log('idkb', this.listOfChiTietKichBan[1].idKichBan);
   }
 
   closeSuccessPopup(): void {
@@ -562,13 +536,11 @@ export class KichBanUpdateComponent implements OnInit {
       phanLoai: '',
     };
     this.listOfChiTietKichBan.push(newRow);
-    console.log('add row', this.listOfChiTietKichBan);
   }
 
   // sua lai xoa theo stt va ma thong so (id )
   deleteRow(thongSo: string | null | undefined, id: number | null | undefined): void {
     const kichBan = this.createFromForm();
-    console.log('kich ban id:', kichBan.id);
     if (kichBan.id !== undefined) {
       if (confirm('Bạn chắc chắn muốn xóa thông số này?') === true) {
         this.http.delete(`${this.delThongSoKichBanUrl}/${id as number}`).subscribe(() => {

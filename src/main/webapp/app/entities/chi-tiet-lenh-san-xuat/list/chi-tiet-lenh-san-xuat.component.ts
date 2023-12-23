@@ -22,7 +22,11 @@ import { ChiTietLenhSanXuatDeleteDialogComponent } from '../delete/chi-tiet-lenh
 export class ChiTietLenhSanXuatComponent implements OnInit {
   resourceUrlApprove = this.applicationConfigService.getEndpointFor('api/quan-ly-phe-duyet');
   searchUrlApprove = this.applicationConfigService.getEndpointFor('api/lenh-san-xuat');
-
+  maLenhSanXuatResourceUrl = this.applicationConfigService.getEndpointFor('api/lenhsx/ma-lenh-san-xuat');
+  versionResourceUrl = this.applicationConfigService.getEndpointFor('api/lenhsx/version');
+  sapCodetResourceUrl = this.applicationConfigService.getEndpointFor('api/lenhsx/sap-code');
+  sapNameResourceUrl = this.applicationConfigService.getEndpointFor('api/lenhsx/sap-name');
+  workOrderCodeResourceUrl = this.applicationConfigService.getEndpointFor('api/lenhsx/work-order-code');
   formSearch = this.formBuilder.group({
     maLenhSanXuat: '',
     sapCode: '',
@@ -47,7 +51,13 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   @Input() timeUpdate = '';
 
   lenhSanXuats?: ILenhSanXuat[];
-
+  lenhSanXuatGoc?: ILenhSanXuat[];
+  // khởi tạo danh sách gợi ý
+  listOfMaLenhSanXuat: string[] = [];
+  listOfSapCode: string[] = [];
+  listOfSapName: string[] = [];
+  listOfWorkOrderCode: string[] = [];
+  listOfVersion: string[] = [];
   chiTietLenhSanXuats?: IChiTietLenhSanXuat[];
 
   chiTietLenhSanXuatSort?: IChiTietLenhSanXuat[] = [];
@@ -93,24 +103,36 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.handleNavigation()  ;
-    // this.formSearch.valueChanges.subscribe(data => {
-    //   console.log(data);
-    //   this.timKiemTem(data);
-    // });
     this.getLenhSanXuatList();
+    this.createListOfMaLenhSanXuat();
+    this.createListOfSapCode();
+    this.createListOfSapName();
+    this.createListOfVersion();
+    this.createListOfWordOrderCode();
   }
-
+  reloadPage(): void {
+    window.location.reload();
+  }
   getLenhSanXuatList(): void {
     this.http.get<any>(this.resourceUrlApprove).subscribe(res => {
       this.lenhSanXuats = res;
-      sessionStorage.setItem('Lenhsanxuat', JSON.stringify(res));
-      console.log('bbb', res);
+      this.lenhSanXuatGoc = res;
       if (this.lenhSanXuats) {
         this.lenhSanXuats.sort((a, b) => {
-          if (a.entryTime !== undefined && a.entryTime !== null && b.entryTime !== undefined && b.entryTime !== null) {
-            // console.log("aaa",this.lenhSanXuats)
-            // return b.entryTime.localeCompare(a.entryTime);
+          if (
+            a.entryTime !== undefined &&
+            a.entryTime !== null &&
+            b.entryTime !== undefined &&
+            b.entryTime !== null &&
+            a.trangThai !== undefined &&
+            a.trangThai !== null &&
+            b.trangThai !== undefined &&
+            b.trangThai !== null
+          ) {
+            return (
+              <any>new Date(dayjs(b.entryTime).format('MM/DD/YYYY hh:mm:ss')) -
+                <any>new Date(dayjs(a.entryTime).format('MM/DD/YYYY hh:mm:ss')) || a.trangThai.localeCompare(b.trangThai)
+            );
           }
           return 0;
         });
@@ -132,50 +154,316 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
       }
     });
   }
-
+  //============================ api lấy danh sách gợi tý từ Backend =====================
+  createListOfMaLenhSanXuat(): void {
+    this.http.get<any>(this.maLenhSanXuatResourceUrl).subscribe(res => {
+      this.listOfMaLenhSanXuat = res;
+      // console.log(res);
+    });
+  }
+  createListOfSapCode(): void {
+    this.http.get<any>(this.sapCodetResourceUrl).subscribe(res => {
+      this.listOfSapCode = res;
+      // console.log('sap code', res);
+    });
+  }
+  createListOfSapName(): void {
+    this.http.get<any>(this.sapNameResourceUrl).subscribe(res => {
+      this.listOfSapName = res;
+      // console.log('sap name', res);
+    });
+  }
+  createListOfWordOrderCode(): void {
+    this.http.get<any>(this.workOrderCodeResourceUrl).subscribe(res => {
+      this.listOfWorkOrderCode = res;
+      // console.log('Work order code', res);
+    });
+  }
+  createListOfVersion(): void {
+    this.http.get<any>(this.versionResourceUrl).subscribe(res => {
+      this.listOfVersion = res;
+      // console.log('version', res);
+    });
+  }
+  // =========================================== Tim kiem ============================================
+  //tim kiem theo ma lenh san xuat
+  timKiemTheoMaLenhSanXuat(): void {
+    if (this.maLenhSanXuat === '') {
+      this.getLenhSanXuatList();
+    } else {
+      this.lenhSanXuats = this.lenhSanXuatGoc;
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          console.log({ a: a.maLenhSanXuat, b: this.maLenhSanXuat });
+          if (a.maLenhSanXuat) {
+            //Tìm cùng ngày intem và ngày cập nhật
+            if (this.entryTime !== '') {
+              return (
+                dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                a.maLenhSanXuat === this.maLenhSanXuat
+              );
+            } else if (this.timeUpdate !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+                a.maLenhSanXuat === this.maLenhSanXuat
+              );
+            } else {
+              return a.maLenhSanXuat === this.maLenhSanXuat;
+            }
+          }
+          return 0;
+        });
+      }
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
+    }
+  }
+  //tim kiem theo sap code
+  timKiemTheoSapCode(): void {
+    if (this.sapCode === '') {
+      this.getLenhSanXuatList();
+    } else {
+      this.lenhSanXuats = this.lenhSanXuatGoc;
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          if (a.sapCode) {
+            //Tìm cùng ngày intem và ngày cập nhật
+            if (this.entryTime !== '') {
+              return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
+            } else if (this.timeUpdate !== '') {
+              return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
+            } else {
+              return a.sapCode === this.sapCode;
+            }
+          }
+          return 0;
+        });
+      }
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
+    }
+  }
+  //tim kiem theo sap name
+  timKiemTheoSapName(): void {
+    if (this.sapName === '') {
+      this.getLenhSanXuatList();
+    } else {
+      this.lenhSanXuats = this.lenhSanXuatGoc;
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          if (a.sapName) {
+            //Tìm cùng ngày intem và ngày cập nhật
+            if (this.entryTime !== '') {
+              return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapName === this.sapName;
+            } else if (this.timeUpdate !== '') {
+              return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapName === this.sapName;
+            } else {
+              return a.sapName === this.sapName;
+            }
+          }
+          return 0;
+        });
+      }
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
+    }
+  }
+  //tim kiem theo workordercode
+  timKiemTheoWorkOrderCode(): void {
+    if (this.workOrderCode === '') {
+      this.getLenhSanXuatList();
+    } else {
+      this.lenhSanXuats = this.lenhSanXuatGoc;
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          if (a.workOrderCode) {
+            //Tìm cùng ngày intem và ngày cập nhật
+            if (this.entryTime !== '') {
+              return (
+                dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                a.workOrderCode === this.workOrderCode
+              );
+            } else if (this.timeUpdate !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+                a.workOrderCode === this.workOrderCode
+              );
+            } else {
+              return a.workOrderCode === this.workOrderCode;
+            }
+          }
+          return 0;
+        });
+      }
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
+    }
+  }
+  //tim kiem theo Version
+  timKiemTheoVersion(): void {
+    if (this.version === '') {
+      this.getLenhSanXuatList();
+    } else {
+      this.lenhSanXuats = this.lenhSanXuatGoc;
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          if (a.version) {
+            //Tìm cùng ngày intem và ngày cập nhật
+            if (this.entryTime !== '') {
+              return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.version === this.version;
+            } else if (this.timeUpdate !== '') {
+              return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.version === this.version;
+            } else {
+              return a.version === this.version;
+            }
+          }
+          return 0;
+        });
+      }
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
+    }
+  }
+  //tim kiem theo trường storage code
+  timKiemTheoStorageCode(): void {
+    if (this.storageCode === '') {
+      this.getLenhSanXuatList();
+    } else {
+      this.lenhSanXuats = this.lenhSanXuatGoc;
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          if (a.storageCode) {
+            //Tìm cùng ngày intem và ngày cập nhật
+            if (this.entryTime !== '') {
+              return (
+                dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.storageCode === this.storageCode
+              );
+            } else if (this.timeUpdate !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+                a.storageCode === this.storageCode
+              );
+            } else {
+              return a.storageCode === this.storageCode;
+            }
+          }
+          return 0;
+        });
+      }
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
+    }
+  }
+  //tim kiem theo trường create by
+  timKiemTheoCreateBy(): void {
+    this.lenhSanXuats = this.lenhSanXuatGoc;
+    if (this.createBy === '') {
+      this.getLenhSanXuatList();
+    } else {
+      if (this.lenhSanXuats) {
+        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+          if (a.createBy) {
+            //Tìm cùng ngày intem và ngày cập nhật
+            if (this.entryTime !== '') {
+              return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.createBy === this.createBy;
+            } else if (this.timeUpdate !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.createBy === this.createBy
+              );
+            } else {
+              return a.createBy === this.createBy;
+            }
+          }
+          return 0;
+        });
+      }
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
+    }
+  }
+  // Tìm kiếm theo entry time
   searchEntryTime(): void {
-    const result = sessionStorage.getItem('Lenhsanxuat');
-    // console.log(result)
-    if (result) {
-      this.lenhSanXuats = JSON.parse(result);
-      if (this.lenhSanXuats !== undefined) {
-        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
-          console.log('aaa', dayjs(a.entryTime).format('DD/MM/YYYY'));
+    this.lenhSanXuats = this.lenhSanXuatGoc;
+    if (this.lenhSanXuats !== undefined) {
+      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        //Tìm cùng 1 trường thông tin khác
+        if (this.maLenhSanXuat !== '') {
+          return (
+            dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.maLenhSanXuat === this.maLenhSanXuat
+          );
+        }
+        if (this.sapCode !== '') {
+          return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
+        }
+        if (this.sapName !== '') {
+          return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapName === this.sapName;
+        }
+        if (this.workOrderCode !== '') {
+          return (
+            dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.workOrderCode === this.workOrderCode
+          );
+        }
+        if (this.entryTime !== '') {
           return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY');
-        });
-      }
+        }
+        return 0;
+      });
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
     }
   }
 
+  // Tìm kiếm theo Time update
   searchTimeUpdate(): void {
-    const result = sessionStorage.getItem('Lenhsanxuat');
-    // console.log(result)
-    if (result) {
-      this.lenhSanXuats = JSON.parse(result);
-      if (this.lenhSanXuats !== undefined) {
-        this.lenhSanXuats = this.lenhSanXuats.filter(a => {
-          console.log('bbb', dayjs(a.timeUpdate).format('DD/MM/YYYY'));
+    this.lenhSanXuats = this.lenhSanXuatGoc;
+    if (this.lenhSanXuats !== undefined) {
+      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        if (this.maLenhSanXuat !== '') {
+          //Tìm cùng 1 trường thông tin khác
+          return (
+            dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+            a.maLenhSanXuat === this.maLenhSanXuat
+          );
+        }
+        if (this.sapCode !== '') {
+          return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
+        }
+        if (this.sapName !== '') {
+          return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapName === this.sapName;
+        }
+        if (this.workOrderCode !== '') {
+          return (
+            dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+            a.workOrderCode === this.workOrderCode
+          );
+        }
+        if (this.timeUpdate !== '') {
           return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY');
-        });
-      }
+        }
+        return 0;
+      });
+    }
+    if (this.lenhSanXuats?.length === 0) {
+      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
+      setTimeout(() => window.location.reload(), 2000);
     }
   }
-
-  // timKiemTem(data: any, page?: number, dontNavigate?: boolean): void {
-  //   const pageToLoad: number = page ?? this.page ?? 1;
-  //   //this.lenhSanXuats = this.lenhSanXuats?.filter(a => a.maLenhSanXuat === this.formSearch.get(['maLenhSanXuat'])!.value)
-  //   console.log(this.formSearch.get(['maLenhSanXuat'])!.value);
-  //   console.log(this.lenhSanXuats);
-  //   // this.lenhSanXuats = [];
-
-  //   // this.http.post<any>(this.searchUrlApprove, data).subscribe(res => {
-  //   //   this.lenhSanXuats = res;
-  //   //   console.log(res);
-  //   //   console.log(this.resourceUrlApprove);
-  //   //   this.onSuccess(res.lenhSanXuats, res.headers, pageToLoad, !dontNavigate);
-  //   // });
-  // }
-
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
     if (this.predicate !== 'id') {
@@ -183,7 +471,21 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
     }
     return result;
   }
-
+  // pop up thông báo
+  alertTimeout(mymsg: string, mymsecs: number): void {
+    const myelement = document.createElement('div');
+    myelement.setAttribute(
+      'style',
+      'background-color:white;color:Black; width: 300px;height: 70px;position: absolute;top:0;bottom:0;left:0;right:0;margin:auto;border: 1px solid black;font-family:arial;font-size:14px;display: flex; align-items: center; justify-content: center; text-align: center;border-radius:10px'
+    );
+    myelement.innerHTML = mymsg;
+    setTimeout(function () {
+      if (myelement.parentNode) {
+        myelement.parentNode.removeChild(myelement);
+      }
+    }, mymsecs);
+    document.body.appendChild(myelement);
+  }
   handleNavigation(): void {
     combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
       const page = params.get('page');

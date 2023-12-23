@@ -93,7 +93,6 @@ export class QuanLyThongSoComponent implements OnInit {
   getQuanLyThongSoList(): void {
     this.http.get<any>(this.resourceUrlSearch).subscribe(res => {
       this.listQuanLyThongSo = res;
-      console.log('log', this.listQuanLyThongSo);
     });
   }
 
@@ -103,7 +102,6 @@ export class QuanLyThongSoComponent implements OnInit {
 
   onChangeQuanlyThongSo(): void {
     const results = this.listQuanLyThongSo.find((obj: IQuanLyThongSo) => obj.maThongSo === this.maThongSo);
-    console.log(results);
   }
 
   onSearch(): void {
@@ -119,9 +117,6 @@ export class QuanLyThongSoComponent implements OnInit {
     this.http.post<any>(this.resourceUrl, data).subscribe(res => {
       // luu du lieu tra ve de hien thi len front-end
       this.quanLyThongSos = res;
-      // console.log('res', res)
-      console.log(this.quanLyThongSos);
-
       this.onSuccess(res.quanLyThongSos, res.headers, pageToLoad, !dontNavigate);
     });
   }
@@ -143,7 +138,6 @@ export class QuanLyThongSoComponent implements OnInit {
   }
 
   selectResult(result: any): void {
-    console.log('select result', result);
     this.searchTerm = '';
     this.searchResult = [];
   }

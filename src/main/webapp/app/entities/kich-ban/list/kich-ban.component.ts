@@ -147,14 +147,12 @@ export class KichBanComponent implements OnInit {
       //lấy danh sách SXHN
       this.http.get<any>(`${this.sanXuatHangNgayUrl}/${2}`).subscribe(res1 => {
         this.listOfSanXuatHangNgay = res1;
-        console.log('danh sach san xuat hang ngay', this.listOfSanXuatHangNgay);
         if (this.kichBans) {
           //Lọc thoog tin mã KB để so sánh với mKB bên SXHN
           for (let i = 0; i < this.listOfSanXuatHangNgay.length; i++) {
             for (let j = 0; j < this.kichBans.length; j++) {
               if (this.listOfSanXuatHangNgay[i].maKichBan === this.kichBans[j].maKichBan) {
                 this.kichBans[j].signal = this.listOfSanXuatHangNgay[i].signal;
-                console.log('thanh cong ', this.kichBans[j]);
                 break;
               }
             }
@@ -192,18 +190,13 @@ export class KichBanComponent implements OnInit {
     //lay danh sach kbSXHN
     this.http.get<any>(`${this.sanXuatHangNgayUrl1}/${maKichBan as string}`).subscribe(res1 => {
       this.listMaThietBiSXHN = res1.maThietBi.split(',');
-      console.log('res: ', this.listMaThietBiSXHN);
       this.modalService.open(content, { size: 'lg' });
-      console.log(maKichBan);
       this.idSanXuatHangNgay = id;
-      console.log('check id: ', this.idSanXuatHangNgay);
       this.tableSignal = [];
       // Thông tin chung
       this.http.get<any>(`${this.kichBanDoiChieu}/${this.idSanXuatHangNgay as number}`).subscribe(res => {
         this.kichBan = res;
-        console.log('ket qua kich ban: ', res);
         this.listMaThietBiQLKB = res.maThietBi.split(',');
-        console.log('api', this.listMaThietBiQLKB);
         // khởi tạo danh sách mã kịch bản color cho SXHN
         for (let i = 0; i < this.listMaThietBiSXHN.length; i++) {
           this.maThietBiSXHNColor.push('red');
@@ -224,16 +217,12 @@ export class KichBanComponent implements OnInit {
         // đổi màu giá trị của mã thiết bị QLKB nếu có sự khác biệt
         for (let i = 0; i < this.maThietBiSXHNColor.length; i++) {
           for (let j = 0; j < this.maThietBiQLKBColor.length; j++) {
-            console.log({ 1: this.listMaThietBiQLKB[i], 2: this.listMaThietBiSXHN[j] });
             if (this.listMaThietBiQLKB[j] === this.listMaThietBiSXHN[i]) {
-              console.log({ 1: this.listMaThietBiQLKB[i], 2: this.listMaThietBiSXHN[j] });
               this.maThietBiQLKBColor[j] = 'black';
               this.isDataChanged = true;
             }
           }
         }
-        console.log('result QLKB: ', this.maThietBiQLKBColor);
-        console.log('result SXHN: ', this.maThietBiSXHNColor);
       });
     });
     // Lấy danh sách Chi tiết kịch bản so sánh với danh sách chi tiết sản xuất
@@ -279,7 +268,6 @@ export class KichBanComponent implements OnInit {
                   this.isDataChanged = true;
                 }
               }
-              console.log('ket qua tablesignal: ', this.tableSignal);
             }
           });
         });
@@ -379,10 +367,6 @@ export class KichBanComponent implements OnInit {
   }
 
   xacNhanDongBo(): void {
-    console.log('Chi tiet kich ban', this.chiTietKichBans);
-    console.log('Chi tiet san xuat', this.chiTietSanXuats);
-    console.log('Id', this.idSanXuatHangNgay);
-    console.log('ma thiet bi', this.listMaThietBiSXHN.toString());
     //Cập nhật mã kịch bản
     const updateBody = { id: this.idSanXuatHangNgay, maThietBi: this.listMaThietBiSXHN.toString() };
     this.http.put<any>(this.updateKichBanUrl, updateBody).subscribe(res => {

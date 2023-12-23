@@ -248,3 +248,16 @@ select {
   display: flex;
   justify-content: space-between;
 }
+
+.form-control {
+  width: auto;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.height-table {
+  max-height: 60vh;
+}
