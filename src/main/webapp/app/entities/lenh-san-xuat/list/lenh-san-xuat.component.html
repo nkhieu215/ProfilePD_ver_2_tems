@@ -38,7 +38,7 @@
                 placeholder="search"
                 list="maLenhSanXuat"
                 style="width: 8rem"
-                (change)="search()"
+                (change)="timKiemTheoMaLenhSanXuat()"
               />
               <datalist id="maLenhSanXuat">
                 <option *ngFor="let data of listOfMaLenhSanXuat">{{ data }}</option>
@@ -55,7 +55,7 @@
                 placeholder="search"
                 list="sapCode"
                 style="width: 5rem"
-                (change)="search()"
+                (change)="timKiemTheoSapCode()"
               />
               <datalist id="sapCode">
                 <option *ngFor="let data of listOfSapCode">{{ data }}</option>
@@ -71,7 +71,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 placeholder="search"
                 list="sapName"
-                (change)="search()"
+                (change)="timKiemTheoSapName()"
               />
               <datalist id="sapName">
                 <option *ngFor="let data of listOfSapName">{{ data }}</option>
@@ -88,7 +88,7 @@
                 placeholder="search"
                 list="workOrderCode"
                 style="width: 5rem"
-                (change)="search()"
+                (change)="timKiemTheoWorkOrderCode()"
               />
               <datalist id="workOrderCode">
                 <option *ngFor="let data of listOfWorkOrderCode">{{ data }}</option>
@@ -105,7 +105,7 @@
                 placeholder="search"
                 list="version"
                 style="width: 5rem"
-                (change)="search()"
+                (change)="timKiemTheoVersion()"
               />
               <datalist id="version">
                 <option *ngFor="let data of listOfVersion">{{ data }}</option>
@@ -122,7 +122,7 @@
                 placeholder="search"
                 list="storageCode"
                 style="width: 6rem"
-                (change)="search()"
+                (change)="timKiemTheoStorageCode()"
               />
               <datalist id="storageCode">
                 <option value="01">Kho linh kiện điện tử</option>
@@ -161,7 +161,7 @@
                 placeholder="search"
                 list="createBy"
                 style="width: 6rem"
-                (change)="search()"
+                (change)="timKiemTheoCreateBy()"
               />
             </th>
 
@@ -173,7 +173,7 @@
                 #d1="ngbDatepicker"
                 [(ngModel)]="entryTime"
                 [ngModelOptions]="{ standalone: true }"
-                (change)="search()"
+                (change)="formatNgbDate()"
               />
             </th>
 
@@ -185,7 +185,7 @@
                 #d2="ngbDatepicker"
                 [(ngModel)]="timeUpdate"
                 [ngModelOptions]="{ standalone: true }"
-                (change)="search()"
+                (change)="formatNgbDateUpdate()"
               />
             </th>
 
@@ -197,7 +197,7 @@
                 <option value="Chờ duyệt">Chờ duyệt</option>
                 <option value="Đã phê duyệt">Đã phê duyệt</option>
                 <option value="Từ chối">Từ chối</option>
-                <option value="Kho huỷ">Kho huỷ</option>
+                <option value="Kho hủy">Kho hủy</option>
                 <option value="Sản xuất hủy">Sản xuất hủy</option>
               </select>
             </th>
@@ -262,7 +262,7 @@
                 </button>
 
                 <button
-                  *jhiHasAnyAuthority="'ROLE_ADMIN_TEM'"
+                  *ngIf="lenhSanXuat.trangThai === 'Bản nháp'"
                   type="submit"
                   (click)="delete(lenhSanXuat)"
                   class="btn btn-danger btn-sm"

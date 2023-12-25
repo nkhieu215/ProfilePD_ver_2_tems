@@ -251,8 +251,9 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
   }
 
   khoHuyStatus(): void {
-    this.changeStatus.trangThai = 'Kho huỷ';
+    this.changeStatus.trangThai = 'Kho hủy';
     this.http.put<any>(`${this.resourceUrl}/${this.changeStatus.id}`, this.changeStatus).subscribe(() => {
+      alert('Kho hủy thành công');
       this.previousState();
     });
   }
@@ -274,7 +275,7 @@ export class ChiTietLenhSanXuatUpdateComponent implements OnInit {
         .put<any>(`${this.resourceUrlUpdate}/${this.editForm.get(['id'])!.value as number}`, this.chiTietLenhSanXuats)
         .subscribe(() => {
           alert('cập nhật chi tiết lệnh sản xuất thành công!');
-          this.previousState();
+          window.location.reload();
         });
     } else {
       this.subscribeToSaveResponse(this.lenhSanXuatService.create(lenhSanXuat));

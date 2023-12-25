@@ -130,8 +130,9 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
             b.trangThai !== null
           ) {
             return (
+              a.trangThai.localeCompare(b.trangThai) ||
               <any>new Date(dayjs(b.entryTime).format('MM/DD/YYYY hh:mm:ss')) -
-                <any>new Date(dayjs(a.entryTime).format('MM/DD/YYYY hh:mm:ss')) || a.trangThai.localeCompare(b.trangThai)
+                <any>new Date(dayjs(a.entryTime).format('MM/DD/YYYY hh:mm:ss'))
             );
           }
           return 0;
@@ -198,16 +199,33 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
           if (a.maLenhSanXuat) {
             //Tìm cùng ngày intem và ngày cập nhật
             if (this.entryTime !== '') {
+              if (this.workOrderCode !== '') {
+                return (
+                  dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                  a.maLenhSanXuat === this.maLenhSanXuat &&
+                  a.workOrderCode === this.workOrderCode
+                );
+              }
               return (
                 dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
                 a.maLenhSanXuat === this.maLenhSanXuat
               );
             } else if (this.timeUpdate !== '') {
+              if (this.workOrderCode !== '') {
+                return (
+                  dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                  a.maLenhSanXuat === this.maLenhSanXuat &&
+                  a.workOrderCode === this.workOrderCode
+                );
+              }
               return (
                 dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
                 a.maLenhSanXuat === this.maLenhSanXuat
               );
             } else {
+              if (this.workOrderCode !== '') {
+                return a.maLenhSanXuat === this.maLenhSanXuat && a.workOrderCode === this.workOrderCode;
+              }
               return a.maLenhSanXuat === this.maLenhSanXuat;
             }
           }
@@ -398,18 +416,56 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   // Tìm kiếm theo entry time
   searchEntryTime(): void {
     this.lenhSanXuats = this.lenhSanXuatGoc;
+    // this.resultSearchDateTime = [];
     if (this.lenhSanXuats !== undefined) {
       this.lenhSanXuats = this.lenhSanXuats.filter(a => {
         //Tìm cùng 1 trường thông tin khác
         if (this.maLenhSanXuat !== '') {
+          if (this.workOrderCode !== '') {
+            return (
+              dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+              a.maLenhSanXuat === this.maLenhSanXuat &&
+              a.workOrderCode === this.workOrderCode
+            );
+          }
           return (
             dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.maLenhSanXuat === this.maLenhSanXuat
           );
         }
         if (this.sapCode !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                a.sapCode === this.sapCode &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+              a.sapCode === this.sapCode &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
         }
         if (this.sapName !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                a.sapName === this.sapName &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+              a.sapName === this.sapName &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapName === this.sapName;
         }
         if (this.workOrderCode !== '') {
@@ -432,19 +488,57 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
   // Tìm kiếm theo Time update
   searchTimeUpdate(): void {
     this.lenhSanXuats = this.lenhSanXuatGoc;
+    // this.resultSearchDateTime = [];
     if (this.lenhSanXuats !== undefined) {
       this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        //Tìm cùng 1 trường thông tin khác
         if (this.maLenhSanXuat !== '') {
-          //Tìm cùng 1 trường thông tin khác
+          if (this.workOrderCode !== '') {
+            return (
+              dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+              a.maLenhSanXuat === this.maLenhSanXuat &&
+              a.workOrderCode === this.workOrderCode
+            );
+          }
           return (
             dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
             a.maLenhSanXuat === this.maLenhSanXuat
           );
         }
         if (this.sapCode !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+                a.sapCode === this.sapCode &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+              a.sapCode === this.sapCode &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
         }
         if (this.sapName !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+                a.sapName === this.sapName &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+              a.sapName === this.sapName &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapName === this.sapName;
         }
         if (this.workOrderCode !== '') {
@@ -462,6 +556,7 @@ export class ChiTietLenhSanXuatComponent implements OnInit {
     if (this.lenhSanXuats?.length === 0) {
       this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
       setTimeout(() => window.location.reload(), 2000);
+      // window.location.reload();
     }
   }
   sort(): string[] {

@@ -199,87 +199,6 @@ export class LenhSanXuatComponent implements OnInit {
     });
   }
   // =========================================== Tim kiem ============================================
-  //Tìm kiếm chi tiết
-  search(): void {
-    this.lenhSanXuats = this.lenhSanXuatGoc;
-    if (this.lenhSanXuats) {
-      this.lenhSanXuats = this.lenhSanXuats.filter(a => {
-        console.log({ a: a.maLenhSanXuat, b: this.maLenhSanXuat });
-        if (a.maLenhSanXuat) {
-          //Tìm theo 1 trường 1
-          if (
-            this.maLenhSanXuat !== '' ||
-            this.sapCode !== '' ||
-            this.sapName !== '' ||
-            this.sapName !== '' ||
-            this.workOrderCode !== '' ||
-            this.version !== '' ||
-            this.entryTime !== '' ||
-            this.timeUpdate !== ''
-          ) {
-            if (this.sapCode !== '') {
-              if (this.sapName !== '') {
-                if (this.workOrderCode !== '') {
-                  if (this.version !== '') {
-                    if (this.entryTime !== '') {
-                      if (this.timeUpdate !== '') {
-                        return (
-                          a.maLenhSanXuat === this.maLenhSanXuat &&
-                          a.sapCode === this.sapCode &&
-                          a.sapName === this.sapName &&
-                          a.workOrderCode === this.workOrderCode &&
-                          a.version === this.version &&
-                          dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
-                          dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY')
-                        );
-                      }
-                      return (
-                        a.maLenhSanXuat === this.maLenhSanXuat &&
-                        a.sapCode === this.sapCode &&
-                        a.sapName === this.sapName &&
-                        a.workOrderCode === this.workOrderCode &&
-                        a.version === this.version &&
-                        dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY')
-                      );
-                    }
-                    return (
-                      a.maLenhSanXuat === this.maLenhSanXuat &&
-                      a.sapCode === this.sapCode &&
-                      a.sapName === this.sapName &&
-                      a.workOrderCode === this.workOrderCode &&
-                      a.version === this.version
-                    );
-                  }
-                  return (
-                    a.maLenhSanXuat === this.maLenhSanXuat &&
-                    a.sapCode === this.sapCode &&
-                    a.sapName === this.sapName &&
-                    a.workOrderCode === this.workOrderCode
-                  );
-                }
-                return a.maLenhSanXuat === this.maLenhSanXuat && a.sapCode === this.sapCode && a.sapName === this.sapName;
-              }
-              return a.maLenhSanXuat === this.maLenhSanXuat && a.sapCode === this.sapCode;
-            }
-            return (
-              a.maLenhSanXuat === this.maLenhSanXuat ||
-              a.sapCode === this.sapCode ||
-              a.sapName === this.sapName ||
-              a.workOrderCode === this.workOrderCode ||
-              a.version === this.version ||
-              dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') ||
-              dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY')
-            );
-          }
-        }
-        return 0;
-      });
-    }
-    if (this.lenhSanXuats?.length === 0) {
-      this.alertTimeout('Không tìm thấy lệnh sản xuất', 2000);
-      setTimeout(() => window.location.reload(), 2000);
-    }
-  }
   //tim kiem theo ma lenh san xuat
   timKiemTheoMaLenhSanXuat(): void {
     if (this.maLenhSanXuat === '') {
@@ -292,16 +211,33 @@ export class LenhSanXuatComponent implements OnInit {
           if (a.maLenhSanXuat) {
             //Tìm cùng ngày intem và ngày cập nhật
             if (this.entryTime !== '') {
+              if (this.workOrderCode !== '') {
+                return (
+                  dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                  a.maLenhSanXuat === this.maLenhSanXuat &&
+                  a.workOrderCode === this.workOrderCode
+                );
+              }
               return (
                 dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
                 a.maLenhSanXuat === this.maLenhSanXuat
               );
             } else if (this.timeUpdate !== '') {
+              if (this.workOrderCode !== '') {
+                return (
+                  dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                  a.maLenhSanXuat === this.maLenhSanXuat &&
+                  a.workOrderCode === this.workOrderCode
+                );
+              }
               return (
                 dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
                 a.maLenhSanXuat === this.maLenhSanXuat
               );
             } else {
+              if (this.workOrderCode !== '') {
+                return a.maLenhSanXuat === this.maLenhSanXuat && a.workOrderCode === this.workOrderCode;
+              }
               return a.maLenhSanXuat === this.maLenhSanXuat;
             }
           }
@@ -469,14 +405,51 @@ export class LenhSanXuatComponent implements OnInit {
       this.lenhSanXuats = this.lenhSanXuats.filter(a => {
         //Tìm cùng 1 trường thông tin khác
         if (this.maLenhSanXuat !== '') {
+          if (this.workOrderCode !== '') {
+            return (
+              dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+              a.maLenhSanXuat === this.maLenhSanXuat &&
+              a.workOrderCode === this.workOrderCode
+            );
+          }
           return (
             dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.maLenhSanXuat === this.maLenhSanXuat
           );
         }
         if (this.sapCode !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                a.sapCode === this.sapCode &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+              a.sapCode === this.sapCode &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
         }
         if (this.sapName !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+                a.sapName === this.sapName &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') &&
+              a.sapName === this.sapName &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.entryTime).format('DD/MM/YYYY') === dayjs(this.entryTime).format('DD/MM/YYYY') && a.sapName === this.sapName;
         }
         if (this.workOrderCode !== '') {
@@ -500,17 +473,54 @@ export class LenhSanXuatComponent implements OnInit {
     // this.resultSearchDateTime = [];
     if (this.lenhSanXuats !== undefined) {
       this.lenhSanXuats = this.lenhSanXuats.filter(a => {
+        //Tìm cùng 1 trường thông tin khác
         if (this.maLenhSanXuat !== '') {
-          //Tìm cùng 1 trường thông tin khác
+          if (this.workOrderCode !== '') {
+            return (
+              dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+              a.maLenhSanXuat === this.maLenhSanXuat &&
+              a.workOrderCode === this.workOrderCode
+            );
+          }
           return (
             dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
             a.maLenhSanXuat === this.maLenhSanXuat
           );
         }
         if (this.sapCode !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+                a.sapCode === this.sapCode &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+              a.sapCode === this.sapCode &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapCode === this.sapCode;
         }
         if (this.sapName !== '') {
+          if (this.maLenhSanXuat !== '') {
+            if (this.workOrderCode !== '') {
+              return (
+                dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+                a.sapName === this.sapName &&
+                a.maLenhSanXuat === this.maLenhSanXuat &&
+                a.workOrderCode === this.workOrderCode
+              );
+            }
+            return (
+              dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') &&
+              a.sapName === this.sapName &&
+              a.maLenhSanXuat === this.maLenhSanXuat
+            );
+          }
           return dayjs(a.timeUpdate).format('DD/MM/YYYY') === dayjs(this.timeUpdate).format('DD/MM/YYYY') && a.sapName === this.sapName;
         }
         if (this.workOrderCode !== '') {
