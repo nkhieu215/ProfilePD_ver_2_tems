@@ -10,6 +10,7 @@ import { LenhSanXuatService } from '../service/lenh-san-xuat.service';
 import { ILenhSanXuat, LenhSanXuat } from '../lenh-san-xuat.model';
 
 import { LenhSanXuatUpdateComponent } from './lenh-san-xuat-update.component';
+import { SessionStorageService } from 'ngx-webstorage';
 
 describe('LenhSanXuat Management Update Component', () => {
   let comp: LenhSanXuatUpdateComponent;
@@ -23,6 +24,7 @@ describe('LenhSanXuat Management Update Component', () => {
       declarations: [LenhSanXuatUpdateComponent],
       providers: [
         FormBuilder,
+        SessionStorageService,
         {
           provide: ActivatedRoute,
           useValue: {

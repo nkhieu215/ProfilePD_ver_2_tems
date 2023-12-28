@@ -12,6 +12,7 @@ import { ILenhSanXuat } from 'app/entities/lenh-san-xuat/lenh-san-xuat.model';
 import { LenhSanXuatService } from 'app/entities/lenh-san-xuat/service/lenh-san-xuat.service';
 
 import { ChiTietLenhSanXuatUpdateComponent } from './chi-tiet-lenh-san-xuat-update.component';
+import { SessionStorageService } from 'ngx-webstorage';
 
 describe('ChiTietLenhSanXuat Management Update Component', () => {
   let comp: ChiTietLenhSanXuatUpdateComponent;
@@ -26,6 +27,7 @@ describe('ChiTietLenhSanXuat Management Update Component', () => {
       declarations: [ChiTietLenhSanXuatUpdateComponent],
       providers: [
         FormBuilder,
+        SessionStorageService,
         {
           provide: ActivatedRoute,
           useValue: {
